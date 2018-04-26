@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Squad</string>
+
+    <string name="navi_title_match">MATCH</string>
+    <string name="navi_title_list">LIST</string>
+    <string name="navi_title_team">TEAM</string>
+    <string name="navi_title_setting">SETTING</string>
+
+    <string name="match_title_game_registration">매치등록</string>
+    <string name="match_title_player_registration">용병등록</string>
+    <string name="match_title_recruitment">용병모집</string>
+
+</resources>
