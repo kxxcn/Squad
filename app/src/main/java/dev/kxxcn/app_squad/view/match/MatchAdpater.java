@@ -3,10 +3,13 @@ package dev.kxxcn.app_squad.view.match;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.util.Utils;
 
@@ -18,6 +21,9 @@ import static dev.kxxcn.app_squad.util.Utils.setupItem;
  */
 
 public class MatchAdpater extends PagerAdapter {
+
+	@BindView(R.id.cardView)
+	CardView cardView;
 
 	private LayoutInflater mLayoutInflater;
 
@@ -57,9 +63,16 @@ public class MatchAdpater extends PagerAdapter {
 
 	@Override
 	@NonNull
-	public Object instantiateItem(@NonNull ViewGroup container, int position) {
-		View view = mLayoutInflater.inflate(R.layout.item, container, false);
+	public Object instantiateItem(@NonNull ViewGroup container, final int position) {
+		final View view = mLayoutInflater.inflate(R.layout.item, container, false);
+		ButterKnife.bind(this, view);
 		setupItem(view, LIBRARIES[position]);
+		cardView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
 		container.addView(view);
 		return view;
 	}
