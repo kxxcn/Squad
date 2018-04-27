@@ -11,9 +11,8 @@ import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 
 /**
- * Created by Jun on 2018-04-26.
+ * Created by kxxcn on 2018-04-26.
  */
-
 public class ListFragment extends Fragment {
 
 	@Nullable

@@ -6,9 +6,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 /**
- * Created by Jun on 2018-04-26.
+ * Created by kxxcn on 2018-04-26.
  */
-
 public class SquadApplication extends Application {
 
 	public static boolean DEBUG = false;

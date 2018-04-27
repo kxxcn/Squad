@@ -5,9 +5,8 @@ import android.util.Log;
 import dev.kxxcn.app_squad.application.SquadApplication;
 
 /**
- * Created by Jun on 2018-04-26.
+ * Created by kxxcn on 2018-04-26.
  */
-
 public class Dlog {
 
 	static final String TAG = "kxxcn";

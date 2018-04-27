@@ -10,9 +10,8 @@ import dev.kxxcn.app_squad.view.setting.SettingFragment;
 import dev.kxxcn.app_squad.view.team.TeamFragment;
 
 /**
- * Created by Jun on 2018-04-26.
+ * Created by kxxcn on 2018-04-26.
  */
-
 public class MainPagerAdapter extends FragmentStatePagerAdapter {
 
 	private static final int COUNT = 4;

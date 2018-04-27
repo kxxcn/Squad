@@ -9,9 +9,8 @@ import com.bumptech.glide.Glide;
 import dev.kxxcn.app_squad.R;
 
 /**
- * Created by Jun on 2018-04-26.
+ * Created by kxxcn on 2018-04-26.
  */
-
 public class Utils {
 
 	public static void setupItem(final View view, final LibraryObject libraryObject) {

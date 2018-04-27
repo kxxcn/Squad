@@ -4,9 +4,8 @@ import dev.kxxcn.app_squad.view.BasePresenter;
 import dev.kxxcn.app_squad.view.BaseView;
 
 /**
- * Created by Jun on 2018-04-27.
+ * Created by kxxcn on 2018-04-27.
  */
-
 public interface MatchContract {
 	interface View extends BaseView<MatchContract.Presenter> {
 
