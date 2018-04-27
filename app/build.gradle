@@ -48,4 +48,10 @@ dependencies {
 
     /* Glide */
     compile 'com.github.bumptech.glide:glide:3.8.0'
+
+    /* FabulousFilter */
+    compile 'com.allattentionhere:fabulousfilter:0.0.5'
+
+    /* Submit Button */
+    compile 'com.unstoppable:submitbutton:1.1.3'
 }

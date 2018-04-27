@@ -12,6 +12,7 @@ import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 
 /**
@@ -27,6 +28,8 @@ public class MatchFragment extends Fragment implements MatchContract.View {
 	@BindView(R.id.fab)
 	FloatingActionButton fab;
 
+	private FabFragment dialogFragment;
+
 	@Override
 	public void setPresenter(MatchContract.Presenter presenter) {
 		this.mPresenter = presenter;
@@ -40,7 +43,15 @@ public class MatchFragment extends Fragment implements MatchContract.View {
 
 		new MatchPresenter(this);
 
+		dialogFragment = FabFragment.newInstance();
+		dialogFragment.setParentFab(fab);
+
 		return view;
+	}
+
+	@OnClick(R.id.fab)
+	public void onMatch() {
+		dialogFragment.show(getActivity().getSupportFragmentManager(), dialogFragment.getTag());
 	}
 
 	@Override
