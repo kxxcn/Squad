@@ -1,4 +1,4 @@
-package dev.kxxcn.app_squad.view.match;
+package dev.kxxcn.app_squad.screen.main.match;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

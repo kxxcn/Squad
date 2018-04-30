@@ -1,4 +1,4 @@
-package dev.kxxcn.app_squad.view.list;
+package dev.kxxcn.app_squad.screen.main.setting;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,12 +13,12 @@ import dev.kxxcn.app_squad.R;
 /**
  * Created by kxxcn on 2018-04-26.
  */
-public class ListFragment extends Fragment {
+public class SettingFragment extends Fragment {
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_list, container, false);
+		View view = inflater.inflate(R.layout.fragment_setting, container, false);
 		ButterKnife.bind(this, view);
 		return view;
 	}
@@ -29,7 +29,7 @@ public class ListFragment extends Fragment {
 	}
 
 	public static Fragment newInstance() {
-		return new ListFragment();
+		return new SettingFragment();
 	}
 
 }

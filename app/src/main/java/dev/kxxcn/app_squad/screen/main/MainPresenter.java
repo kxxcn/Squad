@@ -1,4 +1,4 @@
-package dev.kxxcn.app_squad.view.main;
+package dev.kxxcn.app_squad.screen.main;
 
 /**
  * Created by kxxcn on 2018-04-26.

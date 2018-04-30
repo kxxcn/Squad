@@ -1,7 +1,7 @@
-package dev.kxxcn.app_squad.view.main;
+package dev.kxxcn.app_squad.screen.main;
 
-import dev.kxxcn.app_squad.view.BasePresenter;
-import dev.kxxcn.app_squad.view.BaseView;
+import dev.kxxcn.app_squad.screen.BasePresenter;
+import dev.kxxcn.app_squad.screen.BaseView;
 
 /**
  * Created by kxxcn on 2018-04-26.

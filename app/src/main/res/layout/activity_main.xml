@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/main_background"
     android:orientation="vertical"
-    tools:context="dev.kxxcn.app_squad.view.main.MainActivity">
+    tools:context="dev.kxxcn.app_squad.screen.main.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

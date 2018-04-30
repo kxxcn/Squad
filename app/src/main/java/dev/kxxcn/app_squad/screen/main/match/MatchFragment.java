@@ -1,4 +1,4 @@
-package dev.kxxcn.app_squad.view.match;
+package dev.kxxcn.app_squad.screen.main.match;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,10 +14,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
+import dev.kxxcn.app_squad.screen.main.match.fab.FabFragment;
+
 
 /**
- * Created by kxxcn on 2018-04-26.
+ * Created by kxxcn on 2018-04-30.
  */
+
 public class MatchFragment extends Fragment implements MatchContract.View {
 
 	private MatchContract.Presenter mPresenter;

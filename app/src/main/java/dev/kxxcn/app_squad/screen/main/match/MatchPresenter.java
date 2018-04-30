@@ -1,7 +1,7 @@
-package dev.kxxcn.app_squad.view.match;
+package dev.kxxcn.app_squad.screen.main.match;
 
 /**
- * Created by kxxcn on 2018-04-27.
+ * Created by kxxcn on 2018-04-30.
  */
 public class MatchPresenter implements MatchContract.Presenter {
 

@@ -1,4 +1,4 @@
-package dev.kxxcn.app_squad.view.main;
+package dev.kxxcn.app_squad.screen.main;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 		navigationTabBar.setModels(model);
 		navigationTabBar.setViewPager(viewPager, 0);
 		navigationTabBar.setOnPageChangeListener(onPageChangeListener);
-		navigationTabBar.getModels().get(0).setTitle("MATCH");
 	}
 
 	ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {

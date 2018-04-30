@@ -1,4 +1,4 @@
-package dev.kxxcn.app_squad.view.match;
+package dev.kxxcn.app_squad.screen.main.match.fab;
 
 import android.app.Dialog;
 import android.os.Handler;
@@ -15,7 +15,7 @@ import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 
 /**
- * Created by kxxcn on 2018-04-27.
+ * Created by kxxcn on 2018-04-30.
  */
 
 public class FabFragment extends AAH_FabulousFragment {
