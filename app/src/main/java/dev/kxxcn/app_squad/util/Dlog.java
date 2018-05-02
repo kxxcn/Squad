@@ -2,51 +2,42 @@ package dev.kxxcn.app_squad.util;
 
 import android.util.Log;
 
-import dev.kxxcn.app_squad.application.SquadApplication;
+import dev.kxxcn.app_squad.SquadApplication;
+
+import static dev.kxxcn.app_squad.util.Constants.*;
+
 
 /**
  * Created by kxxcn on 2018-04-26.
  */
 public class Dlog {
 
-	static final String TAG = "kxxcn";
-
-	/**
-	 * Log Level Error
-	 **/
+	/* ERROR */
 	public static final void e(String message) {
 		if (SquadApplication.DEBUG) Log.e(TAG, buildLogMsg(message));
 	}
 
-	/**
-	 * Log Level Warning
-	 **/
+	/* WARNING */
 	public static final void w(String message) {
 		if (SquadApplication.DEBUG) Log.w(TAG, buildLogMsg(message));
 	}
 
-	/**
-	 * Log Level Information
-	 **/
+	/* INFORMATION */
 	public static final void i(String message) {
 		if (SquadApplication.DEBUG) Log.i(TAG, buildLogMsg(message));
 	}
 
-	/**
-	 * Log Level Debug
-	 **/
+	/* DEBUG */
 	public static final void d(String message) {
 		if (SquadApplication.DEBUG) Log.d(TAG, buildLogMsg(message));
 	}
 
-	/**
-	 * Log Level Verbose
-	 **/
+	/* VERBOSE */
 	public static final void v(String message) {
 		if (SquadApplication.DEBUG) Log.v(TAG, buildLogMsg(message));
 	}
 
-	public static String buildLogMsg(String message) {
+	private static String buildLogMsg(String message) {
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[4];
 
 		StringBuilder sb = new StringBuilder();

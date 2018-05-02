@@ -3,4 +3,37 @@
     <string-array name="default_preview">
         <item>#83cec9</item>
     </string-array>
+    <string-array name="match_card_background">
+        <item>#baf6ca</item>
+        <item>#ffff8d</item>
+        <item>#84ffff</item>
+    </string-array>
+    <string-array name="match_card_highlight">
+        <item>#1de9b6</item>
+        <item>#ffeb3b</item>
+        <item>#03a9f4</item>
+    </string-array>
+    <string-array name="fab_regions">
+        <item>서울</item>
+        <item>부산</item>
+        <item>광주</item>
+        <item>대구</item>
+        <item>제주도</item>
+    </string-array>
+    <string-array name="fab_ages">
+        <item>10대 이상</item>
+        <item>20대 이상</item>
+        <item>30대 이상</item>
+        <item>40대 이상</item>
+    </string-array>
+    <string-array name="fab_group">
+        <item>4 : 4</item>
+        <item>5 : 5</item>
+        <item>6 : 6</item>
+        <item>7 : 7</item>
+        <item>8 : 8</item>
+        <item>9 : 9</item>
+        <item>10 : 10</item>
+        <item>11 : 11</item>
+    </string-array>
 </resources>

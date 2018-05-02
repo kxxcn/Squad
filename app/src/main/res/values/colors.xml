@@ -6,7 +6,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="main_background">#FFFFFF</color>
-    <color name="fab_background">#67f771</color>
-    <color name="match_division_line">#ff5b93</color>
-    <color name="match_txt">#005fb0</color>
+    <color name="division_line">#ff5b93</color>
+    <color name="match_txt">#FFFFFF</color>
+    <color name="fab_background">#000000</color>
 </resources>
