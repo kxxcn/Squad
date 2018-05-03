@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="80dp"
+                android:background="@drawable/input_center"
+                android:fontFamily="@font/app_title"
+                android:gravity="center"
+                android:text="@string/app_title"
+                android:textColor="@color/login_font"
+                android:textSize="30sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                app:iconSignifier="@drawable/ic_identity"
+                app:labelText="@string/input_id"
+                app:secondaryColor="@color/login_edittext">
+
+                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/login_font"/>
+
+
+            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                app:iconSignifier="@drawable/ic_key"
+                app:labelText="@string/input_pass"
+                app:secondaryColor="@color/login_edittext">
+
+                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="@color/login_font"/>
+
+            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <dev.kxxcn.app_squad.util.StateButton
+                android:id="@+id/btn_signin"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:text="@string/signin"
+                app:normalStrokeColor="@android:color/white"
+                app:normalStrokeWidth="1dp"
+                app:normalTextColor="@android:color/white"
+                app:pressedStrokeColor="@android:color/holo_red_light"
+                app:pressedStrokeWidth="1dp"
+                app:pressedTextColor="@android:color/holo_red_light"
+                app:round="true"
+                app:unableStrokeColor="@android:color/holo_orange_dark"
+                app:unableStrokeWidth="1dp"
+                app:unableTextColor="@android:color/holo_orange_dark"/>
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="1dp"/>
+
+            <dev.kxxcn.app_squad.util.StateButton
+                android:id="@+id/btn_login"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                app:normalStrokeColor="@android:color/white"
+                app:normalStrokeWidth="1dp"
+                app:normalTextColor="@android:color/white"
+                app:pressedStrokeColor="@android:color/holo_red_light"
+                app:pressedStrokeWidth="1dp"
+                app:pressedTextColor="@android:color/holo_red_light"
+                app:round="true"
+                app:unableStrokeColor="@android:color/holo_orange_dark"
+                app:unableStrokeWidth="1dp"
+                app:unableTextColor="@android:color/holo_orange_dark"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_developer"
+            android:textColor="@color/splash_font"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

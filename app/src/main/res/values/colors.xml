@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="splash_font">#84797d</color>
+    <color name="login_font">#FFFFFF</color>
+    <color name="login_edittext">#7e3713</color>
     <color name="transparent">#00000000</color>
     <color name="main_background">#FFFFFF</color>
     <color name="division_line">#ff5b93</color>

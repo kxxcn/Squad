@@ -1,10 +1,7 @@
 package dev.kxxcn.app_squad.util;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 
 import dev.kxxcn.app_squad.R;
 
@@ -18,8 +15,8 @@ public class AdapterUtils {
 		txt.setText(libraryObject.getTitle());
 		txt.setTextColor(color);
 
-		final ImageView img = view.findViewById(R.id.img_item);
-		Glide.with(view.getContext()).load(libraryObject.getRes()).override(250, 250).into(img);
+//		final ImageView img = view.findViewById(R.id.img_item);
+//		Glide.with(view.getContext()).load(libraryObject.getRes()).override(250, 250).into(img);
 	}
 
 	public static class LibraryObject {

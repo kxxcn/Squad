@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">Squad</string>
+    <string name="app_title">S Q A U D</string>
+    <string name="app_developer">ⓒ k x x c n</string>
     <string name="system.setting">설정</string>
     <string name="system_denied_permission">"권한 허가를 거부하시면 이 서비스를 이용하실 수 없습니다.\n\n[설정] > [권한]에서 권한을 켜십시오."</string>
+
+    <string name="signin">SIGN-IN</string>
+    <string name="login">LOG-IN</string>
+    <string name="input_id">아이디를 입력하세요.</string>
+    <string name="input_pass">비밀번호를 입력하세요.</string>
 
     <string name="navi_title_match">MATCH</string>
     <string name="navi_title_list">LIST</string>

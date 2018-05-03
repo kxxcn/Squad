@@ -1,15 +1,17 @@
 package dev.kxxcn.app_squad.ui.main.match;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,11 +29,13 @@ public class MatchAdpater extends PagerAdapter {
 	@BindView(R.id.rl_background)
 	RelativeLayout mBackground;
 
-	@BindView(R.id.ll_highlight)
-	LinearLayout mHighlight;
-
 	@BindView(R.id.cardView)
 	CardView mCardView;
+
+	@BindView(R.id.iv_match_card)
+	ImageView iv_match_card;
+
+	private Context mContext;
 
 	private LayoutInflater mLayoutInflater;
 
@@ -40,8 +44,10 @@ public class MatchAdpater extends PagerAdapter {
 	private String[] mBackgroundColors;
 	private String[] mHighlightColors;
 	private int txtColor;
+	private int[] imgs = {R.drawable.card_match, R.drawable.card_recruit, R.drawable.card_player};
 
 	public MatchAdpater(Context context) {
+		mContext = context;
 		mLayoutInflater = LayoutInflater.from(context);
 
 		LIBRARIES = new AdapterUtils.LibraryObject[]{
@@ -102,8 +108,7 @@ public class MatchAdpater extends PagerAdapter {
 	}
 
 	private void initUI(int position) {
-		mBackground.setBackgroundColor(Color.parseColor(mBackgroundColors[position]));
-		mHighlight.setBackgroundColor(Color.parseColor(mHighlightColors[position]));
+		Glide.with(mContext).load(imgs[position]).diskCacheStrategy(DiskCacheStrategy.NONE).into(iv_match_card);
 	}
 
 }
