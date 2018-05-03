@@ -59,4 +59,10 @@ dependencies {
 
     /*  Retrofit2 */
     compile 'com.squareup.retrofit2:retrofit:2.4.0'
+
+    /* Spin Kit */
+    compile 'com.github.ybq:Android-SpinKit:1.1.0'
+
+    /* Text Filed Boxes */
+    compile 'com.github.HITGIF:TextFieldBoxes:1.4.3'
 }
