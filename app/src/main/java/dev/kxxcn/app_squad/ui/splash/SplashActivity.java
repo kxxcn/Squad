@@ -12,8 +12,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.ui.login.LoginActivity;
-import dev.kxxcn.app_squad.util.EffectUtils;
 import dev.kxxcn.app_squad.util.threading.UiThread;
+
+import static dev.kxxcn.app_squad.util.Constants.LOADING;
 
 /**
  * Created by kxxcn on 2018-05-02.
@@ -40,10 +41,9 @@ public class SplashActivity extends AppCompatActivity {
 			@Override
 			public void run() {
 				startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-				EffectUtils.fade(SplashActivity.this);
 				finish();
 			}
-		}, 2000);
+		}, LOADING);
 	}
 
 }
