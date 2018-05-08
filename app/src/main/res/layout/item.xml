@@ -58,7 +58,7 @@
                         android:id="@+id/txt_item"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/match_txt"
+                        android:textColor="@color/match_font"
                         android:textSize="36sp"
                         android:typeface="sans"
                         tools:text="@string/match_title_game_registration"/>

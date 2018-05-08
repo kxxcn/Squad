@@ -39,7 +39,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="65dp"
                         android:orientation="vertical"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:weightSum="2">
 
                         <TextView
@@ -56,10 +56,10 @@
                     <LinearLayout
                         android:id="@+id/ll_expanded"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@color/fab_background"
+                        android:layout_height="180dp"
                         android:gravity="center"
-                        android:visibility="gone">
+                        android:background="@color/fab_background"
+                        android:visibility="visible">
 
                         <ImageView
                             android:layout_width="wrap_content"
