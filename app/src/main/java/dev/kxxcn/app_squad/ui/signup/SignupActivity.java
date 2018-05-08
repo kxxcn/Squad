@@ -16,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -76,7 +79,7 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 		TransitionUtils.fade(this);
 		ButterKnife.bind(this);
 
-		new SignupPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
+		new SignupPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().getReference())));
 
 		et_confirm.addTextChangedListener(textWatcher);
 

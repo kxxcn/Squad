@@ -6,6 +6,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.allattentionhere.fabulousfilter.AAH_FabulousFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -39,7 +41,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 		setContentView(R.layout.activity_main);
 		TransitionUtils.fade(this);
 		ButterKnife.bind(this);
-		new MainPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
+
+		new MainPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().getReference())));
+
 		initUI();
 	}
 

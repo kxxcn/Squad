@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,11 +63,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 		TransitionUtils.fade(this);
 		ButterKnife.bind(this);
 
-		new LoginPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
+		mAuth = FirebaseAuth.getInstance();
+
+		new LoginPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(mAuth, FirebaseDatabase.getInstance().getReference())));
 
 		mPresenter.setPermission(this, CAMERA);
 
-		mAuth = FirebaseAuth.getInstance();
 		mAuthListener = new FirebaseAuth.AuthStateListener() {
 			@Override
 			public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

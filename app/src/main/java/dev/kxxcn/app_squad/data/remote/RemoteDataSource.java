@@ -7,7 +7,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.util.Dlog;
@@ -20,14 +19,18 @@ public class RemoteDataSource extends DataSource {
 
 	private static RemoteDataSource remoteDataSource;
 
-	private static FirebaseAuth mAuth;
-	private static DatabaseReference mDatabaseReference;
+	private FirebaseAuth mAuth;
+	private DatabaseReference mDatabaseReference;
 
-	public static synchronized RemoteDataSource getInstance() {
+	public RemoteDataSource(FirebaseAuth auth, DatabaseReference databaseReference) {
+		this.mAuth = auth;
+		this.mDatabaseReference = databaseReference;
+	}
+
+	public static synchronized RemoteDataSource getInstance(FirebaseAuth firebaseAuth,
+															DatabaseReference databaseReference) {
 		if (remoteDataSource == null) {
-			remoteDataSource = new RemoteDataSource();
-			mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-			mAuth = FirebaseAuth.getInstance();
+			remoteDataSource = new RemoteDataSource(firebaseAuth, databaseReference);
 		}
 		return remoteDataSource;
 	}
