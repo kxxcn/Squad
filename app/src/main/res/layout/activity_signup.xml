@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/splash"
@@ -31,10 +32,12 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/ll_top"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center|bottom">
+                    android:gravity="center|bottom"
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="250dp"
@@ -50,9 +53,10 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_middle"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:gravity="center"
@@ -61,9 +65,11 @@
                     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
+                        app:counterTextColor="@color/signup_edittext"
                         app:iconSignifier="@drawable/ic_identity"
                         app:labelText="@string/input_email"
-                        app:secondaryColor="@color/login_edittext">
+                        app:secondaryColor="@color/signup_edittext"
+                        app:useDenseSpacing="true">
 
                         <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                             android:id="@+id/et_email"
@@ -73,6 +79,26 @@
                             android:maxLines="1"
                             android:textColor="@color/login_font"/>
 
+                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        app:counterTextColor="@color/signup_edittext"
+                        app:iconSignifier="@drawable/ic_my"
+                        app:labelText="@string/input_team"
+                        app:maxCharacters="10"
+                        app:secondaryColor="@color/signup_edittext"
+                        app:useDenseSpacing="true">
+
+                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                            android:id="@+id/et_team"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textColor="@color/login_font"/>
 
                     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
@@ -81,7 +107,9 @@
                         android:layout_height="wrap_content"
                         app:iconSignifier="@drawable/ic_key"
                         app:labelText="@string/input_pass"
-                        app:secondaryColor="@color/login_edittext">
+                        app:minCharacters="6"
+                        app:secondaryColor="@color/signup_edittext"
+                        app:useDenseSpacing="true">
 
                         <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                             android:id="@+id/et_pass"
@@ -93,18 +121,31 @@
 
                     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
-                </LinearLayout>
+                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        app:iconSignifier="@drawable/ic_key"
+                        app:labelText="@string/input_confirm"
+                        app:minCharacters="6"
+                        app:secondaryColor="@color/signup_edittext"
+                        app:useDenseSpacing="true">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal">
+                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                            android:id="@+id/et_confirm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:textColor="@color/login_font"/>
+
+                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
                     <dev.kxxcn.app_squad.util.StateButton
                         android:id="@+id/btn_signup"
-                        android:layout_width="125dp"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:enabled="false"
                         android:text="@string/signup"
                         app:normalStrokeColor="@android:color/white"
                         app:normalStrokeWidth="1dp"
@@ -113,29 +154,9 @@
                         app:pressedStrokeWidth="1dp"
                         app:pressedTextColor="@android:color/holo_red_light"
                         app:round="true"
-                        app:unableStrokeColor="@android:color/holo_orange_dark"
+                        app:unableStrokeColor="@color/unable_signup"
                         app:unableStrokeWidth="1dp"
-                        app:unableTextColor="@android:color/holo_orange_dark"/>
-
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="1dp"/>
-
-                    <dev.kxxcn.app_squad.util.StateButton
-                        android:id="@+id/btn_login"
-                        android:layout_width="125dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/login"
-                        app:normalStrokeColor="@android:color/white"
-                        app:normalStrokeWidth="1dp"
-                        app:normalTextColor="@android:color/white"
-                        app:pressedStrokeColor="@android:color/holo_red_light"
-                        app:pressedStrokeWidth="1dp"
-                        app:pressedTextColor="@android:color/holo_red_light"
-                        app:round="true"
-                        app:unableStrokeColor="@android:color/holo_orange_dark"
-                        app:unableStrokeWidth="1dp"
-                        app:unableTextColor="@android:color/holo_orange_dark"/>
+                        app:unableTextColor="@color/unable_signup"/>
 
                 </LinearLayout>
 

@@ -67,7 +67,7 @@ public class MatchAdpater extends PagerAdapter {
 
 		mBackgroundColors = context.getResources().getStringArray(R.array.match_card_background);
 		mHighlightColors = context.getResources().getStringArray(R.array.match_card_highlight);
-		txtColor = context.getResources().getColor(R.color.match_txt);
+		txtColor = context.getResources().getColor(R.color.match_font);
 	}
 
 	@Override

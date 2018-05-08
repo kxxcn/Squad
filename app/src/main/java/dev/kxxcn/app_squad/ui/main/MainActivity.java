@@ -14,6 +14,8 @@ import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
+import dev.kxxcn.app_squad.util.TransitionUtils;
+import dev.kxxcn.app_squad.util.threading.UiThread;
 import devlight.io.library.ntb.NavigationTabBar;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View, AAH_FabulousFragment.AnimationListener {
@@ -28,13 +30,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
 	@Override
 	public void setPresenter(MainContract.Presenter presenter) {
-		mPresenter = presenter;
+		this.mPresenter = presenter;
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		TransitionUtils.fade(this);
 		ButterKnife.bind(this);
 		new MainPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 		initUI();
@@ -45,10 +48,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
 		String[] colors = getResources().getStringArray(R.array.default_preview);
 		ArrayList<NavigationTabBar.Model> model = new ArrayList<>();
-		model.add(new NavigationTabBar.Model.Builder(getResources().getDrawable(R.drawable.ic_game), Color.parseColor(colors[0])).title(getString(R.string.navi_title_match)).build());
-		model.add(new NavigationTabBar.Model.Builder(getResources().getDrawable(R.drawable.ic_game_list), Color.parseColor(colors[0])).title(getString(R.string.navi_title_list)).build());
-		model.add(new NavigationTabBar.Model.Builder(getResources().getDrawable(R.drawable.ic_my), Color.parseColor(colors[0])).title(getString(R.string.navi_title_team)).build());
-		model.add(new NavigationTabBar.Model.Builder(getResources().getDrawable(R.drawable.ic_settings), Color.parseColor(colors[0])).title(getString(R.string.navi_title_setting)).build());
+		model.add(new NavigationTabBar.Model.Builder(getDrawable(R.drawable.ic_game), Color.parseColor(colors[0])).title(getString(R.string.navi_title_match)).build());
+		model.add(new NavigationTabBar.Model.Builder(getDrawable(R.drawable.ic_game_list), Color.parseColor(colors[0])).title(getString(R.string.navi_title_list)).build());
+		model.add(new NavigationTabBar.Model.Builder(getDrawable(R.drawable.ic_my), Color.parseColor(colors[0])).title(getString(R.string.navi_title_team)).build());
+		model.add(new NavigationTabBar.Model.Builder(getDrawable(R.drawable.ic_settings), Color.parseColor(colors[0])).title(getString(R.string.navi_title_setting)).build());
 		navigationTabBar.setModels(model);
 		navigationTabBar.setViewPager(vp_main, 0);
 		navigationTabBar.setOnPageChangeListener(onPageChangeListener);
@@ -89,6 +92,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 	@Override
 	public void onCloseAnimationEnd() {
 
+	}
+
+	@Override
+	public void showLoadingIndicator(final boolean isShowing) {
+		UiThread.getInstance().post(new Runnable() {
+			@Override
+			public void run() {
+				if (isShowing) {
+
+				} else {
+
+				}
+			}
+		});
 	}
 
 }

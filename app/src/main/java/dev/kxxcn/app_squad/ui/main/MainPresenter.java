@@ -8,12 +8,12 @@ import dev.kxxcn.app_squad.data.DataRepository;
 public class MainPresenter implements MainContract.Presenter {
 
 	private MainContract.View mMainView;
-	private DataRepository dataRepository;
+	private DataRepository mDataRepository;
 
 	public MainPresenter(MainContract.View mMainView, DataRepository dataRepository) {
 		this.mMainView = mMainView;
-		this.dataRepository = dataRepository;
-		mMainView.setPresenter(this);
+		this.mDataRepository = dataRepository;
+		this.mMainView.setPresenter(this);
 	}
 
 }

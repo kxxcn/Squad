@@ -1,22 +1,24 @@
 package dev.kxxcn.app_squad.data;
 
-import java.util.List;
-
 /**
  * Created by kxxcn on 2018-05-01.
  */
 
 public abstract class DataSource {
 
-	public interface GetPhotosCallback {
-		void onSuccess(List<String> photos);
+	public interface GetSignupCallback {
+		void onSuccess();
 
 		void onFailure(Throwable throwable);
-
-		void onNetworkFailure();
-
 	}
 
-	public abstract void getPhotos(GetPhotosCallback callback);
+	public interface GetLoginCallback {
+		void onSuccess();
+
+		void onFailure(Throwable throwable);
+	}
+
+	public abstract void onSignup(GetSignupCallback callback, String email, String password, String team);
+	public abstract void onLogin(GetLoginCallback callback, String email, String password);
 
 }

@@ -8,7 +8,7 @@ import dev.kxxcn.app_squad.R;
  * Created by kxxcn on 2018-05-02.
  */
 
-public class EffectUtils {
+public class TransitionUtils {
 	public static void fade(Activity activity) {
 		activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 	}

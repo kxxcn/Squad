@@ -26,23 +26,33 @@ public class DataRepository {
 		return dataRepository;
 	}
 
-	public void getPhotos(final DataSource.GetPhotosCallback callback) {
-		dataSource.getPhotos(new DataSource.GetPhotosCallback() {
+	public void onSignup(final DataSource.GetSignupCallback callback, String email, String password, String team) {
+		dataSource.onSignup(new DataSource.GetSignupCallback() {
 			@Override
-			public void onSuccess(List<String> photos) {
-				callback.onSuccess(repo);
+			public void onSuccess() {
+				callback.onSuccess();
 			}
 
 			@Override
 			public void onFailure(Throwable throwable) {
 				callback.onFailure(throwable);
 			}
+		}, email, password, team);
+	}
+
+
+	public void onLogin(final DataSource.GetLoginCallback callback, String email, String password) {
+		dataSource.onLogin(new DataSource.GetLoginCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
 
 			@Override
-			public void onNetworkFailure() {
-				callback.onNetworkFailure();
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
 			}
-		});
+		}, email, password);
 	}
 
 }

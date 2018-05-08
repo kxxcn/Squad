@@ -69,4 +69,9 @@ public class MatchFragment extends Fragment implements MatchContract.View {
 		return new MatchFragment();
 	}
 
+	@Override
+	public void showLoadingIndicator(boolean isShowing) {
+
+	}
+
 }

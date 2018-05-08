@@ -8,6 +8,9 @@ import android.Manifest;
 
 public class Constants {
 	public static final String TAG = "kxxcn";
+
+	public static final int LOADING = 2000;
+
 	public static final int MATCH = 0;
 	public static final int LIST = 1;
 	public static final int TEAM = 2;
