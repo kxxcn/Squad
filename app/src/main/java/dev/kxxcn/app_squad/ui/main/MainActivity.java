@@ -4,7 +4,6 @@ package dev.kxxcn.app_squad.ui.main;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,13 +12,14 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
+import dev.kxxcn.app_squad.util.SwipeViewPager;
 import dev.kxxcn.app_squad.util.TransitionUtils;
 import devlight.io.library.ntb.NavigationTabBar;
 
 public class MainActivity extends AppCompatActivity {
 
 	@BindView(R.id.vp_main)
-	ViewPager vp_main;
+	SwipeViewPager vp_main;
 
 	@BindView(R.id.navigationTabBar)
 	NavigationTabBar navigationTabBar;
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void initUI() {
+		vp_main.setPagingEnabled(false);
 		vp_main.setAdapter(new MainPagerAdapter(getSupportFragmentManager()));
 
 		String[] colors = getResources().getStringArray(R.array.default_preview);
