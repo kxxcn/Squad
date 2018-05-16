@@ -49,17 +49,17 @@ public class MatchDialog extends Dialog {
 	TextView tv_time;
 
 	private Context mContext;
-	private int mType;
+	private int mFilterType;
 
 	private boolean isEndTime;
 
 	private String mStartTime, mEndTime;
 	private int mStartHour, mEndHour;
 
-	public MatchDialog(@NonNull Context context, int type) {
+	public MatchDialog(@NonNull Context context, int filterType) {
 		super(context);
 		mContext = context;
-		mType = type;
+		mFilterType = filterType;
 		isEndTime = true;
 	}
 
@@ -72,7 +72,7 @@ public class MatchDialog extends Dialog {
 	}
 
 	private void initUI() {
-		switch (mType) {
+		switch (mFilterType) {
 			case MATCH:
 				tv_title.setText(mContext.getString(R.string.match_title_match));
 				break;
