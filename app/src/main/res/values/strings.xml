@@ -19,14 +19,19 @@
     <string name="navi_title_team">TEAM</string>
     <string name="navi_title_setting">SETTING</string>
 
-    <string name="match_title_game_registration">매치등록</string>
+    <string name="match_title_match">매치등록</string>
     <string name="match_title_player">용병등록</string>
     <string name="match_title_recruitment">용병모집</string>
 
     <string name="input_date">날짜를 입력하세요.</string>
+    <string name="input_time">시간을 입력하세요.</string>
+    <string name="re_input_time">시간을 다시 입력하세요.</string>
+
     <string name="quick_match">빠른 매칭</string>
     <string name="quick_button">Match</string>
     <string name="select_date">%d-%d-%d</string>
+    <string name="select_time">%d:%s</string>
+    <string name="time">%s ~ %s</string>
 
     <string name="not_match_password">비밀번호가 일치하지 않습니다.</string>
     <string name="exceed_characters">허용 글자 수를 초과했습니다.</string>
