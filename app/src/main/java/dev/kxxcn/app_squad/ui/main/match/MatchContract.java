@@ -9,7 +9,7 @@ import dev.kxxcn.app_squad.ui.BaseView;
 
 public interface MatchContract {
 	interface View extends BaseView<MatchContract.Presenter> {
-
+		// some comments 2.
 	}
 
 	interface Presenter extends BasePresenter {
