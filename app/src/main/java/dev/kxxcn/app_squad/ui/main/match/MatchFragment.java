@@ -52,7 +52,7 @@ public class MatchFragment extends Fragment implements MatchContract.View {
 	@OnClick(R.id.fab)
 	public void onMatch() {
 		if (dialog != null) {
-			dialog.onDestroyView(); // some comments.
+			dialog.onDestroyView();
 		}
 		dialog = FabFragment.newInstance();
 		dialog.setParentFab(fab);
