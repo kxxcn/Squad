@@ -113,7 +113,7 @@ public class MatchDialog extends Dialog {
 			if (isEndTime) {
 				mEndHour = hourOfDay;
 				if (onVerifyTime(mStartHour, mEndHour)) {
-					mEndTime = String.format(mContext.getString(R.string.select_time), hourOfDay, onFormattingTime(minute));
+					mEndTime = String.format(mContext.getString(R.string.select_time), hourOfDay, onFormattingMinute(minute));
 					Dlog.d(mStartTime + " ~ " + mEndTime);
 					tv_time.setText(String.format(mContext.getString(R.string.time), mStartTime, mEndTime));
 				} else {
@@ -122,7 +122,7 @@ public class MatchDialog extends Dialog {
 				}
 			} else {
 				mStartHour = hourOfDay;
-				mStartTime = String.format(mContext.getString(R.string.select_time), hourOfDay, onFormattingTime(minute));
+				mStartTime = String.format(mContext.getString(R.string.select_time), hourOfDay, onFormattingMinute(minute));
 				DialogUtils.showTimePickerDialog(mContext, timeSetListener);
 			}
 		}
@@ -135,12 +135,12 @@ public class MatchDialog extends Dialog {
 		return false;
 	}
 
-	private String onFormattingTime(int minute) {
-		String min = String.valueOf(minute);
-		if (min.equals("0")) {
-			min = "00";
+	private String onFormattingMinute(int minute) {
+		String format = String.valueOf(minute);
+		if (format.equals("0")) {
+			format = "00";
 		}
-		return min;
+		return format;
 	}
 
 }
