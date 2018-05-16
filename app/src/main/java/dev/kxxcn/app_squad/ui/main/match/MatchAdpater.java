@@ -1,12 +1,16 @@
 package dev.kxxcn.app_squad.ui.main.match;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -57,7 +61,7 @@ public class MatchAdpater extends PagerAdapter {
 		LIBRARIES = new AdapterUtils.LibraryObject[]{
 				new AdapterUtils.LibraryObject(
 						R.drawable.stadium,
-						context.getString(R.string.match_title_game_registration)
+						context.getString(R.string.match_title_match)
 				),
 				new AdapterUtils.LibraryObject(
 						R.drawable.player,
@@ -116,14 +120,15 @@ public class MatchAdpater extends PagerAdapter {
 	}
 
 	private void showRegistrationPage(int position) {
-		switch (position) {
-			case MATCH:
-				break;
-			case RECRUITMENT:
-				break;
-			case PLAYER:
-				break;
-		}
+		MatchDialog dialog = new MatchDialog(mContext, position);
+		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+		params.copyFrom(dialog.getWindow().getAttributes());
+		params.width = WindowManager.LayoutParams.MATCH_PARENT;
+		params.height = WindowManager.LayoutParams.MATCH_PARENT;
+		dialog.show();
+		Window window = dialog.getWindow();
+		window.setAttributes(params);
 	}
 
 }
