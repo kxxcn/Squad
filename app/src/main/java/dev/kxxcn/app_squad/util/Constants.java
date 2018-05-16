@@ -17,8 +17,7 @@ public class Constants {
 
 	public enum ListsFilterType {
 		MATCH_LIST,
-		PLAYER_LIST,
-		RECRUITMENT_LIST
+		RECRUITMENT_LIST,
+		PLAYER_LIST
 	}
-
 }

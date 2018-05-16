@@ -15,8 +15,8 @@ import dev.kxxcn.app_squad.ui.main.list.playerlist.PlayerListFragment;
 public class ListPagerAdapter extends FragmentStatePagerAdapter {
 
 	private static final int REGISTRATION_MATCH = 0;
-	private static final int REGISTRATION_PLAYER = 1;
-	private static final int RECRUITMENT_PLAYER = 2;
+	private static final int RECRUITMENT_PLAYER = 1;
+	private static final int REGISTRATION_PLAYER = 2;
 
 	private static final int COUNT = 3;
 
@@ -29,10 +29,10 @@ public class ListPagerAdapter extends FragmentStatePagerAdapter {
 		switch (position) {
 			case REGISTRATION_MATCH:
 				return MatchListFragment.newInstance();
-			case REGISTRATION_PLAYER:
-				return PlayerListFragment.newInstance();
 			case RECRUITMENT_PLAYER:
 				return RecruitmentListFragment.newInstance();
+			case REGISTRATION_PLAYER:
+				return PlayerListFragment.newInstance();
 		}
 		return null;
 	}

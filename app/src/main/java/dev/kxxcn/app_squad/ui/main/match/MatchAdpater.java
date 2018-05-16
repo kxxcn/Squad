@@ -26,6 +26,10 @@ import static dev.kxxcn.app_squad.util.AdapterUtils.setupItem;
  */
 public class MatchAdpater extends PagerAdapter {
 
+	private static final int MATCH = 0;
+	private static final int RECRUITMENT = 1;
+	private static final int PLAYER = 2;
+
 	@BindView(R.id.rl_background)
 	RelativeLayout mBackground;
 
@@ -61,7 +65,7 @@ public class MatchAdpater extends PagerAdapter {
 				),
 				new AdapterUtils.LibraryObject(
 						R.drawable.football,
-						context.getString(R.string.match_title_player_registration)
+						context.getString(R.string.match_title_player)
 				),
 		};
 
@@ -95,7 +99,7 @@ public class MatchAdpater extends PagerAdapter {
 		mCardView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				showRegistrationPage(position);
 			}
 		});
 		container.addView(view);
@@ -109,6 +113,17 @@ public class MatchAdpater extends PagerAdapter {
 
 	private void initUI(int position) {
 		Glide.with(mContext).load(imgs[position]).diskCacheStrategy(DiskCacheStrategy.NONE).into(iv_match_card);
+	}
+
+	private void showRegistrationPage(int position) {
+		switch (position) {
+			case MATCH:
+				break;
+			case RECRUITMENT:
+				break;
+			case PLAYER:
+				break;
+		}
 	}
 
 }
