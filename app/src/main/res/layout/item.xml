@@ -61,7 +61,7 @@
                         android:textColor="@color/match_font"
                         android:textSize="36sp"
                         android:typeface="sans"
-                        tools:text="@string/match_title_game_registration"/>
+                        tools:text="@string/match_title_match"/>
 
                 </LinearLayout>
 

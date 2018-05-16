@@ -2,12 +2,9 @@ package dev.kxxcn.app_squad.ui.main.match.fab;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.DatePicker;
@@ -22,7 +19,6 @@ import com.unstoppable.submitbuttonview.SubmitButton;
 import org.angmarch.views.NiceSpinner;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
+import dev.kxxcn.app_squad.util.DialogUtils;
 
 import static dev.kxxcn.app_squad.util.Constants.STATE_EXPANDED;
 
@@ -109,20 +106,9 @@ public class FabFragment extends AAH_FabulousFragment {
 		}
 	}
 
-	@OnClick(R.id.tv_date)
+	@OnClick(R.id.ll_date)
 	public void showCalendarDialog() {
-		Calendar calendar = Calendar.getInstance();
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH);
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
-		Context context = new ContextThemeWrapper(getContext(), android.R.style.Theme_Holo_Light_Dialog);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			// API 24 이상일 경우 시스템 기본 테마 사용
-			context = getContext();
-		}
-		DatePickerDialog datePickerDialog = new DatePickerDialog(context, dateSetListener, year, month, day);
-		datePickerDialog.getDatePicker().setMinDate(calendar.getTime().getTime());
-		datePickerDialog.show();
+		DialogUtils.showDatePickerDialog(getContext(), dateSetListener);
 	}
 
 	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -134,9 +120,9 @@ public class FabFragment extends AAH_FabulousFragment {
 	};
 
 	private void initUI() {
-		String[] regions = getContext().getResources().getStringArray(R.array.fab_regions);
-		String[] ages = getContext().getResources().getStringArray(R.array.fab_ages);
-		String[] totals = getContext().getResources().getStringArray(R.array.fab_group);
+		String[] regions = getContext().getResources().getStringArray(R.array.regions);
+		String[] ages = getContext().getResources().getStringArray(R.array.ages);
+		String[] totals = getContext().getResources().getStringArray(R.array.group);
 		List<String> regionList = new LinkedList<>(Arrays.asList(regions));
 		List<String> ageList = new LinkedList<>(Arrays.asList(ages));
 		List<String> totalList = new LinkedList<>(Arrays.asList(totals));
