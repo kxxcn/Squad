@@ -60,7 +60,7 @@ public class MatchDialog extends Dialog {
 		super(context);
 		mContext = context;
 		mType = type;
-		isEndTime = false;
+		isEndTime = true;
 	}
 
 	@Override
@@ -109,8 +109,8 @@ public class MatchDialog extends Dialog {
 	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
 		@Override
 		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+			isEndTime = !isEndTime;
 			if (isEndTime) {
-				isEndTime = !isEndTime;
 				mEndHour = hourOfDay;
 				if (onVerifyTime(mStartHour, mEndHour)) {
 					mEndTime = String.format(mContext.getString(R.string.select_time), hourOfDay, onFormattingTime(minute));
@@ -121,7 +121,6 @@ public class MatchDialog extends Dialog {
 					Toast.makeText(mContext, mContext.getString(R.string.re_input_time), Toast.LENGTH_SHORT).show();
 				}
 			} else {
-				isEndTime = !isEndTime;
 				mStartHour = hourOfDay;
 				mStartTime = String.format(mContext.getString(R.string.select_time), hourOfDay, onFormattingTime(minute));
 				DialogUtils.showTimePickerDialog(mContext, timeSetListener);
