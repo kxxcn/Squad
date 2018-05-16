@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:orientation="vertical">
+
+        <com.gigamole.navigationtabstrip.NavigationTabStrip
+            android:id="@+id/nts"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:nts_active_color="@color/nts_active"
+            app:nts_color="@color/nts_line"
+            app:nts_corners_radius="1.5dp"
+            app:nts_factor="2.8"
+            app:nts_inactive_color="@color/nts_inactive"
+            app:nts_titles="@array/list_titles"
+            app:nts_weight="1dp"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_lists"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+</LinearLayout>

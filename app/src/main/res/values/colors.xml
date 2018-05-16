@@ -7,12 +7,29 @@
     <color name="transparent">#00000000</color>
 
     <color name="splash_font">#84797d</color>
-    <color name="login_font">#FFFFFF</color>
-    <color name="match_font">#FFFFFF</color>
+    <color name="login_font">#ffffff</color>
+    <color name="match_font">#ffffff</color>
     <color name="login_edittext">#c4efc5</color>
     <color name="signup_edittext">#ff6347</color>
     <color name="main_background">#FFFFFF</color>
     <color name="fab_background">#9dc0fa</color>
     <color name="division_line">#ff5b93</color>
     <color name="unable_signup">#241a31</color>
+
+    <color name="setting_index">#eeeeee</color>
+    <color name="setting_index_font">#bdbdbd</color>
+    <color name="setting_logout">#ff6347</color>
+
+    <color name="toggle_off">#dadbda</color>
+    <color name="toggle_on">#4ebb7f</color>
+
+    <color name="nts_active">#ffffff</color>
+    <color name="nts_inactive">#81ffffff</color>
+    <color name="nts_line">#ff1748</color>
+
+    <color name="list_title_font">#ffffff</color>
+
+    <color name="dialog_background">#3a5171</color>
+    <color name="dialog_content">#ffffff</color>
+    <color name="dialog_button">#72ada7</color>
 </resources>

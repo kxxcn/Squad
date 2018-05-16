@@ -294,7 +294,7 @@
                         android:id="@+id/btn_submit"
                         android:layout_width="180dp"
                         android:layout_height="50dp"
-                        app:buttonText="Submit"
+                        app:buttonText="@string/quick_button"
                         app:buttonTextSize="18sp"
                         app:progressStyle="loading"/>
 

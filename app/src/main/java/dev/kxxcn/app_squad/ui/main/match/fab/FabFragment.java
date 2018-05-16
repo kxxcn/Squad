@@ -86,7 +86,7 @@ public class FabFragment extends AAH_FabulousFragment {
 		setViewgroupStatic(ll_bottom);                   // Layout to stick at bottom on slide
 		setViewMain(rl_content);                         // Necessary! main bottomsheet view
 		setMainContentView(contentView);                 // Necessary! call at end before super
-		setAnimationListener((AnimationListener) getActivity());
+		// setAnimationListener((AnimationListener) getActivity());
 		// setCallbacks((Callbacks) getActivity());
 		// setViewPager(vp_types);                       // If you use viewpager that has scrollview
 

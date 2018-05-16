@@ -3,6 +3,8 @@ package dev.kxxcn.app_squad.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.kxxcn.app_squad.util.Constants;
+
 /**
  * Created by kxxcn on 2018-05-01.
  */
@@ -26,8 +28,8 @@ public class DataRepository {
 		return dataRepository;
 	}
 
-	public void onSignup(final DataSource.GetSignupCallback callback, String email, String password, String team) {
-		dataSource.onSignup(new DataSource.GetSignupCallback() {
+	public void onSignup(final DataSource.GetCommonCallback callback, String email, String password, String team) {
+		dataSource.onSignup(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
 				callback.onSuccess();
@@ -41,8 +43,8 @@ public class DataRepository {
 	}
 
 
-	public void onLogin(final DataSource.GetLoginCallback callback, String email, String password) {
-		dataSource.onLogin(new DataSource.GetLoginCallback() {
+	public void onLogin(final DataSource.GetCommonCallback callback, String email, String password) {
+		dataSource.onLogin(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
 				callback.onSuccess();
@@ -53,6 +55,34 @@ public class DataRepository {
 				callback.onFailure(throwable);
 			}
 		}, email, password);
+	}
+
+	public void onLogout(final DataSource.GetCommonCallback callback) {
+		dataSource.onLogout(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		});
+	}
+
+	public void onLoad(DataSource.GetLoadCallback callback, Constants.ListsFilterType requestType) {
+		dataSource.onLoad(new DataSource.GetLoadCallback() {
+			@Override
+			public void onSuccess() {
+
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+
+			}
+		}, requestType);
 	}
 
 }

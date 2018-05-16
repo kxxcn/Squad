@@ -36,4 +36,9 @@
         <item>10 : 10</item>
         <item>11 : 11</item>
     </string-array>
+    <string-array name="list_titles">
+        <item>매치등록</item>
+        <item>용병모집</item>
+        <item>용병등록</item>
+    </string-array>
 </resources>

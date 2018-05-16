@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -46,8 +45,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 	private LoginContract.Presenter mPresenter;
 
-	private ViewTreeObserver.OnGlobalLayoutListener mGlobalListener;
-
 	private FirebaseAuth mAuth;
 	private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -65,7 +62,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 		mAuth = FirebaseAuth.getInstance();
 
-		new LoginPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(mAuth, FirebaseDatabase.getInstance().getReference())));
+		new LoginPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(
+				mAuth, FirebaseDatabase.getInstance().getReference())));
 
 		mPresenter.setPermission(this, CAMERA);
 

@@ -9,14 +9,16 @@ import android.Manifest;
 public class Constants {
 	public static final String TAG = "kxxcn";
 
-	public static final int LOADING = 2000;
+	public static final int LOADING = 1000;
 
-	public static final int MATCH = 0;
-	public static final int LIST = 1;
-	public static final int TEAM = 2;
-	public static final int SETTING = 3;
-	public static final int COUNT = 4;
 	public static final int STATE_EXPANDED = 0;
 
 	public static final String CAMERA = Manifest.permission.CAMERA;
+
+	public enum ListsFilterType {
+		MATCH_LIST,
+		PLAYER_LIST,
+		RECRUITMENT_LIST
+	}
+
 }

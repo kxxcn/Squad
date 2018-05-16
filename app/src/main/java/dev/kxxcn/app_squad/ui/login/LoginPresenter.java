@@ -35,7 +35,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
 		mLoginView.showLoadingIndicator(true);
 
-		mDataRepository.onLogin(new DataSource.GetLoginCallback() {
+		mDataRepository.onLogin(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
 				mLoginView.showSuccessfullyAuth();

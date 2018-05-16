@@ -9,12 +9,17 @@ import dev.kxxcn.app_squad.ui.main.match.MatchFragment;
 import dev.kxxcn.app_squad.ui.main.setting.SettingFragment;
 import dev.kxxcn.app_squad.ui.main.team.TeamFragment;
 
-import static dev.kxxcn.app_squad.util.Constants.*;
-
 /**
  * Created by kxxcn on 2018-04-26.
  */
 public class MainPagerAdapter extends FragmentStatePagerAdapter {
+
+	private static final int MATCH = 0;
+	private static final int LIST = 1;
+	private static final int TEAM = 2;
+	private static final int SETTING = 3;
+
+	private static final int COUNT = 4;
 
 	public MainPagerAdapter(FragmentManager fm) {
 		super(fm);

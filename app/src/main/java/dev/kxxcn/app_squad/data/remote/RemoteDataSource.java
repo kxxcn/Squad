@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
 import dev.kxxcn.app_squad.data.DataSource;
+import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.Dlog;
 
 /**
@@ -17,18 +18,21 @@ import dev.kxxcn.app_squad.util.Dlog;
 
 public class RemoteDataSource extends DataSource {
 
+	private static final String COLLECTION_USER = "user";
+	private static final String DOCUMENT_TEAM = "team";
+
 	private static RemoteDataSource remoteDataSource;
 
 	private FirebaseAuth mAuth;
-	private DatabaseReference mDatabaseReference;
+	private DatabaseReference mReference;
 
-	public RemoteDataSource(FirebaseAuth auth, DatabaseReference databaseReference) {
+	public RemoteDataSource(FirebaseAuth auth, DatabaseReference reference) {
 		this.mAuth = auth;
-		this.mDatabaseReference = databaseReference;
+		this.mReference = reference;
 	}
 
 	public static synchronized RemoteDataSource getInstance(FirebaseAuth firebaseAuth,
-															DatabaseReference databaseReference) {
+		DatabaseReference databaseReference) {
 		if (remoteDataSource == null) {
 			remoteDataSource = new RemoteDataSource(firebaseAuth, databaseReference);
 		}
@@ -36,24 +40,25 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onSignup(final GetSignupCallback callback, final String email, String password, final String team) {
+	public void onSignup(final GetCommonCallback callback, final String email, String password, final String team) {
 		mAuth.createUserWithEmailAndPassword(email, password)
-				.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-					@Override
-					public void onComplete(@NonNull Task<AuthResult> task) {
-						if (task.isSuccessful()) {
-							Dlog.i("UID : " + mAuth.getCurrentUser().getUid());
-							mDatabaseReference.child("user").child(mAuth.getCurrentUser().getUid()).child("team").setValue(team);
-							callback.onSuccess();
-						} else {
-							callback.onFailure(task.getException());
-						}
-					}
-				});
+		.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+			@Override
+			public void onComplete(@NonNull Task<AuthResult> task) {
+				if (task.isSuccessful()) {
+					String uid = mAuth.getCurrentUser().getUid();
+					Dlog.v("UID : " + uid);
+					mReference.child(COLLECTION_USER).child(uid).child(DOCUMENT_TEAM).setValue(team);
+					callback.onSuccess();
+				} else {
+					callback.onFailure(task.getException());
+				}
+			}
+		});
 	}
 
 	@Override
-	public void onLogin(final GetLoginCallback callback, String email, String password) {
+	public void onLogin(final GetCommonCallback callback, String email, String password) {
 		mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
@@ -64,6 +69,24 @@ public class RemoteDataSource extends DataSource {
 				}
 			}
 		});
+	}
+
+	@Override
+	public void onLogout(GetCommonCallback callback) {
+		mAuth.signOut();
+		callback.onSuccess();
+	}
+
+	@Override
+	public void onLoad(GetLoadCallback callback, Constants.ListsFilterType requestType) {
+		switch (requestType) {
+			case MATCH_LIST:
+			break;
+			case PLAYER_LIST:
+			break;
+			case RECRUITMENT_LIST:
+			break;
+		}
 	}
 
 }

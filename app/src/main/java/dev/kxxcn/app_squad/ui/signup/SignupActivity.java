@@ -79,11 +79,12 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 		TransitionUtils.fade(this);
 		ButterKnife.bind(this);
 
-		new SignupPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().getReference())));
+		new SignupPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(
+				FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().getReference())));
 
 		et_confirm.addTextChangedListener(textWatcher);
 
-		showAndHideView(ll_rootview, ll_top, ll_middle);
+		registerShowAndHideView(ll_rootview, ll_top, ll_middle);
 	}
 
 	@OnClick(R.id.btn_signup)
@@ -174,7 +175,7 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 		Toast.makeText(this, getString(R.string.exist_account), Toast.LENGTH_SHORT).show();
 	}
 
-	public void showAndHideView(final View rootView, final View top, final LinearLayout middle) {
+	public void registerShowAndHideView(final View rootView, final View top, final LinearLayout middle) {
 		if (mGlobalListener == null) {
 			mGlobalListener = new ViewTreeObserver.OnGlobalLayoutListener() {
 				@Override

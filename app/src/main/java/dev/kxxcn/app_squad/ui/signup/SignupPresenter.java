@@ -29,7 +29,7 @@ public class SignupPresenter implements SignupContract.Presenter {
 
 		mSignupView.showLoadingIndicator(true);
 
-		mDataRepository.onSignup(new DataSource.GetSignupCallback() {
+		mDataRepository.onSignup(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
 				mSignupView.showSuccessfullyRegister();
