@@ -26,6 +26,8 @@
     <string name="input_date">날짜를 입력하세요.</string>
     <string name="input_time">시간을 입력하세요.</string>
     <string name="re_input_time">시간을 다시 입력하세요.</string>
+    <string name="input_money">구장비를 입력하세요.</string>
+    <string name="input_place">장소를 입력하세요.</string>
 
     <string name="quick_match">빠른 매칭</string>
     <string name="quick_button">Match</string>
@@ -45,6 +47,7 @@
     <string name="want_to_quit">스쿼드를 종료하시겠습니까?</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
+    <string name="registration">등록하기</string>
 
     <string name="setting">설정</string>
     <string name="setting_account">계정</string>
