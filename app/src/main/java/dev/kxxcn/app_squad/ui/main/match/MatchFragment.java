@@ -21,9 +21,8 @@ import dev.kxxcn.app_squad.ui.main.match.fab.FabFragment;
  * Created by kxxcn on 2018-04-30.
  */
 
-public class MatchFragment extends Fragment implements MatchContract.View {
+public class MatchFragment extends Fragment {
 
-	private MatchContract.Presenter mPresenter;
 
 	@BindView(R.id.vp_hic)
 	HorizontalInfiniteCycleViewPager vp_hic;
@@ -33,18 +32,11 @@ public class MatchFragment extends Fragment implements MatchContract.View {
 
 	private FabFragment dialog;
 
-	@Override
-	public void setPresenter(MatchContract.Presenter presenter) {
-		mPresenter = presenter;
-	}
-
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_match, container, false);
 		ButterKnife.bind(this, view);
-
-		new MatchPresenter(this);
 
 		return view;
 	}
@@ -67,11 +59,6 @@ public class MatchFragment extends Fragment implements MatchContract.View {
 
 	public static Fragment newInstance() {
 		return new MatchFragment();
-	}
-
-	@Override
-	public void showLoadingIndicator(boolean isShowing) {
-
 	}
 
 }

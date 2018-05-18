@@ -28,6 +28,7 @@ import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.util.DialogUtils;
 
+import static dev.kxxcn.app_squad.util.Constants.POSITION_SPINNER_DEFAULT;
 import static dev.kxxcn.app_squad.util.Constants.STATE_EXPANDED;
 
 /**
@@ -35,16 +36,14 @@ import static dev.kxxcn.app_squad.util.Constants.STATE_EXPANDED;
  */
 public class FabFragment extends AAH_FabulousFragment {
 
-	private static final int POSITION_SPINNER_DEFAULT = 1;
-
 	@BindView(R.id.rl_content)
 	RelativeLayout rl_content;
 	@BindView(R.id.ll_bottom)
 	LinearLayout ll_bottom;
 	@BindView(R.id.ll_age)
 	LinearLayout ll_age;
-	@BindView(R.id.ll_group)
-	LinearLayout ll_group;
+	@BindView(R.id.ll_rule)
+	LinearLayout ll_rule;
 	@BindView(R.id.ll_collapse)
 	LinearLayout ll_collapse;
 	@BindView(R.id.ll_expanded)
@@ -57,11 +56,9 @@ public class FabFragment extends AAH_FabulousFragment {
 	NiceSpinner spinner_region;
 	@BindView(R.id.spinner_age)
 	NiceSpinner spinner_age;
-	@BindView(R.id.spinner_group)
-	NiceSpinner spinner_group;
+	@BindView(R.id.spinner_rule)
+	NiceSpinner spinner_rule;
 
-	@BindView(R.id.tv_title)
-	TextView tv_title;
 	@BindView(R.id.tv_date)
 	TextView tv_date;
 
@@ -79,7 +76,7 @@ public class FabFragment extends AAH_FabulousFragment {
 		ButterKnife.bind(this, contentView);
 		initUI();
 		setAnimationDuration(600);
-		setPeekHeight(300);
+		setPeekHeight(350);
 		setViewgroupStatic(ll_bottom);                   // Layout to stick at bottom on slide
 		setViewMain(rl_content);                         // Necessary! main bottomsheet view
 		setMainContentView(contentView);                 // Necessary! call at end before super
@@ -92,7 +89,7 @@ public class FabFragment extends AAH_FabulousFragment {
 	}
 
 	@OnClick(R.id.btn_match)
-	public void onSubmit() {
+	public void onMatch() {
 		if (!TextUtils.isEmpty(tv_date.getText())) {
 			new Handler().postDelayed(new Runnable() {
 				@Override
@@ -122,15 +119,15 @@ public class FabFragment extends AAH_FabulousFragment {
 	private void initUI() {
 		String[] regions = getContext().getResources().getStringArray(R.array.regions);
 		String[] ages = getContext().getResources().getStringArray(R.array.ages);
-		String[] totals = getContext().getResources().getStringArray(R.array.group);
+		String[] rules = getContext().getResources().getStringArray(R.array.group);
 		List<String> regionList = new LinkedList<>(Arrays.asList(regions));
 		List<String> ageList = new LinkedList<>(Arrays.asList(ages));
-		List<String> totalList = new LinkedList<>(Arrays.asList(totals));
+		List<String> ruleList = new LinkedList<>(Arrays.asList(rules));
 		spinner_region.attachDataSource(regionList);
 		spinner_age.attachDataSource(ageList);
-		spinner_group.attachDataSource(totalList);
+		spinner_rule.attachDataSource(ruleList);
 		spinner_age.setSelectedIndex(POSITION_SPINNER_DEFAULT);
-		spinner_group.setSelectedIndex(POSITION_SPINNER_DEFAULT);
+		spinner_rule.setSelectedIndex(POSITION_SPINNER_DEFAULT);
 	}
 
 	private void addOnGlobalLayoutListener(final View view) {
@@ -155,12 +152,12 @@ public class FabFragment extends AAH_FabulousFragment {
 	private void showDetailedSearchConditions(boolean isShowing) {
 		if (isShowing) {
 			ll_age.setVisibility(View.VISIBLE);
-			ll_group.setVisibility(View.VISIBLE);
+			ll_rule.setVisibility(View.VISIBLE);
 			ll_expanded.setVisibility(View.VISIBLE);
 			ll_collapse.setVisibility(View.GONE);
 		} else {
 			ll_age.setVisibility(View.GONE);
-			ll_group.setVisibility(View.GONE);
+			ll_rule.setVisibility(View.GONE);
 			ll_expanded.setVisibility(View.GONE);
 			ll_collapse.setVisibility(View.VISIBLE);
 		}

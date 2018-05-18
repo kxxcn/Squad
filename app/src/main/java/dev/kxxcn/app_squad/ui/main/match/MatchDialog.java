@@ -6,14 +6,25 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.unstoppable.submitbuttonview.SubmitButton;
+
 import org.angmarch.views.NiceSpinner;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,24 +33,43 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
+import dev.kxxcn.app_squad.data.DataRepository;
+import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.Dlog;
+
+import static dev.kxxcn.app_squad.util.Constants.POSITION_SPINNER_DEFAULT;
 
 /**
  * Created by kxxcn on 2018-05-16.
  */
 
-public class MatchDialog extends Dialog {
+public class MatchDialog extends Dialog implements MatchContract.View {
 
 	private static final int MATCH = 0;
 	private static final int RECRUITMENT = 1;
 	private static final int PLAYER = 2;
 
+	private MatchContract.Presenter mPresenter;
+
 	@BindView(R.id.spinner_region)
 	NiceSpinner spinner_region;
+	@BindView(R.id.spinner_rule)
+	NiceSpinner spinner_rule;
 
+	@BindView(R.id.ll_region)
+	LinearLayout ll_region;
+	@BindView(R.id.ll_place)
+	LinearLayout ll_place;
+	@BindView(R.id.ll_date)
+	LinearLayout ll_date;
 	@BindView(R.id.ll_time)
 	LinearLayout ll_time;
+	@BindView(R.id.ll_money)
+	LinearLayout ll_money;
+	@BindView(R.id.ll_rule)
+	LinearLayout ll_rule;
 
 	@BindView(R.id.tv_title)
 	TextView tv_title;
@@ -48,19 +78,40 @@ public class MatchDialog extends Dialog {
 	@BindView(R.id.tv_time)
 	TextView tv_time;
 
+	@BindView(R.id.et_money)
+	EditText et_money;
+	@BindView(R.id.et_inquiry)
+	EditText et_inquiry;
+
+	@BindView(R.id.btn_register)
+	SubmitButton btn_register;
+
 	private Context mContext;
+
 	private int mFilterType;
+	private int mStartHour, mEndHour;
 
 	private boolean isEndTime;
 
 	private String mStartTime, mEndTime;
-	private int mStartHour, mEndHour;
+	private String formatted;
+
+	private DecimalFormat format = new DecimalFormat("#,###");
+
+	private ViewTreeObserver.OnGlobalLayoutListener mGlobalListener;
+
+	@Override
+	public void setPresenter(MatchContract.Presenter presenter) {
+		mPresenter = presenter;
+	}
 
 	public MatchDialog(@NonNull Context context, int filterType) {
 		super(context);
 		mContext = context;
 		mFilterType = filterType;
 		isEndTime = true;
+		new MatchPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(
+				FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().getReference())));
 	}
 
 	@Override
@@ -72,20 +123,32 @@ public class MatchDialog extends Dialog {
 	}
 
 	private void initUI() {
+		String[] regions = mContext.getResources().getStringArray(R.array.regions);
+		String[] rules = getContext().getResources().getStringArray(R.array.group);
+		List<String> regionList = new LinkedList<>(Arrays.asList(regions));
+		List<String> ruleList = new LinkedList<>(Arrays.asList(rules));
+		spinner_region.attachDataSource(regionList);
+		et_inquiry.addTextChangedListener(lineWatcher);
 		switch (mFilterType) {
 			case MATCH:
 				tv_title.setText(mContext.getString(R.string.match_title_match));
+				spinner_rule.attachDataSource(ruleList);
+				spinner_rule.setSelectedIndex(POSITION_SPINNER_DEFAULT);
+				et_money.addTextChangedListener(formatWatcher);
 				break;
 			case RECRUITMENT:
 				tv_title.setText(mContext.getString(R.string.match_title_recruitment));
+				spinner_rule.attachDataSource(ruleList);
+				spinner_rule.setSelectedIndex(POSITION_SPINNER_DEFAULT);
+				ll_money.setVisibility(View.GONE);
 				break;
 			case PLAYER:
 				tv_title.setText(mContext.getString(R.string.match_title_player));
+				ll_rule.setVisibility(View.GONE);
+				ll_money.setVisibility(View.GONE);
+				ll_place.setVisibility(View.GONE);
 				break;
 		}
-		String[] regions = mContext.getResources().getStringArray(R.array.regions);
-		List<String> regionList = new LinkedList<>(Arrays.asList(regions));
-		spinner_region.attachDataSource(regionList);
 	}
 
 	@OnClick(R.id.ll_date)
@@ -105,6 +168,12 @@ public class MatchDialog extends Dialog {
 					year, (monthOfYear + 1), dayOfMonth));
 		}
 	};
+
+	@OnClick(R.id.btn_register)
+	public void onRegister() {
+		Information information = new Information();
+		mPresenter.onRegister(information);
+	}
 
 	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
 		@Override
@@ -137,10 +206,59 @@ public class MatchDialog extends Dialog {
 
 	private String onFormattingMinute(int minute) {
 		String format = String.valueOf(minute);
-		if (format.equals("0")) {
-			format = "00";
+		if (format.length() == 1) {
+			format = "0" + format;
 		}
 		return format;
+	}
+
+	private TextWatcher formatWatcher = new TextWatcher() {
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			if (!TextUtils.isEmpty(s.toString()) && !s.toString().equals(formatted)) {
+				formatted = format.format(Double.parseDouble(s.toString().replace(",", "")));
+				et_money.setText(formatted);
+				et_money.setSelection(formatted.length());
+			}
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+
+		}
+	};
+
+	private TextWatcher lineWatcher = new TextWatcher() {
+
+		String previous;
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			previous = s.toString();
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			if (et_inquiry.getLineCount() > 3) {
+				et_inquiry.setText(previous);
+				et_inquiry.setSelection(et_inquiry.length());
+			}
+		}
+	};
+
+	@Override
+	public void showLoadingIndicator(boolean isShowing) {
+
 	}
 
 }

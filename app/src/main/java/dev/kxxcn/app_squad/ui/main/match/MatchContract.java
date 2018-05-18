@@ -1,5 +1,6 @@
 package dev.kxxcn.app_squad.ui.main.match;
 
+import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.ui.BasePresenter;
 import dev.kxxcn.app_squad.ui.BaseView;
 
@@ -13,6 +14,6 @@ public interface MatchContract {
 	}
 
 	interface Presenter extends BasePresenter {
-
+		void onRegister(Information information);
 	}
 }
