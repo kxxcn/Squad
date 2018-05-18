@@ -20,4 +20,6 @@ public class Constants {
 		RECRUITMENT_LIST,
 		PLAYER_LIST
 	}
+
+	public static final int POSITION_SPINNER_DEFAULT = 1;
 }
