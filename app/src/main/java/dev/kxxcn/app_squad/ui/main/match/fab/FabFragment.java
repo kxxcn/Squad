@@ -29,12 +29,13 @@ import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.util.DialogUtils;
 
 import static dev.kxxcn.app_squad.util.Constants.POSITION_SPINNER_DEFAULT;
-import static dev.kxxcn.app_squad.util.Constants.STATE_EXPANDED;
 
 /**
  * Created by kxxcn on 2018-04-30.
  */
 public class FabFragment extends AAH_FabulousFragment {
+
+	private static final int STATE_EXPANDED = 0;
 
 	@BindView(R.id.rl_content)
 	RelativeLayout rl_content;
@@ -64,8 +65,6 @@ public class FabFragment extends AAH_FabulousFragment {
 
 	private ViewTreeObserver.OnGlobalLayoutListener mGlobalListener;
 
-	private boolean isShowing = false;
-
 	public static FabFragment newInstance() {
 		return new FabFragment();
 	}
@@ -77,12 +76,12 @@ public class FabFragment extends AAH_FabulousFragment {
 		initUI();
 		setAnimationDuration(600);
 		setPeekHeight(350);
-		setViewgroupStatic(ll_bottom);                   // Layout to stick at bottom on slide
-		setViewMain(rl_content);                         // Necessary! main bottomsheet view
-		setMainContentView(contentView);                 // Necessary! call at end before super
+		setViewgroupStatic(ll_bottom);                                 // Layout to stick at bottom on slide
+		setViewMain(rl_content);                                       // Necessary! main bottomsheet view
+		setMainContentView(contentView);                               // Necessary! call at end before super
 		// setAnimationListener((AnimationListener) getActivity());
 		// setCallbacks((Callbacks) getActivity());
-		// setViewPager(vp_types);                       // If you use viewpager that has scrollview
+		// setViewPager(vp_types);                                     // If you use viewpager that has scrollview
 
 		addOnGlobalLayoutListener(rl_content);
 		super.setupDialog(dialog, style);
@@ -104,7 +103,7 @@ public class FabFragment extends AAH_FabulousFragment {
 	}
 
 	@OnClick(R.id.ll_date)
-	public void showCalendarDialog() {
+	public void showDatePickerDialog() {
 		DialogUtils.showDatePickerDialog(getContext(), dateSetListener);
 	}
 
@@ -137,6 +136,7 @@ public class FabFragment extends AAH_FabulousFragment {
 				public void onGlobalLayout() {
 					Rect r = new Rect();
 					view.getGlobalVisibleRect(r);
+					boolean isShowing;
 					if (r.top == STATE_EXPANDED) {
 						isShowing = true;
 					} else {

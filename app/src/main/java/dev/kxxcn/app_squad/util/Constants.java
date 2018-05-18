@@ -8,18 +8,14 @@ import android.Manifest;
 
 public class Constants {
 	public static final String TAG = "kxxcn";
+	public static final String CAMERA = Manifest.permission.CAMERA;
 
 	public static final int LOADING = 1000;
-
-	public static final int STATE_EXPANDED = 0;
-
-	public static final String CAMERA = Manifest.permission.CAMERA;
+	public static final int POSITION_SPINNER_DEFAULT = 1;
 
 	public enum ListsFilterType {
 		MATCH_LIST,
 		RECRUITMENT_LIST,
 		PLAYER_LIST
 	}
-
-	public static final int POSITION_SPINNER_DEFAULT = 1;
 }
