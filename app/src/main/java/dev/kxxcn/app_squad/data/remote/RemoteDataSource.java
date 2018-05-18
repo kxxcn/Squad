@@ -74,8 +74,12 @@ public class RemoteDataSource extends DataSource {
 
 	@Override
 	public void onLogout(GetCommonCallback callback) {
-		mAuth.signOut();
-		callback.onSuccess();
+		if (mAuth.getCurrentUser() != null) {
+			mAuth.signOut();
+			callback.onSuccess();
+		} else {
+			callback.onFailure(new Exception());
+		}
 	}
 
 	@Override
