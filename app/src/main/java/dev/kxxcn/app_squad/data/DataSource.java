@@ -1,5 +1,6 @@
 package dev.kxxcn.app_squad.data;
 
+import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.util.Constants;
 
 /**
@@ -27,5 +28,7 @@ public abstract class DataSource {
 	public abstract void onLogout(GetCommonCallback callback);
 
 	public abstract void onLoad(GetLoadCallback callback, Constants.ListsFilterType requestType);
+
+	public abstract void onRegister(GetCommonCallback callback, Information information);
 
 }

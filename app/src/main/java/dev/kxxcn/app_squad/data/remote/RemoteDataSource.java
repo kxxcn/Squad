@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
 import dev.kxxcn.app_squad.data.DataSource;
+import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.Dlog;
 
@@ -32,7 +33,7 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	public static synchronized RemoteDataSource getInstance(FirebaseAuth firebaseAuth,
-		DatabaseReference databaseReference) {
+															DatabaseReference databaseReference) {
 		if (remoteDataSource == null) {
 			remoteDataSource = new RemoteDataSource(firebaseAuth, databaseReference);
 		}
@@ -42,19 +43,19 @@ public class RemoteDataSource extends DataSource {
 	@Override
 	public void onSignup(final GetCommonCallback callback, final String email, String password, final String team) {
 		mAuth.createUserWithEmailAndPassword(email, password)
-		.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-			@Override
-			public void onComplete(@NonNull Task<AuthResult> task) {
-				if (task.isSuccessful()) {
-					String uid = mAuth.getCurrentUser().getUid();
-					Dlog.v("UID : " + uid);
-					mReference.child(COLLECTION_USER).child(uid).child(DOCUMENT_TEAM).setValue(team);
-					callback.onSuccess();
-				} else {
-					callback.onFailure(task.getException());
-				}
-			}
-		});
+				.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+					@Override
+					public void onComplete(@NonNull Task<AuthResult> task) {
+						if (task.isSuccessful()) {
+							String uid = mAuth.getCurrentUser().getUid();
+							Dlog.v("UID : " + uid);
+							mReference.child(COLLECTION_USER).child(uid).child(DOCUMENT_TEAM).setValue(team);
+							callback.onSuccess();
+						} else {
+							callback.onFailure(task.getException());
+						}
+					}
+				});
 	}
 
 	@Override
@@ -81,12 +82,17 @@ public class RemoteDataSource extends DataSource {
 	public void onLoad(GetLoadCallback callback, Constants.ListsFilterType requestType) {
 		switch (requestType) {
 			case MATCH_LIST:
-			break;
+				break;
 			case PLAYER_LIST:
-			break;
+				break;
 			case RECRUITMENT_LIST:
-			break;
+				break;
 		}
+	}
+
+	@Override
+	public void onRegister(GetCommonCallback callback, Information information) {
+
 	}
 
 }

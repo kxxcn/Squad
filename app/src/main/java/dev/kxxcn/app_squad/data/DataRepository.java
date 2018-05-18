@@ -3,6 +3,7 @@ package dev.kxxcn.app_squad.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.util.Constants;
 
 /**
@@ -71,18 +72,32 @@ public class DataRepository {
 		});
 	}
 
-	public void onLoad(DataSource.GetLoadCallback callback, Constants.ListsFilterType requestType) {
+	public void onLoad(final DataSource.GetLoadCallback callback, Constants.ListsFilterType requestType) {
 		dataSource.onLoad(new DataSource.GetLoadCallback() {
 			@Override
 			public void onSuccess() {
-
+				callback.onSuccess();
 			}
 
 			@Override
 			public void onFailure(Throwable throwable) {
-
+				callback.onFailure(throwable);
 			}
 		}, requestType);
+	}
+
+	public void onRegister(final DataSource.GetCommonCallback callback, Information information) {
+		dataSource.onRegister(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, information);
 	}
 
 }
