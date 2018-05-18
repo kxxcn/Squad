@@ -50,8 +50,8 @@ public class FabFragment extends AAH_FabulousFragment {
 	@BindView(R.id.ll_expanded)
 	LinearLayout ll_expanded;
 
-	@BindView(R.id.btn_submit)
-	SubmitButton btn_submit;
+	@BindView(R.id.btn_match)
+	SubmitButton btn_match;
 
 	@BindView(R.id.spinner_region)
 	NiceSpinner spinner_region;
@@ -91,17 +91,17 @@ public class FabFragment extends AAH_FabulousFragment {
 		super.setupDialog(dialog, style);
 	}
 
-	@OnClick(R.id.btn_submit)
+	@OnClick(R.id.btn_match)
 	public void onSubmit() {
 		if (!TextUtils.isEmpty(tv_date.getText())) {
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					btn_submit.doResult(true);
+					btn_match.doResult(true);
 				}
 			}, 3000);
 		} else {
-			btn_submit.reset();
+			btn_match.reset();
 			Toast.makeText(getContext(), getString(R.string.input_date), Toast.LENGTH_SHORT).show();
 		}
 	}

@@ -291,7 +291,7 @@
                     android:weightSum="2">
 
                     <com.unstoppable.submitbuttonview.SubmitButton
-                        android:id="@+id/btn_submit"
+                        android:id="@+id/btn_match"
                         android:layout_width="180dp"
                         android:layout_height="50dp"
                         app:buttonText="@string/quick_button"
