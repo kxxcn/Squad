@@ -40,7 +40,7 @@
                     android:visibility="visible">
 
                     <TextView
-                        android:layout_width="250dp"
+                        android:layout_width="280dp"
                         android:layout_height="60dp"
                         android:background="@drawable/input_center"
                         android:fontFamily="@font/app_title"
@@ -63,7 +63,7 @@
                     android:orientation="vertical">
 
                     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-                        android:layout_width="250dp"
+                        android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         app:counterTextColor="@color/signup_edittext"
                         app:iconSignifier="@drawable/ic_identity"
@@ -82,7 +82,7 @@
                     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
                     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-                        android:layout_width="250dp"
+                        android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         app:counterTextColor="@color/signup_edittext"
@@ -103,7 +103,7 @@
                     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
                     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-                        android:layout_width="250dp"
+                        android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         app:iconSignifier="@drawable/ic_key"
                         app:labelText="@string/input_pass"
@@ -122,7 +122,7 @@
                     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
                     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-                        android:layout_width="250dp"
+                        android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         app:iconSignifier="@drawable/ic_key"
                         app:labelText="@string/input_confirm"

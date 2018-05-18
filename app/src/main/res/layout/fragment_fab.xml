@@ -32,14 +32,15 @@
                 <LinearLayout
                     android:id="@+id/ll_top"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/ll_collapse"
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
+                        android:layout_height="80dp"
                         android:orientation="vertical"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:weightSum="2">
 
                         <TextView
@@ -57,9 +58,9 @@
                         android:id="@+id/ll_expanded"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
-                        android:gravity="center"
                         android:background="@color/fab_background"
-                        android:visibility="visible">
+                        android:gravity="center"
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -73,7 +74,7 @@
                 <LinearLayout
                     android:id="@+id/ll_region"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:layout_below="@id/ll_top"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
@@ -126,7 +127,7 @@
                 <LinearLayout
                     android:id="@+id/ll_date"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:layout_below="@id/ll_region"
                     android:orientation="vertical"
                     android:paddingBottom="5dp">
@@ -180,7 +181,7 @@
                 <LinearLayout
                     android:id="@+id/ll_age"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:layout_below="@id/ll_date"
                     android:orientation="vertical"
                     android:paddingBottom="5dp">
@@ -230,9 +231,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_group"
+                    android:id="@+id/ll_rule"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:layout_below="@id/ll_age"
                     android:orientation="vertical"
                     android:paddingBottom="5dp">
@@ -257,7 +258,7 @@
                             android:background="@color/division_line"/>
 
                         <org.angmarch.views.NiceSpinner
-                            android:id="@+id/spinner_group"
+                            android:id="@+id/spinner_rule"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
