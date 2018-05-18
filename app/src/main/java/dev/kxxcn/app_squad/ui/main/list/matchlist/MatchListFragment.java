@@ -64,7 +64,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	}
 
 	@Override
-	public void showList() {
+	public void showMatchList() {
 
 	}
 

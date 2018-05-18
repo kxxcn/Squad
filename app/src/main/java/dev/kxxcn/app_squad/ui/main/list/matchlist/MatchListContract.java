@@ -10,7 +10,7 @@ import dev.kxxcn.app_squad.util.Constants;
 
 public interface MatchListContract {
 	interface View extends BaseView<Presenter> {
-		void showList();
+		void showMatchList();
 	}
 
 	interface Presenter extends BasePresenter {
