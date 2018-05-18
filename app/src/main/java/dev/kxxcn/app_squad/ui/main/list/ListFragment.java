@@ -10,19 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
-import dev.kxxcn.app_squad.data.DataRepository;
-import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 
 /**
  * Created by kxxcn on 2018-04-26.
  */
-public class ListFragment extends Fragment implements ListContract.View {
+public class ListFragment extends Fragment {
 
 	@BindView(R.id.nts)
 	NavigationTabStrip nts;
@@ -30,21 +26,11 @@ public class ListFragment extends Fragment implements ListContract.View {
 	@BindView(R.id.vp_lists)
 	ViewPager vp_lists;
 
-	private ListContract.Presenter mPresenter;
-
-	@Override
-	public void setPresenter(ListContract.Presenter presenter) {
-		this.mPresenter = presenter;
-	}
-
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_list, container, false);
 		ButterKnife.bind(this, view);
-
-		new ListPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(
-				FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().getReference())));
 
 		vp_lists.setAdapter(new ListPagerAdapter(getActivity().getSupportFragmentManager()));
 
@@ -61,11 +47,6 @@ public class ListFragment extends Fragment implements ListContract.View {
 
 	public static Fragment newInstance() {
 		return new ListFragment();
-	}
-
-	@Override
-	public void showLoadingIndicator(boolean isShowing) {
-
 	}
 
 	private NavigationTabStrip.OnTabStripSelectedIndexListener onTabStripSelectedIndexListener =
