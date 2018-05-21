@@ -29,6 +29,6 @@ public abstract class DataSource {
 
 	public abstract void onLoad(GetLoadCallback callback, Constants.ListsFilterType requestType);
 
-	public abstract void onRegister(GetCommonCallback callback, Information information);
+	public abstract void onRegister(GetCommonCallback callback, Information information, Constants.ListsFilterType requestType);
 
 }

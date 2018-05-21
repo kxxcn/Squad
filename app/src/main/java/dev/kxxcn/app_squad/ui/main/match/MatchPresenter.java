@@ -3,6 +3,7 @@ package dev.kxxcn.app_squad.ui.main.match;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.util.Constants;
 
 /**
  * Created by kxxcn on 2018-04-30.
@@ -19,7 +20,7 @@ public class MatchPresenter implements MatchContract.Presenter {
 	}
 
 	@Override
-	public void onRegister(Information information) {
+	public void onRegister(Information information, Constants.ListsFilterType requestType) {
 		mDataRepository.onRegister(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
@@ -30,7 +31,7 @@ public class MatchPresenter implements MatchContract.Presenter {
 			public void onFailure(Throwable throwable) {
 
 			}
-		}, information);
+		}, information, requestType);
 	}
 
 }

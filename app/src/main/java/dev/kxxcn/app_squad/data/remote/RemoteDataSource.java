@@ -95,8 +95,15 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onRegister(GetCommonCallback callback, Information information) {
-
+	public void onRegister(GetCommonCallback callback, Information information, Constants.ListsFilterType requestType) {
+		switch (requestType) {
+			case MATCH_LIST:
+				break;
+			case PLAYER_LIST:
+				break;
+			case RECRUITMENT_LIST:
+				break;
+		}
 	}
 
 }

@@ -36,6 +36,7 @@ import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
+import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.Dlog;
 
@@ -50,6 +51,9 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	private static final int MATCH = 0;
 	private static final int RECRUITMENT = 1;
 	private static final int PLAYER = 2;
+
+	private static final int FORMAT_LENGTH = 1;
+	private static final String FORMAT_CHARACTER = "0";
 
 	private MatchContract.Presenter mPresenter;
 
@@ -91,7 +95,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	private Context mContext;
 
-	private int mFilterType;
+	private int mPosition;
 	private int mStartHour, mEndHour;
 
 	private boolean isEndTime;
@@ -101,15 +105,17 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	private DecimalFormat format = new DecimalFormat("#,###");
 
+	private Constants.ListsFilterType mFilterType;
+
 	@Override
 	public void setPresenter(MatchContract.Presenter presenter) {
 		mPresenter = presenter;
 	}
 
-	public MatchDialog(@NonNull Context context, int filterType) {
+	public MatchDialog(@NonNull Context context, int position) {
 		super(context);
 		mContext = context;
-		mFilterType = filterType;
+		mPosition = position;
 		isEndTime = true;
 		new MatchPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(
 				FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().getReference())));
@@ -130,20 +136,23 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		List<String> ruleList = new LinkedList<>(Arrays.asList(rules));
 		spinner_region.attachDataSource(regionList);
 		et_inquiry.addTextChangedListener(lineWatcher);
-		switch (mFilterType) {
+		switch (mPosition) {
 			case MATCH:
+				mFilterType = Constants.ListsFilterType.MATCH_LIST;
 				tv_title.setText(mContext.getString(R.string.match_title_match));
 				spinner_rule.attachDataSource(ruleList);
 				spinner_rule.setSelectedIndex(POSITION_SPINNER_DEFAULT);
 				et_money.addTextChangedListener(formatWatcher);
 				break;
 			case RECRUITMENT:
+				mFilterType = Constants.ListsFilterType.RECRUITMENT_LIST;
 				tv_title.setText(mContext.getString(R.string.match_title_recruitment));
 				spinner_rule.attachDataSource(ruleList);
 				spinner_rule.setSelectedIndex(POSITION_SPINNER_DEFAULT);
 				ll_money.setVisibility(View.GONE);
 				break;
 			case PLAYER:
+				mFilterType = Constants.ListsFilterType.PLAYER_LIST;
 				tv_title.setText(mContext.getString(R.string.match_title_player));
 				ll_rule.setVisibility(View.GONE);
 				ll_money.setVisibility(View.GONE);
@@ -174,7 +183,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	public void onRegister() {
 		progressBar.setVisibility(View.VISIBLE);
 		Information information = new Information();
-		mPresenter.onRegister(information);
+		mPresenter.onRegister(information, mFilterType);
 	}
 
 	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
@@ -208,8 +217,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	private String onFormattingMinute(int minute) {
 		String format = String.valueOf(minute);
-		if (format.length() == 1) {
-			format = "0" + format;
+		if (format.length() == FORMAT_LENGTH) {
+			format = FORMAT_CHARACTER + format;
 		}
 		return format;
 	}

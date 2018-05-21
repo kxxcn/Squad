@@ -86,7 +86,7 @@ public class DataRepository {
 		}, requestType);
 	}
 
-	public void onRegister(final DataSource.GetCommonCallback callback, Information information) {
+	public void onRegister(final DataSource.GetCommonCallback callback, Information information, Constants.ListsFilterType requestType) {
 		dataSource.onRegister(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
@@ -97,7 +97,7 @@ public class DataRepository {
 			public void onFailure(Throwable throwable) {
 				callback.onFailure(throwable);
 			}
-		}, information);
+		}, information, requestType);
 	}
 
 }
