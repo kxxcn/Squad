@@ -6,50 +6,50 @@ package dev.kxxcn.app_squad.data.model;
 
 public class Information {
 
-	private String city;
+	private String region;
+	private String place;
 	private String date;
 	private String time;
 	private String money;
 	private String rule;
+	private String inquiry;
 
-	public String getCity() {
-		return city;
+	public Information(String region, String place, String date, String time, String money, String rule, String inquiry) {
+		this.region = region;
+		this.place = place;
+		this.date = date;
+		this.time = time;
+		this.money = money;
+		this.rule = rule;
+		this.inquiry = inquiry;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public String getRegion() {
+		return region;
+	}
+
+	public String getPlace() {
+		return place;
 	}
 
 	public String getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
-	}
-
 	public String getTime() {
 		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
 	}
 
 	public String getMoney() {
 		return money;
 	}
 
-	public void setMoney(String money) {
-		this.money = money;
-	}
-
 	public String getRule() {
 		return rule;
 	}
 
-	public void setRule(String rule) {
-		this.rule = rule;
+	public String getInquiry() {
+		return inquiry;
 	}
 
 }
