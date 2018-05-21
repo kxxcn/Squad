@@ -167,7 +167,7 @@
                                     android:background="@color/division_line"/>
 
                                 <EditText
-                                    android:id="@+id/tv_place"
+                                    android:id="@+id/et_place"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
@@ -442,6 +442,9 @@
                                     android:backgroundTint="@color/transparent"
                                     android:inputType="textMultiLine"
                                     android:lines="3"
+                                    android:paddingStart="45dp"
+                                    android:paddingEnd="0dp"
+                                    android:hint="@string/input_inquiry"
                                     android:scrollHorizontally="false"
                                     android:textSize="13sp"/>
 
