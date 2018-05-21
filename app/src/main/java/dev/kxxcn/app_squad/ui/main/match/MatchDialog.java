@@ -1,5 +1,6 @@
 package dev.kxxcn.app_squad.ui.main.match;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -39,6 +40,7 @@ import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.Dlog;
+import dev.kxxcn.app_squad.util.KeyboardUtils;
 
 import static dev.kxxcn.app_squad.util.Constants.POSITION_SPINNER_DEFAULT;
 
@@ -82,6 +84,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	@BindView(R.id.tv_time)
 	TextView tv_time;
 
+	@BindView(R.id.et_place)
+	EditText et_place;
 	@BindView(R.id.et_money)
 	EditText et_money;
 	@BindView(R.id.et_inquiry)
@@ -93,6 +97,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	@BindView(R.id.progressbar)
 	ProgressBar progressBar;
 
+	private Activity mActivity;
 	private Context mContext;
 
 	private int mPosition;
@@ -112,8 +117,9 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		mPresenter = presenter;
 	}
 
-	public MatchDialog(@NonNull Context context, int position) {
+	public MatchDialog(@NonNull Activity activity, @NonNull Context context, int position) {
 		super(context);
+		mActivity = activity;
 		mContext = context;
 		mPosition = position;
 		isEndTime = true;
@@ -157,17 +163,20 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				ll_rule.setVisibility(View.GONE);
 				ll_money.setVisibility(View.GONE);
 				ll_place.setVisibility(View.GONE);
+				ll_time.setVisibility(View.GONE);
 				break;
 		}
 	}
 
 	@OnClick(R.id.ll_date)
 	public void showDatePickerDialog() {
+		KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
 		DialogUtils.showDatePickerDialog(mContext, dateSetListener);
 	}
 
 	@OnClick(R.id.ll_time)
 	public void showTimePickerDialog() {
+		KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
 		DialogUtils.showTimePickerDialog(mContext, timeSetListener);
 	}
 
@@ -181,9 +190,37 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	@OnClick(R.id.ib_register)
 	public void onRegister() {
-		progressBar.setVisibility(View.VISIBLE);
-		Information information = new Information();
-		mPresenter.onRegister(information, mFilterType);
+		KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
+		String region = spinner_region.getText().toString();
+		String place = et_place.getText().toString();
+		String date = tv_date.getText().toString();
+		String time = tv_time.getText().toString();
+		String money = et_money.getText().toString();
+		String rule = spinner_rule.getText().toString();
+		String inquiry = et_inquiry.getText().toString();
+
+		if (onVerifyUsability(ll_place.getVisibility(), place) && onVerifyUsability(ll_date.getVisibility(), date) &&
+				onVerifyUsability(ll_time.getVisibility(), time) && onVerifyUsability(ll_money.getVisibility(), money)) {
+			Dlog.i(String.format(getContext().getString(R.string.log_information),
+					region, place, date, time, money, rule));
+			progressBar.setVisibility(View.VISIBLE);
+			Information information = new Information(region, place, date, time, money, rule, inquiry);
+			mPresenter.onRegister(information, mFilterType);
+		} else {
+			Toast.makeText(mContext, getContext().getString(R.string.input_all), Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private boolean onVerifyUsability(int visibility, String str) {
+		boolean noEmpty = false;
+		if (visibility == View.VISIBLE) {
+			if (!TextUtils.isEmpty(str)) {
+				noEmpty = true;
+			}
+		} else {
+			noEmpty = true;
+		}
+		return noEmpty;
 	}
 
 	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
@@ -194,7 +231,6 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				mEndHour = hourOfDay;
 				if (onVerifyTime(mStartHour, mEndHour)) {
 					mEndTime = String.format(mContext.getString(R.string.select_time), hourOfDay, onFormattingMinute(minute));
-					Dlog.d(mStartTime + " ~ " + mEndTime);
 					tv_time.setText(String.format(mContext.getString(R.string.time), mStartTime, mEndTime));
 				} else {
 					tv_time.setText(null);

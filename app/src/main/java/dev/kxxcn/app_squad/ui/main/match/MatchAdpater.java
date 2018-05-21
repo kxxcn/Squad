@@ -1,5 +1,6 @@
 package dev.kxxcn.app_squad.ui.main.match;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -43,6 +44,7 @@ public class MatchAdpater extends PagerAdapter {
 	@BindView(R.id.iv_match_card)
 	ImageView iv_match_card;
 
+	private Activity mActivity;
 	private Context mContext;
 
 	private LayoutInflater mLayoutInflater;
@@ -54,7 +56,8 @@ public class MatchAdpater extends PagerAdapter {
 	private int txtColor;
 	private int[] imgs = {R.drawable.card_match, R.drawable.card_recruit, R.drawable.card_player};
 
-	public MatchAdpater(Context context) {
+	public MatchAdpater(Activity activity, Context context) {
+		mActivity = activity;
 		mContext = context;
 		mLayoutInflater = LayoutInflater.from(context);
 
@@ -120,7 +123,7 @@ public class MatchAdpater extends PagerAdapter {
 	}
 
 	private void showRegistrationPage(int position) {
-		MatchDialog dialog = new MatchDialog(mContext, position);
+		MatchDialog dialog = new MatchDialog(mActivity, mContext, position);
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 		WindowManager.LayoutParams params = new WindowManager.LayoutParams();
 		params.copyFrom(dialog.getWindow().getAttributes());

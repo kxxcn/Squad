@@ -54,7 +54,7 @@ public class MatchFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		vp_hic.setAdapter(new MatchAdpater(getContext()));
+		vp_hic.setAdapter(new MatchAdpater(getActivity(), getContext()));
 	}
 
 	public static Fragment newInstance() {
