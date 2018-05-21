@@ -203,7 +203,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				onVerifyUsability(ll_time.getVisibility(), time) && onVerifyUsability(ll_money.getVisibility(), money)) {
 			Dlog.i(String.format(getContext().getString(R.string.log_information),
 					region, place, date, time, money, rule));
-			progressBar.setVisibility(View.VISIBLE);
+			showLoadingIndicator(true);
 			Information information = new Information(region, place, date, time, money, rule, inquiry);
 			mPresenter.onRegister(information, mFilterType);
 		} else {
@@ -305,7 +305,11 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	@Override
 	public void showLoadingIndicator(boolean isShowing) {
-
+		if (isShowing) {
+			progressBar.setVisibility(View.VISIBLE);
+		} else {
+			progressBar.setVisibility(View.GONE);
+		}
 	}
 
 }
