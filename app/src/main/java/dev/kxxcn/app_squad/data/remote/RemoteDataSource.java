@@ -64,8 +64,8 @@ public class RemoteDataSource extends DataSource {
 					} else {
 						mIsDuplicate = false;
 					}
-					onCreateUser(callback, email, password, team);
 				}
+				onCreateUser(callback, email, password, team);
 			}
 
 			@Override
