@@ -24,7 +24,6 @@ import dev.kxxcn.app_squad.ui.main.MainActivity;
 import dev.kxxcn.app_squad.ui.signup.SignupActivity;
 import dev.kxxcn.app_squad.util.Dlog;
 import dev.kxxcn.app_squad.util.TransitionUtils;
-import dev.kxxcn.app_squad.util.threading.UiThread;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 
 import static dev.kxxcn.app_squad.util.Constants.CAMERA;
@@ -110,16 +109,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 	@Override
 	public void showLoadingIndicator(final boolean isShowing) {
-		UiThread.getInstance().post(new Runnable() {
-			@Override
-			public void run() {
-				if (isShowing) {
-					progressBar.setVisibility(View.VISIBLE);
-				} else {
-					progressBar.setVisibility(View.GONE);
-				}
-			}
-		});
+		if (isShowing) {
+			progressBar.setVisibility(View.VISIBLE);
+		} else {
+			progressBar.setVisibility(View.GONE);
+		}
 	}
 
 	@Override

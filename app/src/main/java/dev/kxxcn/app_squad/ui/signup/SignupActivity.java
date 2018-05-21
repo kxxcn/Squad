@@ -27,7 +27,6 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.StateButton;
 import dev.kxxcn.app_squad.util.TransitionUtils;
-import dev.kxxcn.app_squad.util.threading.UiThread;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 
 
@@ -147,16 +146,11 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 
 	@Override
 	public void showLoadingIndicator(final boolean isShowing) {
-		UiThread.getInstance().post(new Runnable() {
-			@Override
-			public void run() {
-				if (isShowing) {
-					progressBar.setVisibility(View.VISIBLE);
-				} else {
-					progressBar.setVisibility(View.GONE);
-				}
-			}
-		});
+		if (isShowing) {
+			progressBar.setVisibility(View.VISIBLE);
+		} else {
+			progressBar.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
