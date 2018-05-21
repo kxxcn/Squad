@@ -34,7 +34,7 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 		mDataRepository.onLoad(new DataSource.GetLoadCallback() {
 			@Override
 			public void onSuccess() {
-				mMatchListView.showList();
+				mMatchListView.showMatchList();
 			}
 
 			@Override
