@@ -175,6 +175,11 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 		Toast.makeText(this, getString(R.string.exist_account), Toast.LENGTH_SHORT).show();
 	}
 
+	@Override
+	public void showAlreadyExistTeam() {
+		Toast.makeText(this, getString(R.string.exist_team), Toast.LENGTH_SHORT).show();
+	}
+
 	public void registerShowAndHideView(final View rootView, final View top, final LinearLayout middle) {
 		if (mGlobalListener == null) {
 			mGlobalListener = new ViewTreeObserver.OnGlobalLayoutListener() {

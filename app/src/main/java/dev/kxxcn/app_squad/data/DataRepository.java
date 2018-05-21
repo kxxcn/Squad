@@ -29,8 +29,8 @@ public class DataRepository {
 		return dataRepository;
 	}
 
-	public void onSignup(final DataSource.GetCommonCallback callback, String email, String password, String team) {
-		dataSource.onSignup(new DataSource.GetCommonCallback() {
+	public void onSignup(final DataSource.GetSignupCallback callback, String email, String password, String team) {
+		dataSource.onSignup(new DataSource.GetSignupCallback() {
 			@Override
 			public void onSuccess() {
 				callback.onSuccess();
@@ -39,6 +39,11 @@ public class DataRepository {
 			@Override
 			public void onFailure(Throwable throwable) {
 				callback.onFailure(throwable);
+			}
+
+			@Override
+			public void onDuplicatedTeam() {
+				callback.onDuplicatedTeam();
 			}
 		}, email, password, team);
 	}

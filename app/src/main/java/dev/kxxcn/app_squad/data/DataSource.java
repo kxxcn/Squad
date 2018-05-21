@@ -15,13 +15,21 @@ public abstract class DataSource {
 		void onFailure(Throwable throwable);
 	}
 
+	public interface GetSignupCallback {
+		void onSuccess();
+
+		void onFailure(Throwable throwable);
+
+		void onDuplicatedTeam();
+	}
+
 	public interface GetLoadCallback {
 		void onSuccess();
 
 		void onFailure(Throwable throwable);
 	}
 
-	public abstract void onSignup(GetCommonCallback callback, String email, String password, String team);
+	public abstract void onSignup(GetSignupCallback callback, String email, String password, String team);
 
 	public abstract void onLogin(GetCommonCallback callback, String email, String password);
 

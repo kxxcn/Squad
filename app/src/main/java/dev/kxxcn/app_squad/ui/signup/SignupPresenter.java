@@ -29,7 +29,7 @@ public class SignupPresenter implements SignupContract.Presenter {
 
 		mSignupView.showLoadingIndicator(true);
 
-		mDataRepository.onSignup(new DataSource.GetCommonCallback() {
+		mDataRepository.onSignup(new DataSource.GetSignupCallback() {
 			@Override
 			public void onSuccess() {
 				mSignupView.showSuccessfullyRegister();
@@ -44,6 +44,12 @@ public class SignupPresenter implements SignupContract.Presenter {
 				} else {
 					mSignupView.showUnsuccessfullyRegister();
 				}
+				mSignupView.showLoadingIndicator(false);
+			}
+
+			@Override
+			public void onDuplicatedTeam() {
+				mSignupView.showAlreadyExistTeam();
 				mSignupView.showLoadingIndicator(false);
 			}
 		}, email, password, team);
