@@ -10,17 +10,17 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.unstoppable.submitbuttonview.SubmitButton;
 
 import org.angmarch.views.NiceSpinner;
 
@@ -83,8 +83,11 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	@BindView(R.id.et_inquiry)
 	EditText et_inquiry;
 
-	@BindView(R.id.btn_register)
-	SubmitButton btn_register;
+	@BindView(R.id.ib_register)
+	ImageButton ib_register;
+
+	@BindView(R.id.progressbar)
+	ProgressBar progressBar;
 
 	private Context mContext;
 
@@ -97,8 +100,6 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	private String formatted;
 
 	private DecimalFormat format = new DecimalFormat("#,###");
-
-	private ViewTreeObserver.OnGlobalLayoutListener mGlobalListener;
 
 	@Override
 	public void setPresenter(MatchContract.Presenter presenter) {
@@ -169,8 +170,9 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		}
 	};
 
-	@OnClick(R.id.btn_register)
+	@OnClick(R.id.ib_register)
 	public void onRegister() {
+		progressBar.setVisibility(View.VISIBLE);
 		Information information = new Information();
 		mPresenter.onRegister(information);
 	}
