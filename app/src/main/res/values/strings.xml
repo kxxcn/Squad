@@ -28,6 +28,7 @@
     <string name="re_input_time">시간을 다시 입력하세요.</string>
     <string name="input_money">구장비를 입력하세요.</string>
     <string name="input_place">장소를 입력하세요.</string>
+    <string name="input_inquiry">기타사항을 입력하세요.</string>
 
     <string name="quick_match">빠른 매칭</string>
     <string name="quick_button">Match</string>
@@ -66,4 +67,7 @@
     <string name="setting_failure_logout">로그아웃을 실패했습니다.</string>
 
     <string name="list_title">현황</string>
+
+    <!-- LOG -->
+    <string name="log_information">%s, %s, %s, %s, %s, %s</string>
 </resources>
