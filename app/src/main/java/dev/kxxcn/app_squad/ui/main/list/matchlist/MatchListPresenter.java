@@ -1,8 +1,12 @@
 package dev.kxxcn.app_squad.ui.main.list.matchlist;
 
+import java.util.List;
+
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
+import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.util.Constants;
+import dev.kxxcn.app_squad.util.Dlog;
 
 /**
  * Created by kxxcn on 2018-05-09.
@@ -33,13 +37,13 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 		}
 		mDataRepository.onLoad(new DataSource.GetLoadCallback() {
 			@Override
-			public void onSuccess() {
-				mMatchListView.showMatchList();
+			public void onSuccess(List<Information> list) {
+				mMatchListView.showMatchList(list);
 			}
 
 			@Override
 			public void onFailure(Throwable throwable) {
-
+				Dlog.e(throwable.getMessage());
 			}
 			/*
 			 * Sets the current task filtering type.

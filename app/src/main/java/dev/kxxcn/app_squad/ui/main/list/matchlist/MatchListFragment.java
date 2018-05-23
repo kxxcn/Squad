@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
+import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.Constants;
 
@@ -52,6 +55,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		mPresenter.onLoad();
 	}
 
 	public static Fragment newInstance() {
@@ -64,8 +68,9 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	}
 
 	@Override
-	public void showMatchList() {
-
+	public void showMatchList(List<Information> list) {
+		MatchListAdapter adapter = new MatchListAdapter(getContext(), list);
+		rv_list.setAdapter(adapter);
 	}
 
 }
