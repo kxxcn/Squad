@@ -44,7 +44,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				Dlog.e("Exception : " + throwable.getMessage());
+				Dlog.e(throwable.getMessage());
 				mLoginView.showUnsuccessfullyAuth();
 				mLoginView.showLoadingIndicator(false);
 			}
