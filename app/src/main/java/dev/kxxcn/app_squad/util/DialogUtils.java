@@ -11,6 +11,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
+import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
+
 /**
  * Created by kxxcn on 2018-05-16.
  */
@@ -44,5 +47,15 @@ public class DialogUtils {
 		TimePickerDialog timePickerDialog = new TimePickerDialog(instance, timeSetListener,
 				Integer.parseInt(hourOfDay), Integer.parseInt(minute), false);
 		timePickerDialog.show();
+	}
+
+	public static String getFormattedDate(String date) {
+		String[] dateArray = date.split("-");
+		if (dateArray[1].length() == FORMAT_LENGTH) {
+			dateArray[1] = FORMAT_CHARACTER + dateArray[1];
+		} else if (dateArray[2].length() == FORMAT_LENGTH) {
+			dateArray[2] = FORMAT_CHARACTER + dateArray[2];
+		}
+		return dateArray[0] + dateArray[1] + dateArray[2];
 	}
 }
