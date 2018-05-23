@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 	private void initUI() {
 		vp_main.setPagingEnabled(false);
 		vp_main.setAdapter(new MainPagerAdapter(getSupportFragmentManager()));
+		vp_main.setOffscreenPageLimit(3); // Resolves the problem of RecyclerView items disappearing
 
 		String[] colors = getResources().getStringArray(R.array.default_preview);
 		ArrayList<NavigationTabBar.Model> model = new ArrayList<>();
