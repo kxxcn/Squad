@@ -24,6 +24,8 @@ import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.Dlog;
 
+import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
+
 /**
  * Created by kxxcn on 2018-05-01.
  */
@@ -34,7 +36,6 @@ public class RemoteDataSource extends DataSource {
 	private static final String COLLECTION_MATCH = "match";
 	private static final String COLLECTION_RECRUITMENT = "recruitment";
 	private static final String COLLECTION_PLAYER = "player";
-
 
 	private static RemoteDataSource remoteDataSource;
 
@@ -192,7 +193,7 @@ public class RemoteDataSource extends DataSource {
 						break;
 				}
 
-				mReference.child(collection).child(DialogUtils.getFormattedDate(information.getDate())).child(mAuth.getCurrentUser().getUid()).setValue(information)
+				mReference.child(collection).child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION)).child(mAuth.getCurrentUser().getUid()).setValue(information)
 						.addOnSuccessListener(new OnSuccessListener<Void>() {
 							@Override
 							public void onSuccess(Void aVoid) {

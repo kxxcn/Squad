@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,8 +71,16 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 
 	@Override
 	public void showMatchList(List<Information> list) {
+		Collections.sort(list, new Compare());
 		MatchListAdapter adapter = new MatchListAdapter(getContext(), list);
 		rv_list.setAdapter(adapter);
+	}
+
+	class Compare implements Comparator<Information> {
+		@Override
+		public int compare(Information o1, Information o2) {
+			return o2.getDate().compareTo(o1.getDate());
+		}
 	}
 
 }

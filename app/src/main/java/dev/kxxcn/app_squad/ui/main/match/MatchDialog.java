@@ -45,6 +45,7 @@ import dev.kxxcn.app_squad.util.KeyboardUtils;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
 import static dev.kxxcn.app_squad.util.Constants.POSITION_SPINNER_DEFAULT;
+import static dev.kxxcn.app_squad.util.Constants.TYPE_SORT;
 
 /**
  * Created by kxxcn on 2018-05-16.
@@ -207,6 +208,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		String region = spinner_region.getText().toString();
 		String place = et_place.getText().toString();
 		String date = tv_date.getText().toString();
+		date = DialogUtils.getFormattedDate(date, TYPE_SORT);
 		String time = tv_time.getText().toString();
 		String money = et_money.getText().toString();
 		String rule = spinner_rule.getText().toString();

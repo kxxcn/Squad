@@ -10,10 +10,13 @@ public class Constants {
 	public static final String TAG = "kxxcn";
 	public static final String CAMERA = Manifest.permission.CAMERA;
 	public static final String FORMAT_CHARACTER = "0";
+	public static final String FORMAT_DATE = "-";
 
 	public static final int LOADING = 1000;
 	public static final int POSITION_SPINNER_DEFAULT = 1;
 	public static final int FORMAT_LENGTH = 1;
+	public static final int TYPE_COLLECTION = 0;
+	public static final int TYPE_SORT = 1;
 
 	public enum ListsFilterType {
 		MATCH_LIST,

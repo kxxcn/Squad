@@ -12,7 +12,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
+import static dev.kxxcn.app_squad.util.Constants.FORMAT_DATE;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
+import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
+import static dev.kxxcn.app_squad.util.Constants.TYPE_SORT;
 
 /**
  * Created by kxxcn on 2018-05-16.
@@ -49,13 +52,27 @@ public class DialogUtils {
 		timePickerDialog.show();
 	}
 
-	public static String getFormattedDate(String date) {
+	public static String getFormattedDate(String date, int type) {
+		Dlog.d(date);
 		String[] dateArray = date.split("-");
+		Dlog.d("0 : " + dateArray[0]);
+		Dlog.d("1 : " + dateArray[1]);
+		Dlog.d("2 : " + dateArray[2]);
 		if (dateArray[1].length() == FORMAT_LENGTH) {
 			dateArray[1] = FORMAT_CHARACTER + dateArray[1];
-		} else if (dateArray[2].length() == FORMAT_LENGTH) {
+		}
+		if (dateArray[2].length() == FORMAT_LENGTH) {
 			dateArray[2] = FORMAT_CHARACTER + dateArray[2];
 		}
-		return dateArray[0] + dateArray[1] + dateArray[2];
+		String format = null;
+		switch (type) {
+			case TYPE_COLLECTION:
+				format = dateArray[0] + dateArray[1] + dateArray[2];
+				break;
+			case TYPE_SORT:
+				format = dateArray[0] + FORMAT_DATE + dateArray[1] + FORMAT_DATE + dateArray[2];
+				break;
+		}
+		return format;
 	}
 }
