@@ -16,6 +16,8 @@ public interface SignupContract {
 		void showAlreadyExistAccount();
 
 		void showAlreadyExistTeam();
+
+		void showBadlyFormatted();
 	}
 
 	interface Presenter extends BasePresenter {

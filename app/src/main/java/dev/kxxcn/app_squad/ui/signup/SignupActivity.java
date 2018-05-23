@@ -155,7 +155,7 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 
 	@Override
 	public void showSuccessfullyRegister() {
-		Toast.makeText(SignupActivity.this, getString(R.string.success_register), Toast.LENGTH_SHORT).show();
+		Toast.makeText(SignupActivity.this, getString(R.string.successfully_signup), Toast.LENGTH_SHORT).show();
 		finish();
 	}
 
@@ -172,6 +172,11 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 	@Override
 	public void showAlreadyExistTeam() {
 		Toast.makeText(this, getString(R.string.exist_team), Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void showBadlyFormatted() {
+		Toast.makeText(this, getString(R.string.badly_formatted), Toast.LENGTH_SHORT).show();
 	}
 
 	public void registerShowAndHideView(final View rootView, final View top, final LinearLayout middle) {

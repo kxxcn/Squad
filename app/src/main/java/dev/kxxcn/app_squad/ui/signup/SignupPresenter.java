@@ -10,7 +10,8 @@ import dev.kxxcn.app_squad.util.Dlog;
 
 public class SignupPresenter implements SignupContract.Presenter {
 
-	private static final String ALREADY_USED_EMAIL = "The email address is already in use by another account.";
+	private static final String ALREADY_USED = "The email address is already in use by another account.";
+	private static final String BADLY_FORMATTED = "The email address is badly formatted.";
 
 	private SignupContract.View mSignupView;
 	private DataRepository mDataRepository;
@@ -38,9 +39,11 @@ public class SignupPresenter implements SignupContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				Dlog.e("Exception : " + throwable.getMessage());
-				if (throwable.getMessage().equals(ALREADY_USED_EMAIL)) {
+				Dlog.e(throwable.getMessage());
+				if (throwable.getMessage().equals(ALREADY_USED)) {
 					mSignupView.showAlreadyExistAccount();
+				} else if (throwable.getMessage().equals(BADLY_FORMATTED)) {
+					mSignupView.showBadlyFormatted();
 				} else {
 					mSignupView.showUnsuccessfullyRegister();
 				}
