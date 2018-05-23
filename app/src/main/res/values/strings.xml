@@ -29,6 +29,8 @@
     <string name="input_money">구장비를 입력하세요.</string>
     <string name="input_place">장소를 입력하세요.</string>
     <string name="input_inquiry">기타사항을 입력하세요.</string>
+    <string name="successfully_registration">등록되었습니다.</string>
+    <string name="unsuccessfully_registration">등록을 실패했습니다.</string>
 
     <string name="quick_match">빠른 매칭</string>
     <string name="quick_button">Match</string>
@@ -42,10 +44,11 @@
     <string name="check_member_information">회원정보를 확인하세요.</string>
     <string name="duplicate_id">중복된 아이디입니다.</string>
     <string name="duplicate_team">중복된 팀명입니다.</string>
-    <string name="success_register">회원가입을 축하드립니다.</string>
+    <string name="successfully_signup">회원가입을 축하드립니다.</string>
     <string name="failure_register">회원가입을 실패했습니다.</string>
     <string name="exist_account">이미 존재하는 계정입니다.</string>
     <string name="exist_team">이미 존재하는 팀입니다.</string>
+    <string name="badly_formatted">이메일 형식이 올바르지 않습니다.</string>
     <string name="want_to_quit">스쿼드를 종료하시겠습니까?</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
@@ -68,7 +71,8 @@
     <string name="setting_failure_logout">로그아웃을 실패했습니다.</string>
 
     <string name="list_title">현황</string>
+    <string name="list_schedule">%s %s</string>
 
     <!-- LOG -->
-    <string name="log_information">%s, %s, %s, %s, %s, %s</string>
+    <string name="log_information">%s, %s, %s, %s, %s, %s, %s, %s, %s</string>
 </resources>
