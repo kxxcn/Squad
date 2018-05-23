@@ -410,6 +410,59 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ll_age"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:orientation="vertical"
+                            android:paddingBottom="5dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="9">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="40dp"
+                                    android:background="@drawable/ic_age"/>
+
+                                <View
+                                    android:layout_width="0.1dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="30dp"
+                                    android:background="@color/division_line"/>
+
+                                <org.angmarch.views.NiceSpinner
+                                    android:id="@+id/spinner_age"
+                                    android:layout_width="150dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="25dp"
+                                    tools:text="20대 이상"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:gravity="center">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0.1dp"
+                                    android:background="@color/division_line"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:id="@+id/ll_inquiry"
                             android:layout_width="match_parent"
                             android:layout_height="90dp"
