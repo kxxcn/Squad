@@ -1,5 +1,7 @@
 package dev.kxxcn.app_squad.data;
 
+import java.util.List;
+
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.util.Constants;
 
@@ -24,7 +26,7 @@ public abstract class DataSource {
 	}
 
 	public interface GetLoadCallback {
-		void onSuccess();
+		void onSuccess(List<Information> list);
 
 		void onFailure(Throwable throwable);
 	}

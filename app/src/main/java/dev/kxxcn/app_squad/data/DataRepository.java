@@ -79,9 +79,10 @@ public class DataRepository {
 
 	public void onLoad(final DataSource.GetLoadCallback callback, Constants.ListsFilterType requestType) {
 		dataSource.onLoad(new DataSource.GetLoadCallback() {
+
 			@Override
-			public void onSuccess() {
-				callback.onSuccess();
+			public void onSuccess(List<Information> list) {
+				callback.onSuccess(list);
 			}
 
 			@Override

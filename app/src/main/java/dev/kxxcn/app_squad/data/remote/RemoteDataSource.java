@@ -3,6 +3,8 @@ package dev.kxxcn.app_squad.data.remote;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -12,10 +14,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
+import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.Dlog;
 
 /**
@@ -25,9 +31,10 @@ import dev.kxxcn.app_squad.util.Dlog;
 public class RemoteDataSource extends DataSource {
 
 	private static final String COLLECTION_USER = "user";
+	private static final String COLLECTION_MATCH = "match";
+	private static final String COLLECTION_RECRUITMENT = "recruitment";
+	private static final String COLLECTION_PLAYER = "player";
 
-	private static final String DOCUMENT_EMAIL = "email";
-	private static final String DOCUMENT_TEAM = "team";
 
 	private static RemoteDataSource remoteDataSource;
 
@@ -51,12 +58,13 @@ public class RemoteDataSource extends DataSource {
 
 	@Override
 	public void onSignup(final GetSignupCallback callback, final String email, final String password, final String team) {
-		DatabaseReference database = FirebaseDatabase.getInstance().getReference(COLLECTION_USER);
-		database.addListenerForSingleValueEvent(new ValueEventListener() {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_USER);
+		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 					User user = snapshot.getValue(User.class);
+					/* 팀명 중복 체크 */
 					if (team.equals(user.getTeam())) {
 						callback.onDuplicatedTeam();
 						mIsDuplicate = true;
@@ -83,10 +91,18 @@ public class RemoteDataSource extends DataSource {
 						public void onComplete(@NonNull Task<AuthResult> task) {
 							if (task.isSuccessful()) {
 								String uid = mAuth.getCurrentUser().getUid();
-								Dlog.v("UID : " + uid);
-								mReference.child(COLLECTION_USER).child(uid).child(DOCUMENT_EMAIL).setValue(email);
-								mReference.child(COLLECTION_USER).child(uid).child(DOCUMENT_TEAM).setValue(team);
-								callback.onSuccess();
+								User user = new User(email, uid, team);
+								mReference.child(COLLECTION_USER).child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+									@Override
+									public void onSuccess(Void aVoid) {
+										callback.onSuccess();
+									}
+								}).addOnFailureListener(new OnFailureListener() {
+									@Override
+									public void onFailure(@NonNull Exception e) {
+										callback.onFailure(e);
+									}
+								});
 							} else {
 								callback.onFailure(task.getException());
 							}
@@ -112,6 +128,7 @@ public class RemoteDataSource extends DataSource {
 	@Override
 	public void onLogout(GetCommonCallback callback) {
 		if (mAuth.getCurrentUser() != null) {
+			remoteDataSource = null;
 			mAuth.signOut();
 			callback.onSuccess();
 		} else {
@@ -120,9 +137,32 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onLoad(GetLoadCallback callback, Constants.ListsFilterType requestType) {
+	public void onLoad(final GetLoadCallback callback, Constants.ListsFilterType requestType) {
 		switch (requestType) {
 			case MATCH_LIST:
+				DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_MATCH);
+				reference.addValueEventListener(new ValueEventListener() {
+					@Override
+					public void onDataChange(DataSnapshot dataSnapshot) {
+						List<Information> list = new ArrayList<>(0);
+						for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
+							Dlog.d("data Count: " + dataSnapshot.getChildrenCount());
+							Dlog.d("parent Count: " + parentSnapshot.getChildrenCount());
+							for (DataSnapshot childSnapshot : parentSnapshot.getChildren()) {
+								Dlog.d("child : " + childSnapshot.getValue());
+								final Information information = childSnapshot.getValue(Information.class);
+								list.add(information);
+							}
+						}
+
+						callback.onSuccess(list);
+					}
+
+					@Override
+					public void onCancelled(DatabaseError databaseError) {
+						callback.onFailure(databaseError.toException());
+					}
+				});
 				break;
 			case PLAYER_LIST:
 				break;
@@ -132,15 +172,45 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onRegister(GetCommonCallback callback, Information information, Constants.ListsFilterType requestType) {
-		switch (requestType) {
-			case MATCH_LIST:
-				break;
-			case PLAYER_LIST:
-				break;
-			case RECRUITMENT_LIST:
-				break;
-		}
+	public void onRegister(final GetCommonCallback callback, final Information information, final Constants.ListsFilterType requestType) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_USER).child(mAuth.getCurrentUser().getUid());
+		reference.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				User user = dataSnapshot.getValue(User.class);
+				information.setTeam(user.getTeam());
+				String collection = null;
+				switch (requestType) {
+					case MATCH_LIST:
+						collection = COLLECTION_MATCH;
+						break;
+					case RECRUITMENT_LIST:
+						collection = COLLECTION_RECRUITMENT;
+						break;
+					case PLAYER_LIST:
+						collection = COLLECTION_PLAYER;
+						break;
+				}
+
+				mReference.child(collection).child(DialogUtils.getFormattedDate(information.getDate())).child(mAuth.getCurrentUser().getUid()).setValue(information)
+						.addOnSuccessListener(new OnSuccessListener<Void>() {
+							@Override
+							public void onSuccess(Void aVoid) {
+								callback.onSuccess();
+							}
+						}).addOnFailureListener(new OnFailureListener() {
+					@Override
+					public void onFailure(@NonNull Exception e) {
+						callback.onFailure(e);
+					}
+				});
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+
+			}
+		});
 	}
 
 }
