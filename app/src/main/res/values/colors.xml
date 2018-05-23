@@ -28,6 +28,7 @@
     <color name="nts_line">#ff1748</color>
 
     <color name="list_title_font">#ffffff</color>
+    <color name="list_font">#000000</color>
 
     <color name="dialog_background">#3a5171</color>
     <color name="dialog_content">#ffffff</color>
