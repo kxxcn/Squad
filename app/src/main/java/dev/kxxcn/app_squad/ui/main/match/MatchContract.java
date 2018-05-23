@@ -11,7 +11,9 @@ import dev.kxxcn.app_squad.util.Constants;
 
 public interface MatchContract {
 	interface View extends BaseView<MatchContract.Presenter> {
+		void showSuccessfullyRegister();
 
+		void showUnsuccessfullyRegister();
 	}
 
 	interface Presenter extends BasePresenter {

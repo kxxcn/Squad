@@ -99,7 +99,7 @@ public class MatchAdpater extends PagerAdapter {
 	@Override
 	@NonNull
 	public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-		final View view = mLayoutInflater.inflate(R.layout.item, container, false);
+		final View view = mLayoutInflater.inflate(R.layout.item_match, container, false);
 		ButterKnife.bind(this, view);
 		initUI(position);
 		setupItem(view, LIBRARIES[position], txtColor);

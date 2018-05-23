@@ -42,6 +42,8 @@ import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.Dlog;
 import dev.kxxcn.app_squad.util.KeyboardUtils;
 
+import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
+import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
 import static dev.kxxcn.app_squad.util.Constants.POSITION_SPINNER_DEFAULT;
 
 /**
@@ -54,13 +56,12 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	private static final int RECRUITMENT = 1;
 	private static final int PLAYER = 2;
 
-	private static final int FORMAT_LENGTH = 1;
-	private static final String FORMAT_CHARACTER = "0";
-
 	private MatchContract.Presenter mPresenter;
 
 	@BindView(R.id.spinner_region)
 	NiceSpinner spinner_region;
+	@BindView(R.id.spinner_age)
+	NiceSpinner spinner_age;
 	@BindView(R.id.spinner_rule)
 	NiceSpinner spinner_rule;
 
@@ -76,6 +77,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	LinearLayout ll_money;
 	@BindView(R.id.ll_rule)
 	LinearLayout ll_rule;
+	@BindView(R.id.ll_age)
+	LinearLayout ll_age;
 
 	@BindView(R.id.tv_title)
 	TextView tv_title;
@@ -112,6 +115,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	private Constants.ListsFilterType mFilterType;
 
+	private FirebaseAuth mAuth;
+
 	@Override
 	public void setPresenter(MatchContract.Presenter presenter) {
 		mPresenter = presenter;
@@ -123,8 +128,9 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		mContext = context;
 		mPosition = position;
 		isEndTime = true;
+		mAuth = FirebaseAuth.getInstance();
 		new MatchPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(
-				FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().getReference())));
+				mAuth, FirebaseDatabase.getInstance().getReference())));
 	}
 
 	@Override
@@ -138,8 +144,10 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	private void initUI() {
 		String[] regions = mContext.getResources().getStringArray(R.array.regions);
 		String[] rules = getContext().getResources().getStringArray(R.array.group);
+		String[] ages = getContext().getResources().getStringArray(R.array.ages);
 		List<String> regionList = new LinkedList<>(Arrays.asList(regions));
 		List<String> ruleList = new LinkedList<>(Arrays.asList(rules));
+		List<String> ageList = new LinkedList<>(Arrays.asList(ages));
 		spinner_region.attachDataSource(regionList);
 		et_inquiry.addTextChangedListener(lineWatcher);
 		switch (mPosition) {
@@ -147,7 +155,9 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				mFilterType = Constants.ListsFilterType.MATCH_LIST;
 				tv_title.setText(mContext.getString(R.string.match_title_match));
 				spinner_rule.attachDataSource(ruleList);
+				spinner_age.attachDataSource(ageList);
 				spinner_rule.setSelectedIndex(POSITION_SPINNER_DEFAULT);
+				spinner_age.setSelectedIndex(POSITION_SPINNER_DEFAULT);
 				et_money.addTextChangedListener(formatWatcher);
 				break;
 			case RECRUITMENT:
@@ -156,6 +166,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				spinner_rule.attachDataSource(ruleList);
 				spinner_rule.setSelectedIndex(POSITION_SPINNER_DEFAULT);
 				ll_money.setVisibility(View.GONE);
+				ll_age.setVisibility(View.GONE);
 				break;
 			case PLAYER:
 				mFilterType = Constants.ListsFilterType.PLAYER_LIST;
@@ -164,6 +175,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				ll_money.setVisibility(View.GONE);
 				ll_place.setVisibility(View.GONE);
 				ll_time.setVisibility(View.GONE);
+				ll_age.setVisibility(View.GONE);
 				break;
 		}
 	}
@@ -191,20 +203,21 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	@OnClick(R.id.ib_register)
 	public void onRegister() {
 		KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
+		String email = mAuth.getCurrentUser().getEmail();
 		String region = spinner_region.getText().toString();
 		String place = et_place.getText().toString();
 		String date = tv_date.getText().toString();
 		String time = tv_time.getText().toString();
 		String money = et_money.getText().toString();
 		String rule = spinner_rule.getText().toString();
+		String age = spinner_age.getText().toString();
 		String inquiry = et_inquiry.getText().toString();
 
 		if (onVerifyUsability(ll_place.getVisibility(), place) && onVerifyUsability(ll_date.getVisibility(), date) &&
 				onVerifyUsability(ll_time.getVisibility(), time) && onVerifyUsability(ll_money.getVisibility(), money)) {
 			Dlog.i(String.format(getContext().getString(R.string.log_information),
-					region, place, date, time, money, rule));
-			showLoadingIndicator(true);
-			Information information = new Information(region, place, date, time, money, rule, inquiry);
+					email, region, place, date, time, money, rule, age, inquiry));
+			Information information = new Information(email, region, place, date, time, money, rule, age, inquiry, false);
 			mPresenter.onRegister(information, mFilterType);
 		} else {
 			Toast.makeText(mContext, getContext().getString(R.string.input_all), Toast.LENGTH_SHORT).show();
@@ -227,10 +240,11 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		@Override
 		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 			isEndTime = !isEndTime;
+			String formattedMin = onFormattedMinute(minute);
 			if (isEndTime) {
 				mEndHour = hourOfDay;
 				if (onVerifyTime(mStartHour, mEndHour)) {
-					mEndTime = String.format(mContext.getString(R.string.select_time), hourOfDay, onFormattingMinute(minute));
+					mEndTime = String.format(mContext.getString(R.string.select_time), hourOfDay, formattedMin);
 					tv_time.setText(String.format(mContext.getString(R.string.time), mStartTime, mEndTime));
 				} else {
 					tv_time.setText(null);
@@ -238,7 +252,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				}
 			} else {
 				mStartHour = hourOfDay;
-				mStartTime = String.format(mContext.getString(R.string.select_time), hourOfDay, onFormattingMinute(minute));
+				mStartTime = String.format(mContext.getString(R.string.select_time), hourOfDay, formattedMin);
 				DialogUtils.showTimePickerDialog(mContext, timeSetListener);
 			}
 		}
@@ -251,7 +265,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		return false;
 	}
 
-	private String onFormattingMinute(int minute) {
+	private String onFormattedMinute(int minute) {
 		String format = String.valueOf(minute);
 		if (format.length() == FORMAT_LENGTH) {
 			format = FORMAT_CHARACTER + format;
@@ -310,6 +324,17 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		} else {
 			progressBar.setVisibility(View.GONE);
 		}
+	}
+
+	@Override
+	public void showSuccessfullyRegister() {
+		Toast.makeText(mActivity, getContext().getString(R.string.successfully_registration), Toast.LENGTH_SHORT).show();
+		dismiss();
+	}
+
+	@Override
+	public void showUnsuccessfullyRegister() {
+		Toast.makeText(mActivity, getContext().getString(R.string.unsuccessfully_registration), Toast.LENGTH_SHORT).show();
 	}
 
 }
