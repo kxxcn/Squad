@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
+import dev.kxxcn.app_squad.util.SwipeViewPager;
 
 /**
  * Created by kxxcn on 2018-04-26.
@@ -23,8 +23,8 @@ public class ListFragment extends Fragment {
 	@BindView(R.id.nts)
 	NavigationTabStrip nts;
 
-	@BindView(R.id.vp_lists)
-	ViewPager vp_lists;
+	@BindView(R.id.vp_list)
+	SwipeViewPager vp_list;
 
 	@Nullable
 	@Override
@@ -32,7 +32,8 @@ public class ListFragment extends Fragment {
 		final View view = inflater.inflate(R.layout.fragment_list, container, false);
 		ButterKnife.bind(this, view);
 
-		vp_lists.setAdapter(new ListPagerAdapter(getActivity().getSupportFragmentManager()));
+		vp_list.setPagingEnabled(false);
+		vp_list.setAdapter(new ListPagerAdapter(getActivity().getSupportFragmentManager()));
 
 		nts.setTabIndex(0, true);
 		nts.setOnTabStripSelectedIndexListener(onTabStripSelectedIndexListener);
@@ -58,7 +59,7 @@ public class ListFragment extends Fragment {
 
 				@Override
 				public void onEndTabSelected(String title, int index) {
-					vp_lists.setCurrentItem(index);
+					vp_list.setCurrentItem(index);
 				}
 			};
 

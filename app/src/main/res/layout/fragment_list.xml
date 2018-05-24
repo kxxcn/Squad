@@ -29,8 +29,8 @@
             app:nts_titles="@array/list_titles"
             app:nts_weight="1dp"/>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_lists"
+        <dev.kxxcn.app_squad.util.SwipeViewPager
+            android:id="@+id/vp_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
