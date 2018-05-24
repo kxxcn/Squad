@@ -34,7 +34,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:textColor="@color/list_font"
+                        android:textColor="@color/list_team"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         tools:text="맨체스터 유나이티드"/>
@@ -80,6 +80,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_mine"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
@@ -105,17 +106,17 @@
                     android:gravity="center_vertical|right">
 
                     <dev.kxxcn.app_squad.util.StateButton
-                        android:id="@+id/btn_match"
+                        android:id="@+id/btn_request"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
-                        android:text="신청"
-                        app:normalStrokeColor="@android:color/holo_red_light"
+                        android:text="@string/list_request"
+                        app:normalStrokeColor="@color/list_unlinked"
                         app:normalStrokeWidth="1dp"
-                        app:normalTextColor="@android:color/holo_red_light"
-                        app:pressedStrokeColor="@android:color/holo_red_light"
+                        app:normalTextColor="@color/list_unlinked"
+                        app:pressedStrokeColor="@color/list_unlinked"
                         app:pressedStrokeWidth="1dp"
-                        app:pressedTextColor="@android:color/holo_red_light"
+                        app:pressedTextColor="@color/list_unlinked"
                         app:round="true"/>
 
                 </LinearLayout>
