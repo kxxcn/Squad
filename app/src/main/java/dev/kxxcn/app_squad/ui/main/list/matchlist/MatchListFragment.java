@@ -25,6 +25,9 @@ import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.Constants;
 
+import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
+import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
+
 /**
  * Created by kxxcn on 2018-05-09.
  */
@@ -94,7 +97,21 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	class Compare implements Comparator<Information> {
 		@Override
 		public int compare(Information o1, Information o2) {
-			return o2.getDate().compareTo(o1.getDate());
+			int ret = 0;
+			if (o1.getDate().equals(o2.getDate())) {
+				String time1 = o1.getTime().substring(0, o1.getTime().indexOf(":"));
+				String time2 = o2.getTime().substring(0, o2.getTime().indexOf(":"));
+				if (time1.length() == FORMAT_LENGTH) {
+					time1 = FORMAT_CHARACTER + time1;
+				}
+				if (time2.length() == FORMAT_LENGTH) {
+					time2 = FORMAT_CHARACTER + time2;
+				}
+				ret = time2.compareTo(time1);
+			} else {
+				ret = o2.getDate().compareTo(o1.getDate());
+			}
+			return ret;
 		}
 	}
 
