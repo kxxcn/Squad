@@ -40,7 +40,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 
 	private MatchListContract.Presenter mPresenter;
 
-	private List<Information> mList = new ArrayList<>(0);
+	private List<Information> mList;
 
 	@Override
 	public void setPresenter(MatchListContract.Presenter presenter) {
@@ -78,12 +78,19 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 
 	@Override
 	public void showMatchList(List<Information> list) {
+		mList = new ArrayList<>(0);
 		this.mList = list;
 		Collections.sort(list, new Compare());
 		MatchListAdapter adapter = new MatchListAdapter(getContext(), list, this);
 		rv_list.setAdapter(adapter);
 	}
 
+	/**
+	 * 경기일정 별 정렬(내림차순)
+	 *
+	 * @author kxxcn
+	 * @since 2018-05-24 오후 1:57
+	 */
 	class Compare implements Comparator<Information> {
 		@Override
 		public int compare(Information o1, Information o2) {
