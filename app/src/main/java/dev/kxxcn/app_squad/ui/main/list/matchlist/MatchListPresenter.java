@@ -56,4 +56,9 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 		}, mCurrentFiltering);
 	}
 
+	@Override
+	public void onRequest(Information information) {
+
+	}
+
 }

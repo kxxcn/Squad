@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -28,12 +29,18 @@ import dev.kxxcn.app_squad.util.Constants;
  * Created by kxxcn on 2018-05-09.
  */
 
-public class MatchListFragment extends Fragment implements MatchListContract.View {
+interface ItemClickListener {
+	void onClick(int position);
+}
+
+public class MatchListFragment extends Fragment implements MatchListContract.View, ItemClickListener {
 
 	@BindView(R.id.rv_list)
 	RecyclerView rv_list;
 
 	private MatchListContract.Presenter mPresenter;
+
+	private List<Information> mList = new ArrayList<>(0);
 
 	@Override
 	public void setPresenter(MatchListContract.Presenter presenter) {
@@ -71,8 +78,9 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 
 	@Override
 	public void showMatchList(List<Information> list) {
+		this.mList = list;
 		Collections.sort(list, new Compare());
-		MatchListAdapter adapter = new MatchListAdapter(getContext(), list);
+		MatchListAdapter adapter = new MatchListAdapter(getContext(), list, this);
 		rv_list.setAdapter(adapter);
 	}
 
@@ -81,6 +89,11 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 		public int compare(Information o1, Information o2) {
 			return o2.getDate().compareTo(o1.getDate());
 		}
+	}
+
+	@Override
+	public void onClick(int position) {
+		mPresenter.onRequest(mList.get(position));
 	}
 
 }

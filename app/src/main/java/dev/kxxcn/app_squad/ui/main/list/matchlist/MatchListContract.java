@@ -20,5 +20,7 @@ public interface MatchListContract {
 		void setFiltering(Constants.ListsFilterType requestType);
 
 		void onLoad();
+
+		void onRequest(Information information);
 	}
 }
