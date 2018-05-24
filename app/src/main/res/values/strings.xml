@@ -72,6 +72,8 @@
 
     <string name="list_title">현황</string>
     <string name="list_schedule">%s %s</string>
+    <string name="list_request">요청</string>
+    <string name="list_complete">완료</string>
 
     <!-- LOG -->
     <string name="log_information">%s, %s, %s, %s, %s, %s, %s, %s, %s</string>
