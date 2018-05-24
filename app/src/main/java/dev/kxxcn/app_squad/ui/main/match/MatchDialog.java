@@ -193,14 +193,6 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		DialogUtils.showTimePickerDialog(mContext, timeSetListener);
 	}
 
-	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-		@Override
-		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			tv_date.setText(String.format(mContext.getString(R.string.select_date),
-					year, (monthOfYear + 1), dayOfMonth));
-		}
-	};
-
 	@OnClick(R.id.ib_register)
 	public void onRegister() {
 		KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
@@ -208,7 +200,9 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		String region = spinner_region.getText().toString();
 		String place = et_place.getText().toString();
 		String date = tv_date.getText().toString();
-		date = DialogUtils.getFormattedDate(date, TYPE_SORT);
+		if (!TextUtils.isEmpty(date)) {
+			date = DialogUtils.getFormattedDate(date, TYPE_SORT);
+		}
 		String time = tv_time.getText().toString();
 		String money = et_money.getText().toString();
 		String rule = spinner_rule.getText().toString();
@@ -237,6 +231,14 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		}
 		return noEmpty;
 	}
+
+	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+		@Override
+		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+			tv_date.setText(String.format(mContext.getString(R.string.select_date),
+					year, (monthOfYear + 1), dayOfMonth));
+		}
+	};
 
 	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
 		@Override
