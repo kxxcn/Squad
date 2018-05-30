@@ -65,8 +65,7 @@ public class RemoteDataSource extends DataSource {
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 					User user = snapshot.getValue(User.class);
-					/* 팀명 중복 체크 */
-					if (team.equals(user.getTeam())) {
+					if (isDuplicate(team, user.getTeam())) {
 						callback.onDuplicatedTeam();
 						mIsDuplicate = true;
 						break;
@@ -212,6 +211,20 @@ public class RemoteDataSource extends DataSource {
 
 			}
 		});
+	}
+
+	/**
+	 * 팀명 중복 체크
+	 *
+	 * @author kxxcn
+	 * @since 2018-05-30 오후 5:55
+	 */
+	private boolean isDuplicate(String team, String fixedTeam) {
+		boolean rtn = false;
+		if (team.equals(fixedTeam)) {
+			rtn = true;
+		}
+		return rtn;
 	}
 
 }
