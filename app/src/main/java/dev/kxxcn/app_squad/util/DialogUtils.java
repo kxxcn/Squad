@@ -53,11 +53,7 @@ public class DialogUtils {
 	}
 
 	public static String getFormattedDate(String date, int type) {
-		Dlog.d(date);
 		String[] dateArray = date.split("-");
-		Dlog.d("0 : " + dateArray[0]);
-		Dlog.d("1 : " + dateArray[1]);
-		Dlog.d("2 : " + dateArray[2]);
 		if (dateArray[1].length() == FORMAT_LENGTH) {
 			dateArray[1] = FORMAT_CHARACTER + dateArray[1];
 		}
