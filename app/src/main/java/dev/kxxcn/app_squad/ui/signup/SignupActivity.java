@@ -27,6 +27,7 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.StateButton;
 import dev.kxxcn.app_squad.util.TransitionUtils;
+import dev.kxxcn.app_squad.util.WatcherUtils;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 
 
@@ -81,7 +82,9 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 		new SignupPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(
 				FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().getReference())));
 
-		et_confirm.addTextChangedListener(textWatcher);
+		et_email.addTextChangedListener(WatcherUtils.noSpaceWatcher(et_email));
+		et_team.addTextChangedListener(WatcherUtils.noSpaceWatcher(et_team));
+		et_confirm.addTextChangedListener(validatePassWatcher);
 
 		registerShowAndHideView(ll_rootview, ll_top, ll_middle);
 	}
@@ -104,7 +107,7 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 		}
 	}
 
-	TextWatcher textWatcher = new TextWatcher() {
+	TextWatcher validatePassWatcher = new TextWatcher() {
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
