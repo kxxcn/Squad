@@ -146,10 +146,10 @@ public class RemoteDataSource extends DataSource {
 					public void onDataChange(DataSnapshot dataSnapshot) {
 						List<Information> list = new ArrayList<>(0);
 						for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
-							Dlog.v("data Count: " + dataSnapshot.getChildrenCount());
-							Dlog.v("parent Count: " + parentSnapshot.getChildrenCount());
+							Dlog.v("Data Count: " + dataSnapshot.getChildrenCount());
+							Dlog.v("Parent Count: " + parentSnapshot.getChildrenCount());
 							for (DataSnapshot childSnapshot : parentSnapshot.getChildren()) {
-								Dlog.v("child : " + childSnapshot.getValue());
+								Dlog.i("Child : " + childSnapshot.getValue());
 								final Information information = childSnapshot.getValue(Information.class);
 								list.add(information);
 							}
