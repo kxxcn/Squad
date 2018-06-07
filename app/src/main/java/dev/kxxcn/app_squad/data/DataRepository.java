@@ -1,6 +1,5 @@
 package dev.kxxcn.app_squad.data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.model.Information;
@@ -15,8 +14,6 @@ public class DataRepository {
 	private DataSource dataSource;
 
 	private static DataRepository dataRepository;
-
-	List<String> repo = new ArrayList<>(0);
 
 	public DataRepository(DataSource dataSource) {
 		this.dataSource = dataSource;
