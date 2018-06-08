@@ -26,13 +26,13 @@ public abstract class DataSource {
 		void onDuplicatedTeam();
 	}
 
-	public interface GetLoadCallback {
+	public interface GetLoadListCallback {
 		void onSuccess(List<Information> list);
 
 		void onFailure(Throwable throwable);
 	}
 
-	public interface GetLoadAccountCallback {
+	public interface GetLoadRecordCallback {
 		void onSuccess(User user);
 
 		void onFailure(Throwable throwable);
@@ -44,10 +44,10 @@ public abstract class DataSource {
 
 	public abstract void onLogout(GetCommonCallback callback);
 
-	public abstract void onLoad(GetLoadCallback callback, Constants.ListsFilterType requestType);
+	public abstract void onLoadList(GetLoadListCallback callback, Constants.ListsFilterType requestType);
 
 	public abstract void onRegister(GetCommonCallback callback, Information information, Constants.ListsFilterType requestType);
 
-	public abstract void onLoadAccount(GetLoadAccountCallback callback);
+	public abstract void onLoadRecord(GetLoadRecordCallback callback);
 
 }

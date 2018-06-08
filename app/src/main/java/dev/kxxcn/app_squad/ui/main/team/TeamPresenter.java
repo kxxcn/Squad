@@ -24,7 +24,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 		if (mTeamView == null) {
 			return;
 		}
-		mDataRepository.onLoadAccount(new DataSource.GetLoadAccountCallback() {
+		mDataRepository.onLoadRecord(new DataSource.GetLoadRecordCallback() {
 			@Override
 			public void onSuccess(User user) {
 				mTeamView.setToolbarTitle(user.getTeam());

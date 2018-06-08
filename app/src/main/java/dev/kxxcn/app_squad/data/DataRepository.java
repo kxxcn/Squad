@@ -75,8 +75,8 @@ public class DataRepository {
 		});
 	}
 
-	public void onLoad(final DataSource.GetLoadCallback callback, Constants.ListsFilterType requestType) {
-		dataSource.onLoad(new DataSource.GetLoadCallback() {
+	public void onLoadList(final DataSource.GetLoadListCallback callback, Constants.ListsFilterType requestType) {
+		dataSource.onLoadList(new DataSource.GetLoadListCallback() {
 
 			@Override
 			public void onSuccess(List<Information> list) {
@@ -104,8 +104,8 @@ public class DataRepository {
 		}, information, requestType);
 	}
 
-	public void onLoadAccount(final DataSource.GetLoadAccountCallback callback) {
-		dataSource.onLoadAccount(new DataSource.GetLoadAccountCallback() {
+	public void onLoadRecord(final DataSource.GetLoadRecordCallback callback) {
+		dataSource.onLoadRecord(new DataSource.GetLoadRecordCallback() {
 			@Override
 			public void onSuccess(User user) {
 				callback.onSuccess(user);

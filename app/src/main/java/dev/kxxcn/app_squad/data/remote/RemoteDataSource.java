@@ -137,7 +137,7 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onLoad(final GetLoadCallback callback, Constants.ListsFilterType requestType) {
+	public void onLoadList(final GetLoadListCallback callback, Constants.ListsFilterType requestType) {
 		switch (requestType) {
 			case MATCH_LIST:
 				DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_MATCH);
@@ -214,7 +214,7 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onLoadAccount(final GetLoadAccountCallback callback) {
+	public void onLoadRecord(final GetLoadRecordCallback callback) {
 		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_USER).child(mAuth.getCurrentUser().getUid());
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override

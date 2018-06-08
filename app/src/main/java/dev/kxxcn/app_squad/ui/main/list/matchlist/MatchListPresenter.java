@@ -35,7 +35,7 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 		if (mMatchListView == null && mCurrentFiltering == null) {
 			return;
 		}
-		mDataRepository.onLoad(new DataSource.GetLoadCallback() {
+		mDataRepository.onLoadList(new DataSource.GetLoadListCallback() {
 			@Override
 			public void onSuccess(List<Information> list) {
 				mMatchListView.showMatchList(list);
