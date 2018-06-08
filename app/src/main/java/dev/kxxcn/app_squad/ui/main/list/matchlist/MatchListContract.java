@@ -23,4 +23,7 @@ public interface MatchListContract {
 
 		void onRequest(Information information);
 	}
+	interface ItemClickListener {
+		void onClick(int position);
+	}
 }

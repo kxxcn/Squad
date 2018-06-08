@@ -26,9 +26,9 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.View
 
 	private Context mContext;
 	private List<Information> mList;
-	private ItemClickListener mItemClickListener;
+	private MatchListContract.ItemClickListener mItemClickListener;
 
-	public MatchListAdapter(Context context, List<Information> list, ItemClickListener itemClickListener) {
+	public MatchListAdapter(Context context, List<Information> list, MatchListContract.ItemClickListener itemClickListener) {
 		this.mContext = context;
 		this.mList = list;
 		this.mItemClickListener = itemClickListener;
@@ -88,7 +88,7 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.View
 		@BindView(R.id.btn_request)
 		StateButton btn_request;
 
-		public ViewHolder(View itemView, final ItemClickListener itemClickListener) {
+		public ViewHolder(View itemView, final MatchListContract.ItemClickListener itemClickListener) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 			btn_request.setOnClickListener(new View.OnClickListener() {

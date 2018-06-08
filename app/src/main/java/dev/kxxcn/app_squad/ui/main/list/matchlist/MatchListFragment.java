@@ -32,11 +32,7 @@ import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
  * Created by kxxcn on 2018-05-09.
  */
 
-interface ItemClickListener {
-	void onClick(int position);
-}
-
-public class MatchListFragment extends Fragment implements MatchListContract.View, ItemClickListener {
+public class MatchListFragment extends Fragment implements MatchListContract.View, MatchListContract.ItemClickListener {
 
 	@BindView(R.id.rv_list)
 	RecyclerView rv_list;
