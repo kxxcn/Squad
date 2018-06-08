@@ -156,10 +156,9 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				mFilterType = Constants.ListsFilterType.MATCH_LIST;
 				tv_title.setText(mContext.getString(R.string.match_title_match));
 				spinner_rule.attachDataSource(ruleList);
-				spinner_age.attachDataSource(ageList);
 				spinner_rule.setSelectedIndex(POSITION_SPINNER_DEFAULT);
-				spinner_age.setSelectedIndex(POSITION_SPINNER_DEFAULT);
 				et_money.addTextChangedListener(formatWatcher);
+				ll_age.setVisibility(View.GONE);
 				break;
 			case RECRUITMENT:
 				mFilterType = Constants.ListsFilterType.RECRUITMENT_LIST;
@@ -171,12 +170,13 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				break;
 			case PLAYER:
 				mFilterType = Constants.ListsFilterType.PLAYER_LIST;
+				spinner_age.attachDataSource(ageList);
+				spinner_age.setSelectedIndex(POSITION_SPINNER_DEFAULT);
 				tv_title.setText(mContext.getString(R.string.match_title_player));
 				ll_rule.setVisibility(View.GONE);
 				ll_money.setVisibility(View.GONE);
 				ll_place.setVisibility(View.GONE);
 				ll_time.setVisibility(View.GONE);
-				ll_age.setVisibility(View.GONE);
 				break;
 		}
 	}
@@ -209,8 +209,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		String age = spinner_age.getText().toString();
 		String inquiry = et_inquiry.getText().toString();
 
-		if (onVerifyUsability(ll_place.getVisibility(), place) && onVerifyUsability(ll_date.getVisibility(), date) &&
-				onVerifyUsability(ll_time.getVisibility(), time) && onVerifyUsability(ll_money.getVisibility(), money)) {
+		if (onVerifyUsability(ll_place, place) && onVerifyUsability(ll_date, date) &&
+				onVerifyUsability(ll_time, time) && onVerifyUsability(ll_money, money)) {
 			Dlog.i(String.format(getContext().getString(R.string.log_information),
 					email, region, place, date, time, money, rule, age, inquiry));
 			Information information = new Information(email, region, place, date, time, money, rule, age, inquiry, false);
@@ -220,9 +220,9 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		}
 	}
 
-	private boolean onVerifyUsability(int visibility, String str) {
+	private boolean onVerifyUsability(View view, String str) {
 		boolean noEmpty = false;
-		if (visibility == View.VISIBLE) {
+		if (view.getVisibility() == View.VISIBLE) {
 			if (!TextUtils.isEmpty(str)) {
 				noEmpty = true;
 			}
