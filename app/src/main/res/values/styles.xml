@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="AppTheme">
+        <item name="colorPrimary">@color/coordinator_primary</item>
+        <item name="colorAccent">@color/coordinator_accent</item>
+        <item name="android:textColorPrimary">@color/coordinator_font</item>
+    </style>
+
+    <style name="AppTheme.FabOverlay" parent="AppTheme">
+        <item name="colorAccent">@color/fab_accent</item>
+    </style>
+
 </resources>

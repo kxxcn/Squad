@@ -12,7 +12,8 @@
     <color name="login_edittext">#c4efc5</color>
     <color name="signup_edittext">#ff6347</color>
     <color name="main_background">#FFFFFF</color>
-    <color name="fab_background">#9dc0fa</color>
+    <color name="fab_tint">#c5cae9</color>
+    <color name="fab_accent">#e8eaf6</color>
     <color name="division_line">#ff5b93</color>
     <color name="unable_signup">#241a31</color>
 
@@ -36,4 +37,8 @@
     <color name="dialog_background">#3a5171</color>
     <color name="dialog_content">#ffffff</color>
     <color name="dialog_button">#72ada7</color>
+
+    <color name="coordinator_primary">#c5cae9</color>
+    <color name="coordinator_accent">#e8eaf6</color>
+    <color name="coordinator_font">#e8eaf6</color>
 </resources>

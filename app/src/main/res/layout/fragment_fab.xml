@@ -58,7 +58,6 @@
                         android:id="@+id/ll_expanded"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
-                        android:background="@color/fab_background"
                         android:gravity="center"
                         android:visibility="gone">
 
