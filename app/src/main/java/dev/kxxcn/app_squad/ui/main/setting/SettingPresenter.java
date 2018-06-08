@@ -16,7 +16,7 @@ public class SettingPresenter implements SettingContract.Presenter {
 	public SettingPresenter(SettingContract.View settingView, DataRepository dataRepository) {
 		this.mSettingView = settingView;
 		this.mDataRepository = dataRepository;
-		this.mSettingView.setPresenter(this);
+		mSettingView.setPresenter(this);
 	}
 
 	@Override

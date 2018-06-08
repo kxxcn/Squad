@@ -22,7 +22,7 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 	public MatchListPresenter(MatchListContract.View matchListView, DataRepository dataRepository) {
 		this.mMatchListView = matchListView;
 		this.mDataRepository = dataRepository;
-		this.mMatchListView.setPresenter(this);
+		mMatchListView.setPresenter(this);
 	}
 
 	@Override

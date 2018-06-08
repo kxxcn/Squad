@@ -18,6 +18,7 @@ public interface LoginContract {
 
 	interface Presenter extends BasePresenter {
 		void setPermission(Activity activity, String... permission);
+
 		void login(String email, String password);
 	}
 }

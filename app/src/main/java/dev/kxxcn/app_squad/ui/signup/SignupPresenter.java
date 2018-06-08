@@ -19,7 +19,7 @@ public class SignupPresenter implements SignupContract.Presenter {
 	public SignupPresenter(SignupContract.View signupView, DataRepository dataRepository) {
 		this.mSignupView = signupView;
 		this.mDataRepository = dataRepository;
-		this.mSignupView.setPresenter(this);
+		mSignupView.setPresenter(this);
 	}
 
 	@Override
