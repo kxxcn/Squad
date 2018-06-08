@@ -70,7 +70,7 @@ public class TeamFragment extends Fragment implements TeamContract.View {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		mPresenter.onLoadAccount();
+		mPresenter.onLoadRecord();
 		Glide.with(this).load(imgs[new Random().nextInt(imgs.length)]).diskCacheStrategy(DiskCacheStrategy.NONE).into(iv_collapsing);
 		List<String> list = new ArrayList<>(0);
 		TeamAdapter adapter = new TeamAdapter(list);

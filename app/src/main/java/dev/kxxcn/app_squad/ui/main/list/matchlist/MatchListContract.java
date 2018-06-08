@@ -19,7 +19,7 @@ public interface MatchListContract {
 	interface Presenter extends BasePresenter {
 		void setFiltering(Constants.ListsFilterType requestType);
 
-		void onLoad();
+		void onLoadList();
 
 		void onRequest(Information information);
 	}

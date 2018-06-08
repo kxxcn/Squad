@@ -20,7 +20,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 	}
 
 	@Override
-	public void onLoadAccount() {
+	public void onLoadRecord() {
 		if (mTeamView == null) {
 			return;
 		}

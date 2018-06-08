@@ -13,6 +13,6 @@ public interface TeamContract {
 	}
 
 	interface Presenter extends BasePresenter {
-		void onLoadAccount();
+		void onLoadRecord();
 	}
 }

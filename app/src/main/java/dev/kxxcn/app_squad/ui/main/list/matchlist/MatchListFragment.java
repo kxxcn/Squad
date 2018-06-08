@@ -67,7 +67,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		mPresenter.onLoad();
+		mPresenter.onLoadList();
 	}
 
 	public static Fragment newInstance() {

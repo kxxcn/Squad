@@ -31,7 +31,7 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 	}
 
 	@Override
-	public void onLoad() {
+	public void onLoadList() {
 		if (mMatchListView == null && mCurrentFiltering == null) {
 			return;
 		}
