@@ -3,6 +3,7 @@ package dev.kxxcn.app_squad.data;
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
 
 /**
@@ -31,6 +32,12 @@ public abstract class DataSource {
 		void onFailure(Throwable throwable);
 	}
 
+	public interface GetLoadAccountCallback {
+		void onSuccess(User user);
+
+		void onFailure(Throwable throwable);
+	}
+
 	public abstract void onSignup(GetSignupCallback callback, String email, String password, String team);
 
 	public abstract void onLogin(GetCommonCallback callback, String email, String password);
@@ -40,5 +47,7 @@ public abstract class DataSource {
 	public abstract void onLoad(GetLoadCallback callback, Constants.ListsFilterType requestType);
 
 	public abstract void onRegister(GetCommonCallback callback, Information information, Constants.ListsFilterType requestType);
+
+	public abstract void onLoadAccount(GetLoadAccountCallback callback);
 
 }

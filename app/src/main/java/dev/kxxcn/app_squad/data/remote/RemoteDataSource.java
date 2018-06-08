@@ -213,6 +213,23 @@ public class RemoteDataSource extends DataSource {
 		});
 	}
 
+	@Override
+	public void onLoadAccount(final GetLoadAccountCallback callback) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_USER).child(mAuth.getCurrentUser().getUid());
+		reference.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				User user = dataSnapshot.getValue(User.class);
+				callback.onSuccess(user);
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+				callback.onFailure(databaseError.toException());
+			}
+		});
+	}
+
 	/**
 	 * 팀명 중복 체크
 	 *

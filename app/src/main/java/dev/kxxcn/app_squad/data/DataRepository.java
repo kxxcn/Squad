@@ -3,6 +3,7 @@ package dev.kxxcn.app_squad.data;
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
 
 /**
@@ -101,6 +102,20 @@ public class DataRepository {
 				callback.onFailure(throwable);
 			}
 		}, information, requestType);
+	}
+
+	public void onLoadAccount(final DataSource.GetLoadAccountCallback callback) {
+		dataSource.onLoadAccount(new DataSource.GetLoadAccountCallback() {
+			@Override
+			public void onSuccess(User user) {
+				callback.onSuccess(user);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		});
 	}
 
 }
