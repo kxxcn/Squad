@@ -124,7 +124,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 		UiThread.getInstance().post(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getContext(), getString(R.string.list_successfully_requested), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getContext(), getString(R.string.list_successfully_request), Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -134,7 +134,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 		UiThread.getInstance().post(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getContext(), getString(R.string.list_unsuccessfully_requested), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getContext(), getString(R.string.list_unsuccessfully_request), Toast.LENGTH_SHORT).show();
 			}
 		});
 
