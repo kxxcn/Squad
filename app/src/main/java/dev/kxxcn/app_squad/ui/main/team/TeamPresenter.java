@@ -2,6 +2,7 @@ package dev.kxxcn.app_squad.ui.main.team;
 
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
+import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Dlog;
 
@@ -29,7 +30,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 			@Override
 			public void onSuccess(User user) {
 				try {
-					mTeamView.setToolbarTitle(user.getTeam());
+
 				} catch (NullPointerException e) {
 					onLogout();
 					e.printStackTrace();
@@ -52,7 +53,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 		mDataRepository.onLoadAccount(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
-
+				mTeamView.setToolbarTitle(Account.getInstance().getTeam());
 			}
 
 			@Override
