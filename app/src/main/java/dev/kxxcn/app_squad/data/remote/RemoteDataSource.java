@@ -151,7 +151,9 @@ public class RemoteDataSource extends DataSource {
 							for (DataSnapshot childSnapshot : parentSnapshot.getChildren()) {
 								Dlog.i("Child : " + childSnapshot.getValue());
 								final Information information = childSnapshot.getValue(Information.class);
-								list.add(information);
+								if (!information.isConnect()) {
+									list.add(information);
+								}
 							}
 						}
 
