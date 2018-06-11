@@ -6,14 +6,14 @@ import retrofit2.Retrofit;
  * Created by kxxcn on 2018-05-01.
  */
 
-public interface ApiService {
+public interface APIService {
 
 	class Factory {
-		public static ApiService create() {
+		public static APIService create() {
 			Retrofit retrofit = new Retrofit.Builder()
 					.baseUrl("")
 					.build();
-			return retrofit.create(ApiService.class);
+			return retrofit.create(APIService.class);
 		}
 	}
 
