@@ -74,8 +74,8 @@
     <string name="list_schedule">%s %s</string>
     <string name="list_request">요청</string>
     <string name="list_complete">완료</string>
-    <string name="list_successfully_requested">경기를 요청했습니다.</string>
-    <string name="list_unsuccessfully_requested">경기를 요청을 실패했습니다.</string>
+    <string name="list_successfully_request">경기를 요청했습니다.</string>
+    <string name="list_unsuccessfully_request">요청을 실패했습니다.</string>
     <string name="list_request_match">[%s]팀에서 경기를 요청했습니다.</string>
 
     <!-- LOG -->
