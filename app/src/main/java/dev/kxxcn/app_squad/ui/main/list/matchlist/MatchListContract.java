@@ -14,6 +14,12 @@ import dev.kxxcn.app_squad.util.Constants;
 public interface MatchListContract {
 	interface View extends BaseView<Presenter> {
 		void showMatchList(List<Information> list);
+
+		void showSuccessfullyRequested();
+
+		void showUnuccessfullyRequested();
+
+		void showErrorNoData();
 	}
 
 	interface Presenter extends BasePresenter {
@@ -21,8 +27,9 @@ public interface MatchListContract {
 
 		void onLoadList();
 
-		void onRequest(Information information);
+		void onRequest(String to, String title, String message);
 	}
+
 	interface ItemClickListener {
 		void onClick(int position);
 	}

@@ -13,11 +13,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.json.JSONObject;
+
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.DataSource;
+import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
@@ -32,10 +39,18 @@ import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 
 public class RemoteDataSource extends DataSource {
 
-	private static final String COLLECTION_USER = "user";
-	private static final String COLLECTION_MATCH = "match";
-	private static final String COLLECTION_RECRUITMENT = "recruitment";
-	private static final String COLLECTION_PLAYER = "player";
+	private static final String COLLECTION_NAME_USER = "user";
+	private static final String COLLECTION_NAME_MATCH = "match";
+	private static final String COLLECTION_NAME_RECRUITMENT = "recruitment";
+	private static final String COLLECTION_NAME_PLAYER = "player";
+
+	private static final String FCM_SERVER_URL = "https://fcm.googleapis.com/fcm/send";
+	private static final String FCM_SERVER_KEY = "AAAAogOTo-4:APA91bEJaeSUvNeumE60WxDyc96lzl-wRck3tWw-i6g4j0_EAk2_IKv7lPWUmh2DQ5xP6pYTg-LMzac4MGtxM9PHzl6f43i7ObCTHbeIxBwIibATL2JIYIZ0B_EpyBPBOq6eTI4onSPc";
+
+	private static final String FCM_JSON_TITLE = "title";
+	private static final String FCM_JSON_MESSAGE = "message";
+	private static final String FCM_JSON_DATA = "data";
+	private static final String FCM_JSON_TO = "to";
 
 	private static RemoteDataSource remoteDataSource;
 
@@ -59,7 +74,7 @@ public class RemoteDataSource extends DataSource {
 
 	@Override
 	public void onSignup(final GetSignupCallback callback, final String email, final String password, final String team) {
-		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_USER);
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
@@ -91,8 +106,9 @@ public class RemoteDataSource extends DataSource {
 						public void onComplete(@NonNull Task<AuthResult> task) {
 							if (task.isSuccessful()) {
 								String uid = mAuth.getCurrentUser().getUid();
-								User user = new User(email, uid, team);
-								mReference.child(COLLECTION_USER).child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+								String token = FirebaseInstanceId.getInstance().getToken();
+								User user = new User(email, uid, team, token);
+								mReference.child(COLLECTION_NAME_USER).child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
 									@Override
 									public void onSuccess(Void aVoid) {
 										callback.onSuccess();
@@ -140,7 +156,7 @@ public class RemoteDataSource extends DataSource {
 	public void onLoadList(final GetLoadListCallback callback, Constants.ListsFilterType requestType) {
 		switch (requestType) {
 			case MATCH_LIST:
-				DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_MATCH);
+				DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH);
 				reference.addValueEventListener(new ValueEventListener() {
 					@Override
 					public void onDataChange(DataSnapshot dataSnapshot) {
@@ -175,54 +191,120 @@ public class RemoteDataSource extends DataSource {
 
 	@Override
 	public void onRegister(final GetCommonCallback callback, final Information information, final Constants.ListsFilterType requestType) {
-		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_USER).child(mAuth.getCurrentUser().getUid());
-		reference.addListenerForSingleValueEvent(new ValueEventListener() {
-			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
-				User user = dataSnapshot.getValue(User.class);
-				information.setTeam(user.getTeam());
-				String collection = null;
-				switch (requestType) {
-					case MATCH_LIST:
-						collection = COLLECTION_MATCH;
-						break;
-					case RECRUITMENT_LIST:
-						collection = COLLECTION_RECRUITMENT;
-						break;
-					case PLAYER_LIST:
-						collection = COLLECTION_PLAYER;
-						break;
-				}
+		information.setTeam(Account.getInstance().getTeam());
+		String collection = null;
+		switch (requestType) {
+			case MATCH_LIST:
+				collection = COLLECTION_NAME_MATCH;
+				break;
+			case RECRUITMENT_LIST:
+				collection = COLLECTION_NAME_RECRUITMENT;
+				break;
+			case PLAYER_LIST:
+				collection = COLLECTION_NAME_PLAYER;
+				break;
+		}
 
-				mReference.child(collection).child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION)).child(mAuth.getCurrentUser().getUid()).setValue(information)
-						.addOnSuccessListener(new OnSuccessListener<Void>() {
-							@Override
-							public void onSuccess(Void aVoid) {
-								callback.onSuccess();
-							}
-						}).addOnFailureListener(new OnFailureListener() {
+		mReference.child(collection).child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION)).child(mAuth.getCurrentUser().getUid()).setValue(information)
+				.addOnSuccessListener(new OnSuccessListener<Void>() {
 					@Override
-					public void onFailure(@NonNull Exception e) {
-						callback.onFailure(e);
+					public void onSuccess(Void aVoid) {
+						callback.onSuccess();
 					}
-				});
-			}
-
+				}).addOnFailureListener(new OnFailureListener() {
 			@Override
-			public void onCancelled(DatabaseError databaseError) {
-
+			public void onFailure(@NonNull Exception e) {
+				callback.onFailure(e);
 			}
 		});
 	}
 
 	@Override
 	public void onLoadRecord(final GetLoadRecordCallback callback) {
-		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_USER).child(mAuth.getCurrentUser().getUid());
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid());
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				User user = dataSnapshot.getValue(User.class);
 				callback.onSuccess(user);
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+				callback.onFailure(databaseError.toException());
+			}
+		});
+	}
+
+	@Override
+	public void onSendMessage(final GetSendMessageCallback callback, final String to, final String title, final String message) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
+		reference.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				List<User> userList = new ArrayList<>(0);
+				for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
+					userList.add(parentSnapshot.getValue(User.class));
+				}
+
+				User user = null;
+				for (int i = 0; i < userList.size(); i++) {
+					if (to.equals(userList.get(i).getEmail())) {
+						user = userList.get(i);
+					}
+				}
+				final String token = user.getToken();
+				if (token != null) {
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							try {
+								JSONObject root = new JSONObject();
+								JSONObject notification = new JSONObject();
+								notification.put(FCM_JSON_TITLE, title);
+								notification.put(FCM_JSON_MESSAGE, message);
+								root.put(FCM_JSON_DATA, notification);
+								root.put(FCM_JSON_TO, token);
+
+								URL Url = new URL(FCM_SERVER_URL);
+								HttpURLConnection conn = (HttpURLConnection) Url.openConnection();
+								conn.setRequestMethod("POST");
+								conn.setDoOutput(true);
+								conn.setDoInput(true);
+								conn.addRequestProperty("Authorization", "key=" + FCM_SERVER_KEY);
+								conn.setRequestProperty("Accept", "application/json");
+								conn.setRequestProperty("Content-type", "application/json");
+								OutputStream os = conn.getOutputStream();
+								os.write(root.toString().getBytes("utf-8"));
+								os.flush();
+								conn.getResponseCode();
+							} catch (Exception e) {
+								e.printStackTrace();
+							} finally {
+								callback.onSuccess();
+							}
+						}
+					}).start();
+				} else {
+					callback.onErrorNoData();
+				}
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+				callback.onFailure(databaseError.toException());
+			}
+		});
+	}
+
+	@Override
+	public void onLoadAccount(final GetCommonCallback callback) {
+		DatabaseReference accountReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid());
+		accountReference.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				new Account(dataSnapshot.getValue(User.class));
+				callback.onSuccess();
 			}
 
 			@Override

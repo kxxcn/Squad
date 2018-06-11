@@ -38,6 +38,14 @@ public abstract class DataSource {
 		void onFailure(Throwable throwable);
 	}
 
+	public interface GetSendMessageCallback {
+		void onSuccess();
+
+		void onFailure(Throwable throwable);
+
+		void onErrorNoData();
+	}
+
 	public abstract void onSignup(GetSignupCallback callback, String email, String password, String team);
 
 	public abstract void onLogin(GetCommonCallback callback, String email, String password);
@@ -49,5 +57,9 @@ public abstract class DataSource {
 	public abstract void onRegister(GetCommonCallback callback, Information information, Constants.ListsFilterType requestType);
 
 	public abstract void onLoadRecord(GetLoadRecordCallback callback);
+
+	public abstract void onSendMessage(GetSendMessageCallback callback, String to, String title, String message);
+
+	public abstract void onLoadAccount(GetCommonCallback callback);
 
 }

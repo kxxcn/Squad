@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -21,9 +22,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
+import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.Constants;
+import dev.kxxcn.app_squad.util.threading.UiThread;
 
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
@@ -113,7 +116,38 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 
 	@Override
 	public void onClick(int position) {
-		mPresenter.onRequest(mList.get(position));
+		mPresenter.onRequest(mList.get(position).getEmail(), getString(R.string.app_name), String.format(getString(R.string.list_request_match), Account.getInstance().getTeam()));
+	}
+
+	@Override
+	public void showSuccessfullyRequested() {
+		UiThread.getInstance().post(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getContext(), getString(R.string.list_successfully_requested), Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
+
+	@Override
+	public void showUnuccessfullyRequested() {
+		UiThread.getInstance().post(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getContext(), getString(R.string.list_unsuccessfully_requested), Toast.LENGTH_SHORT).show();
+			}
+		});
+
+	}
+
+	@Override
+	public void showErrorNoData() {
+		UiThread.getInstance().post(new Runnable() {
+			@Override
+			public void run() {
+
+			}
+		});
 	}
 
 }

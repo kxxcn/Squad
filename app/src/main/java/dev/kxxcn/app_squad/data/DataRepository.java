@@ -118,4 +118,37 @@ public class DataRepository {
 		});
 	}
 
+	public void onSendMessage(final DataSource.GetSendMessageCallback callback, String to, String title, String message) {
+		dataSource.onSendMessage(new DataSource.GetSendMessageCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+
+			@Override
+			public void onErrorNoData() {
+
+			}
+		}, to, title, message);
+	}
+
+	public void onLoadAccount(final DataSource.GetCommonCallback callback) {
+		dataSource.onLoadAccount(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		});
+	}
+
 }
