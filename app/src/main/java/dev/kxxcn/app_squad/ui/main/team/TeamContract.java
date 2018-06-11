@@ -10,9 +10,13 @@ import dev.kxxcn.app_squad.ui.BaseView;
 public interface TeamContract {
 	interface View extends BaseView<TeamContract.Presenter> {
 		void setToolbarTitle(String title);
+
+		void showErrorBadRequest();
 	}
 
 	interface Presenter extends BasePresenter {
 		void onLoadRecord();
+
+		void onLoadAccount();
 	}
 }
