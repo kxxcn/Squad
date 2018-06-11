@@ -71,11 +71,12 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 			@Override
 			public void onFailure(Throwable throwable) {
 				mMatchListView.showUnuccessfullyRequested();
+				Dlog.e(throwable.getMessage());
 			}
 
 			@Override
 			public void onErrorNoData() {
-
+				mMatchListView.showUnuccessfullyRequested();
 			}
 		}, to, title, message);
 	}

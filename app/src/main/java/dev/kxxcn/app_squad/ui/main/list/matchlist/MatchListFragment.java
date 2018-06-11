@@ -140,14 +140,4 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 
 	}
 
-	@Override
-	public void showErrorNoData() {
-		UiThread.getInstance().post(new Runnable() {
-			@Override
-			public void run() {
-
-			}
-		});
-	}
-
 }

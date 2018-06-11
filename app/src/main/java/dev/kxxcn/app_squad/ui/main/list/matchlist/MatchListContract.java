@@ -18,8 +18,6 @@ public interface MatchListContract {
 		void showSuccessfullyRequested();
 
 		void showUnuccessfullyRequested();
-
-		void showErrorNoData();
 	}
 
 	interface Presenter extends BasePresenter {
