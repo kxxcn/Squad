@@ -65,7 +65,6 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 			@Override
 			public void onSuccess() {
 				mMatchListView.showSuccessfullyRequested();
-
 			}
 
 			@Override
