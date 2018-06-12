@@ -15,11 +15,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import org.json.JSONObject;
-
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +22,14 @@ import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.User;
+import dev.kxxcn.app_squad.data.model.message.Data;
+import dev.kxxcn.app_squad.data.model.message.Send;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.Dlog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 
@@ -59,9 +59,12 @@ public class RemoteDataSource extends DataSource {
 
 	private boolean mIsDuplicate = false;
 
+	private APIService service;
+
 	public RemoteDataSource(FirebaseAuth auth, DatabaseReference reference) {
 		this.mAuth = auth;
 		this.mReference = reference;
+		this.service = APIService.Factory.create();
 	}
 
 	public static synchronized RemoteDataSource getInstance(FirebaseAuth firebaseAuth,
@@ -242,37 +245,26 @@ public class RemoteDataSource extends DataSource {
 					}
 				}
 				final String token = user.getToken();
-				if (token != null) {
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								JSONObject root = new JSONObject();
-								JSONObject notification = new JSONObject();
-								notification.put(FCM_JSON_TITLE, title);
-								notification.put(FCM_JSON_MESSAGE, message);
-								root.put(FCM_JSON_DATA, notification);
-								root.put(FCM_JSON_TO, token);
 
-								URL Url = new URL(FCM_SERVER_URL);
-								HttpURLConnection conn = (HttpURLConnection) Url.openConnection();
-								conn.setRequestMethod("POST");
-								conn.setDoOutput(true);
-								conn.setDoInput(true);
-								conn.addRequestProperty("Authorization", "key=" + FCM_SERVER_KEY);
-								conn.setRequestProperty("Accept", "application/json");
-								conn.setRequestProperty("Content-type", "application/json");
-								OutputStream os = conn.getOutputStream();
-								os.write(root.toString().getBytes("utf-8"));
-								os.flush();
-								conn.getResponseCode();
-							} catch (Exception e) {
-								e.printStackTrace();
-							} finally {
-								callback.onSuccess();
-							}
+				if (token != null) {
+					Data data = new Data();
+					data.setTitle(title);
+					data.setMessage(message);
+					Send send = new Send();
+					send.setTo(token);
+					send.setData(data);
+					Call<Void> call = service.sendMessage(send);
+					call.enqueue(new Callback<Void>() {
+						@Override
+						public void onResponse(Call<Void> call, Response<Void> response) {
+							callback.onSuccess();
 						}
-					}).start();
+
+						@Override
+						public void onFailure(Call<Void> call, Throwable t) {
+							callback.onFailure(t);
+						}
+					});
 				} else {
 					callback.onErrorNoData();
 				}
