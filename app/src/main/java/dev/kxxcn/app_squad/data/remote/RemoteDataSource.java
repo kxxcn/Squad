@@ -80,7 +80,7 @@ public class RemoteDataSource extends DataSource {
 		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 					User user = snapshot.getValue(User.class);
 					if (isDuplicate(team, user.getTeam())) {
@@ -95,7 +95,7 @@ public class RemoteDataSource extends DataSource {
 			}
 
 			@Override
-			public void onCancelled(DatabaseError databaseError) {
+			public void onCancelled(@NonNull DatabaseError databaseError) {
 				callback.onFailure(databaseError.toException());
 			}
 		});
@@ -162,7 +162,7 @@ public class RemoteDataSource extends DataSource {
 				DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH);
 				reference.addValueEventListener(new ValueEventListener() {
 					@Override
-					public void onDataChange(DataSnapshot dataSnapshot) {
+					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 						List<Information> list = new ArrayList<>(0);
 						for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
 							Dlog.v("Data Count: " + dataSnapshot.getChildrenCount());
@@ -180,7 +180,7 @@ public class RemoteDataSource extends DataSource {
 					}
 
 					@Override
-					public void onCancelled(DatabaseError databaseError) {
+					public void onCancelled(@NonNull DatabaseError databaseError) {
 						callback.onFailure(databaseError.toException());
 					}
 				});
@@ -232,7 +232,7 @@ public class RemoteDataSource extends DataSource {
 		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				List<User> userList = new ArrayList<>(0);
 				for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
 					userList.add(parentSnapshot.getValue(User.class));
@@ -256,7 +256,7 @@ public class RemoteDataSource extends DataSource {
 					Call<Void> call = service.sendMessage(send);
 					call.enqueue(new Callback<Void>() {
 						@Override
-						public void onResponse(Call<Void> call, Response<Void> response) {
+						public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
 							if (response.isSuccessful()) {
 								callback.onSuccess();
 							} else {
@@ -265,7 +265,7 @@ public class RemoteDataSource extends DataSource {
 						}
 
 						@Override
-						public void onFailure(Call<Void> call, Throwable t) {
+						public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
 							callback.onFailure(t);
 						}
 					});
@@ -275,7 +275,7 @@ public class RemoteDataSource extends DataSource {
 			}
 
 			@Override
-			public void onCancelled(DatabaseError databaseError) {
+			public void onCancelled(@NonNull DatabaseError databaseError) {
 				callback.onFailure(databaseError.toException());
 			}
 		});
@@ -286,13 +286,13 @@ public class RemoteDataSource extends DataSource {
 		DatabaseReference accountReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid());
 		accountReference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				new Account(dataSnapshot.getValue(User.class));
 				callback.onSuccess();
 			}
 
 			@Override
-			public void onCancelled(DatabaseError databaseError) {
+			public void onCancelled(@NonNull DatabaseError databaseError) {
 				callback.onFailure(databaseError.toException());
 			}
 		});
