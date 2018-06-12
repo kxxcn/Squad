@@ -137,7 +137,6 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 				Toast.makeText(getContext(), getString(R.string.list_unsuccessfully_request), Toast.LENGTH_SHORT).show();
 			}
 		});
-
 	}
 
 }

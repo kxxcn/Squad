@@ -44,14 +44,6 @@ public class RemoteDataSource extends DataSource {
 	private static final String COLLECTION_NAME_RECRUITMENT = "recruitment";
 	private static final String COLLECTION_NAME_PLAYER = "player";
 
-	private static final String FCM_SERVER_URL = "https://fcm.googleapis.com/fcm/send";
-	private static final String FCM_SERVER_KEY = "AAAAogOTo-4:APA91bEJaeSUvNeumE60WxDyc96lzl-wRck3tWw-i6g4j0_EAk2_IKv7lPWUmh2DQ5xP6pYTg-LMzac4MGtxM9PHzl6f43i7ObCTHbeIxBwIibATL2JIYIZ0B_EpyBPBOq6eTI4onSPc";
-
-	private static final String FCM_JSON_TITLE = "title";
-	private static final String FCM_JSON_MESSAGE = "message";
-	private static final String FCM_JSON_DATA = "data";
-	private static final String FCM_JSON_TO = "to";
-
 	private static RemoteDataSource remoteDataSource;
 
 	private FirebaseAuth mAuth;
