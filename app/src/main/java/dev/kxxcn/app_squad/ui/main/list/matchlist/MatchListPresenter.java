@@ -75,7 +75,7 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 			}
 
 			@Override
-			public void onErrorNoData() {
+			public void onError() {
 				mMatchListView.showUnuccessfullyRequested();
 			}
 		}, to, title, message);

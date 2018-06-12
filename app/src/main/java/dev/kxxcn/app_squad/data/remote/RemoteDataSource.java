@@ -257,7 +257,11 @@ public class RemoteDataSource extends DataSource {
 					call.enqueue(new Callback<Void>() {
 						@Override
 						public void onResponse(Call<Void> call, Response<Void> response) {
-							callback.onSuccess();
+							if (response.isSuccessful()) {
+								callback.onSuccess();
+							} else {
+								callback.onError();
+							}
 						}
 
 						@Override
@@ -266,7 +270,7 @@ public class RemoteDataSource extends DataSource {
 						}
 					});
 				} else {
-					callback.onErrorNoData();
+					callback.onError();
 				}
 			}
 

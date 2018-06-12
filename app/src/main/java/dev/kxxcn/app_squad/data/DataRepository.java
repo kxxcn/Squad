@@ -131,7 +131,7 @@ public class DataRepository {
 			}
 
 			@Override
-			public void onErrorNoData() {
+			public void onError() {
 
 			}
 		}, to, title, message);

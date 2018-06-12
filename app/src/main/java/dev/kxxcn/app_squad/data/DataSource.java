@@ -43,7 +43,7 @@ public abstract class DataSource {
 
 		void onFailure(Throwable throwable);
 
-		void onErrorNoData();
+		void onError();
 	}
 
 	public abstract void onSignup(GetSignupCallback callback, String email, String password, String team);
