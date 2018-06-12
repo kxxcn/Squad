@@ -60,6 +60,8 @@ dependencies {
 
     /*  Retrofit2 */
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
 
     /* Spin Kit */
     implementation 'com.github.ybq:Android-SpinKit:1.1.0'
@@ -68,10 +70,10 @@ dependencies {
     implementation 'com.github.HITGIF:TextFieldBoxes:1.4.3'
 
     /* Firebase */
-    implementation 'com.google.firebase:firebase-core:11.2.0'
-    implementation 'com.google.firebase:firebase-auth:11.2.0'
-    implementation 'com.google.firebase:firebase-database:11.2.0'
-    implementation 'com.google.firebase:firebase-messaging:11.2.0'
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.google.firebase:firebase-auth:16.0.1'
+    implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'com.google.firebase:firebase-messaging:17.0.0'
 
     /* Toggle Button */
     implementation 'com.zcw:togglebutton-library:1.0.0'
