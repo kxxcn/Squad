@@ -1,8 +1,11 @@
 package dev.kxxcn.app_squad.ui.main.team;
 
+import java.util.List;
+
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Account;
+import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Dlog;
 
@@ -82,4 +85,42 @@ public class TeamPresenter implements TeamContract.Presenter {
 		});
 	}
 
+	@Override
+	public void onLoadNotification() {
+		if (mTeamView == null) {
+			return;
+		}
+
+		mDataRepository.onLoadNotification(new DataSource.GetNotificationCallback() {
+			@Override
+			public void onSuccess(List<Notification> list) {
+				mTeamView.showSuccessLoadNotification(list);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				mTeamView.showFailureLoadNotification();
+			}
+		});
+	}
+
+	@Override
+	public void onReadNotification(List<Notification> notifications) {
+		if (mTeamView == null) {
+			return;
+		}
+
+		mDataRepository.onReadNotification(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+
+			}
+		}, notifications);
+
+	}
 }

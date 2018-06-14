@@ -5,34 +5,46 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.andremion.counterfab.CounterFab;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
+import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.ui.login.LoginActivity;
+
+import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
+import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
 
 /**
  * Created by kxxcn on 2018-04-26.
  */
-public class TeamFragment extends Fragment implements TeamContract.View {
+public class TeamFragment extends Fragment implements TeamContract.View, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
 	@BindView(R.id.rv_team)
 	RecyclerView rv_team;
@@ -44,13 +56,26 @@ public class TeamFragment extends Fragment implements TeamContract.View {
 	ImageView iv_collapsing;
 
 	@BindView(R.id.fab)
-	FloatingActionButton fab;
+	CounterFab fab;
+
+	@BindView(R.id.navigation_drawer)
+	DrawerLayout navigation_drawer;
+	@BindView(R.id.navigation_view)
+	NavigationView navigation_view;
+	@BindView(R.id.rv_notification)
+	RecyclerView rv_notification;
+
+	@BindView(R.id.include_drawer_header)
+	View include_drawer_header;
 
 	private TeamContract.Presenter mPresenter;
 
 	private int[] imgs = {R.drawable.team_banner1, R.drawable.team_banner2, R.drawable.team_banner3,
 			R.drawable.team_banner4, R.drawable.team_banner5, R.drawable.team_banner6, R.drawable.team_banner7,
 			R.drawable.team_banner8, R.drawable.team_banner9, R.drawable.team_banner10};
+
+	private List<Notification> notifications;
+	private List<Notification> unReadNotifications;
 
 	@Override
 	public void setPresenter(TeamContract.Presenter presenter) {
@@ -66,6 +91,12 @@ public class TeamFragment extends Fragment implements TeamContract.View {
 		new TeamPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(
 				FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().getReference())));
 
+		navigation_drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+		navigation_view.setNavigationItemSelectedListener(this);
+
+		ImageButton ib_cancel = view.findViewById(R.id.ib_cancel);
+		ib_cancel.setOnClickListener(this);
+
 		return view;
 	}
 
@@ -74,10 +105,10 @@ public class TeamFragment extends Fragment implements TeamContract.View {
 		super.onViewCreated(view, savedInstanceState);
 		mPresenter.onLoadAccount();
 		mPresenter.onLoadRecord();
+		mPresenter.onLoadNotification();
 		Glide.with(this).load(imgs[new Random().nextInt(imgs.length)]).diskCacheStrategy(DiskCacheStrategy.NONE).into(iv_collapsing);
 		List<String> list = new ArrayList<>(0);
-		TeamAdapter adapter = new TeamAdapter(list);
-		rv_team.setAdapter(adapter);
+		rv_team.setAdapter(new TeamAdapter(list));
 	}
 
 	public static Fragment newInstance() {
@@ -98,6 +129,77 @@ public class TeamFragment extends Fragment implements TeamContract.View {
 	public void showErrorBadRequest() {
 		getContext().startActivity(new Intent(getContext(), LoginActivity.class));
 		getActivity().finish();
+	}
+
+	@Override
+	public void showSuccessLoadNotification(List<Notification> list) {
+		notifications = new ArrayList<>(0);
+		unReadNotifications = new ArrayList<>(0);
+		notifications = list;
+		for (int i = 0; i < notifications.size(); i++) {
+			if (!notifications.get(i).isCheck()) {
+				unReadNotifications.add(notifications.get(i));
+			}
+		}
+		fab.setCount(unReadNotifications.size());
+
+		Collections.sort(notifications, new Compare());
+		rv_notification.setAdapter(new NotificationAdapter(notifications));
+	}
+
+	@Override
+	public void showFailureLoadNotification() {
+
+	}
+
+	@OnClick(R.id.fab)
+	public void onClickFab() {
+		if (unReadNotifications.size() != 0) {
+			fab.setCount(0);
+			for (int i = 0; i < unReadNotifications.size(); i++) {
+				unReadNotifications.get(i).setCheck(true);
+			}
+			mPresenter.onReadNotification(unReadNotifications);
+		}
+		if (notifications.size() != 0) {
+			navigation_drawer.openDrawer(GravityCompat.END);
+		} else {
+
+		}
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+		navigation_drawer.closeDrawer(GravityCompat.END);
+		return true;
+	}
+
+	@Override
+	public void onClick(View v) {
+		navigation_drawer.closeDrawer(GravityCompat.END);
+	}
+
+	class Compare implements Comparator<Notification> {
+		@Override
+		public int compare(Notification o1, Notification o2) {
+			int ret = 0;
+			String date1 = o1.getTimestamp().substring(0, o1.getTimestamp().indexOf(" "));
+			String date2 = o2.getTimestamp().substring(0, o2.getTimestamp().indexOf(" "));
+			if (date1.equals(date2)) {
+				String time1 = o1.getTimestamp().substring(o1.getTimestamp().indexOf(" ") + 1, o1.getTimestamp().length());
+				String time2 = o2.getTimestamp().substring(o2.getTimestamp().indexOf(" ") + 1, o2.getTimestamp().length());
+				if (time1.length() == FORMAT_LENGTH) {
+					time1 = FORMAT_CHARACTER + time1;
+				}
+				if (time2.length() == FORMAT_LENGTH) {
+					time2 = FORMAT_CHARACTER + time2;
+				}
+				ret = time2.compareTo(time1);
+			} else {
+				ret = date2.compareTo(date1);
+			}
+			return ret;
+		}
 	}
 
 }

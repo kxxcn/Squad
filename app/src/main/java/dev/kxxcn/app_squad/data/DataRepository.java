@@ -3,6 +3,7 @@ package dev.kxxcn.app_squad.data;
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
 
@@ -118,7 +119,7 @@ public class DataRepository {
 		});
 	}
 
-	public void onSendMessage(final DataSource.GetSendMessageCallback callback, String to, String title, String message) {
+	public void onSendMessage(final DataSource.GetSendMessageCallback callback, String to, String title, String message, String from) {
 		dataSource.onSendMessage(new DataSource.GetSendMessageCallback() {
 			@Override
 			public void onSuccess() {
@@ -134,7 +135,7 @@ public class DataRepository {
 			public void onError() {
 
 			}
-		}, to, title, message);
+		}, to, title, message, from);
 	}
 
 	public void onLoadAccount(final DataSource.GetCommonCallback callback) {
@@ -149,6 +150,34 @@ public class DataRepository {
 				callback.onFailure(throwable);
 			}
 		});
+	}
+
+	public void onLoadNotification(final DataSource.GetNotificationCallback callback) {
+		dataSource.onLoadNotification(new DataSource.GetNotificationCallback() {
+			@Override
+			public void onSuccess(List<Notification> list) {
+				callback.onSuccess(list);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		});
+	}
+
+	public void onReadNotification(final DataSource.GetCommonCallback callback, List<Notification> notifications) {
+		dataSource.onReadNotification(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, notifications);
 	}
 
 }

@@ -21,6 +21,7 @@ import java.util.List;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.model.message.Data;
 import dev.kxxcn.app_squad.data.model.message.Send;
@@ -39,10 +40,12 @@ import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 
 public class RemoteDataSource extends DataSource {
 
-	private static final String COLLECTION_NAME_USER = "user";
+	public static final String COLLECTION_NAME_USER = "user";
 	private static final String COLLECTION_NAME_MATCH = "match";
 	private static final String COLLECTION_NAME_RECRUITMENT = "recruitment";
 	private static final String COLLECTION_NAME_PLAYER = "player";
+
+	public static final String DOCUMENT_NAME_MESSAGE = "message";
 
 	private static RemoteDataSource remoteDataSource;
 
@@ -157,10 +160,8 @@ public class RemoteDataSource extends DataSource {
 					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 						List<Information> list = new ArrayList<>(0);
 						for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
-							Dlog.v("Data Count: " + dataSnapshot.getChildrenCount());
-							Dlog.v("Parent Count: " + parentSnapshot.getChildrenCount());
 							for (DataSnapshot childSnapshot : parentSnapshot.getChildren()) {
-								Dlog.i("Child : " + childSnapshot.getValue());
+								Dlog.i(childSnapshot.getValue().toString());
 								final Information information = childSnapshot.getValue(Information.class);
 								if (!information.isConnect()) {
 									list.add(information);
@@ -220,7 +221,7 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onSendMessage(final GetSendMessageCallback callback, final String to, final String title, final String message) {
+	public void onSendMessage(final GetSendMessageCallback callback, final String to, final String title, final String message, final String from) {
 		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
@@ -229,7 +230,6 @@ public class RemoteDataSource extends DataSource {
 				for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
 					userList.add(parentSnapshot.getValue(User.class));
 				}
-
 				User user = null;
 				for (int i = 0; i < userList.size(); i++) {
 					if (to.equals(userList.get(i).getEmail())) {
@@ -242,9 +242,12 @@ public class RemoteDataSource extends DataSource {
 					Data data = new Data();
 					data.setTitle(title);
 					data.setMessage(message);
+					data.setSender(from);
+
 					Send send = new Send();
 					send.setTo(token);
 					send.setData(data);
+
 					Call<Void> call = service.sendMessage(send);
 					call.enqueue(new Callback<Void>() {
 						@Override
@@ -288,6 +291,34 @@ public class RemoteDataSource extends DataSource {
 				callback.onFailure(databaseError.toException());
 			}
 		});
+	}
+
+	@Override
+	public void onLoadNotification(final GetNotificationCallback callback) {
+		final DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid()).child(DOCUMENT_NAME_MESSAGE);
+		reference.addValueEventListener(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				List<Notification> list = new ArrayList<>(0);
+				for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+					list.add(snapshot.getValue(Notification.class));
+				}
+				callback.onSuccess(list);
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				callback.onFailure(databaseError.toException());
+			}
+		});
+	}
+
+	@Override
+	public void onReadNotification(GetCommonCallback callback, final List<Notification> notifications) {
+		final DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid()).child(DOCUMENT_NAME_MESSAGE);
+		for (int i = 0; i < notifications.size(); i++) {
+			reference.child(String.valueOf(notifications.get(i).getKey())).setValue(notifications.get(i));
+		}
 	}
 
 	/**

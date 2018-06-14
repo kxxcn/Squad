@@ -3,6 +3,7 @@ package dev.kxxcn.app_squad.data;
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
 
@@ -46,6 +47,12 @@ public abstract class DataSource {
 		void onError();
 	}
 
+	public interface GetNotificationCallback {
+		void onSuccess(List<Notification> list);
+
+		void onFailure(Throwable throwable);
+	}
+
 	public abstract void onSignup(GetSignupCallback callback, String email, String password, String team);
 
 	public abstract void onLogin(GetCommonCallback callback, String email, String password);
@@ -58,8 +65,12 @@ public abstract class DataSource {
 
 	public abstract void onLoadRecord(GetLoadRecordCallback callback);
 
-	public abstract void onSendMessage(GetSendMessageCallback callback, String to, String title, String message);
+	public abstract void onSendMessage(GetSendMessageCallback callback, String to, String title, String message, String from);
 
 	public abstract void onLoadAccount(GetCommonCallback callback);
+
+	public abstract void onLoadNotification(GetNotificationCallback callback);
+
+	public abstract void onReadNotification(GetCommonCallback callback, List<Notification> notifications);
 
 }
