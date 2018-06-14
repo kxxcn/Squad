@@ -80,6 +80,9 @@ dependencies {
 
     /* Navigation Tab Strip */
     implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
+
+    /* Counter Fab */
+    implementation 'com.github.andremion:counterfab:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
