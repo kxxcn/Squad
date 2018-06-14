@@ -14,6 +14,9 @@ public class Data {
 	@SerializedName("message")
 	@Expose
 	private String message;
+	@SerializedName("sender")
+	@Expose
+	private String sender;
 
 	public String getTitle() {
 		return title;
@@ -29,5 +32,13 @@ public class Data {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getSender() {
+		return sender;
+	}
+
+	public void setSender(String sender) {
+		this.sender = sender;
 	}
 }
