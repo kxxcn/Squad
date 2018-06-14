@@ -78,6 +78,8 @@
     <string name="list_unsuccessfully_request">요청을 실패했습니다.</string>
     <string name="list_request_match">[%s]팀에서 경기를 요청했습니다.</string>
 
+    <string name="navigation_news">새 소식</string>
+
     <!-- LOG -->
     <string name="log_information">%s, %s, %s, %s, %s, %s, %s, %s, %s</string>
 </resources>

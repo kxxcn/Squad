@@ -41,4 +41,9 @@
     <color name="coordinator_primary">#c5cae9</color>
     <color name="coordinator_accent">#e8eaf6</color>
     <color name="coordinator_font">#e8eaf6</color>
+
+    <color name="navigation_text">#84797d</color>
+    <color name="navigation_sub_text">#bdbdbd</color>
+    <color name="navigation_division_line">#f3e7e7</color>
+    <color name="navigation_item_division_line">#fcf0f0</color>
 </resources>
