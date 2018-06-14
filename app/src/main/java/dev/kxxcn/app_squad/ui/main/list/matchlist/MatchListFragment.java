@@ -87,12 +87,6 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 		rv_list.setAdapter(adapter);
 	}
 
-	/**
-	 * 경기일정 별 정렬(내림차순)
-	 *
-	 * @author kxxcn
-	 * @since 2018-05-24 오후 1:57
-	 */
 	class Compare implements Comparator<Information> {
 		@Override
 		public int compare(Information o1, Information o2) {
@@ -116,7 +110,8 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 
 	@Override
 	public void onClick(int position) {
-		mPresenter.onRequest(mList.get(position).getEmail(), getString(R.string.app_name), String.format(getString(R.string.list_request_match), Account.getInstance().getTeam()));
+		mPresenter.onRequest(mList.get(position).getEmail(), getString(R.string.app_name), String.format(getString(R.string.list_request_match),
+				Account.getInstance().getTeam()), Account.getInstance().getUid());
 	}
 
 	@Override
