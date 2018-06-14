@@ -29,6 +29,7 @@ import java.util.TimeZone;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
+import dev.kxxcn.app_squad.util.Dlog;
 import dev.kxxcn.app_squad.util.SystemUtils;
 
 import static dev.kxxcn.app_squad.util.Constants.VIBRATE_NOTIFICATION;
@@ -51,7 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	public void onMessageReceived(RemoteMessage remoteMessage) {
 		if (remoteMessage.getData().isEmpty()) {
 			sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),
-					getString(R.string.app_name), 0);
+					getString(R.string.app_name), remoteMessage.getSentTime());
 		} else {
 			sendNotification(remoteMessage.getData().get(FCM_TITLE), remoteMessage.getData().get(FCM_MESSAGE),
 					remoteMessage.getData().get(FCM_SENDER), remoteMessage.getSentTime());
@@ -118,7 +119,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
-
+				Dlog.e(databaseError.getMessage());
 			}
 		});
 	}
