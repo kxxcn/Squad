@@ -45,6 +45,16 @@
                 android:layout_margin="20dp"
                 android:background="@drawable/ic_registration"/>
 
+            <ImageButton
+                android:id="@+id/ib_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/tv_title"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="20dp"
+                android:background="@drawable/ic_cancel"
+                android:visibility="gone"/>
+
         </RelativeLayout>
 
         <LinearLayout
@@ -493,11 +503,11 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:backgroundTint="@color/transparent"
+                                    android:hint="@string/input_inquiry"
                                     android:inputType="textMultiLine"
                                     android:lines="3"
-                                    android:paddingStart="45dp"
                                     android:paddingEnd="0dp"
-                                    android:hint="@string/input_inquiry"
+                                    android:paddingStart="45dp"
                                     android:scrollHorizontally="false"
                                     android:textSize="13sp"/>
 

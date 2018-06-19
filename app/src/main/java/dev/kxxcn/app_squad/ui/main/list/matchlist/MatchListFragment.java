@@ -1,5 +1,7 @@
 package dev.kxxcn.app_squad.ui.main.list.matchlist;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +29,7 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
+import dev.kxxcn.app_squad.ui.main.match.MatchDialog;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.threading.UiThread;
 
@@ -114,7 +119,15 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 			mPresenter.onRequest(mList.get(position).getEmail(), getString(R.string.app_name), String.format(getString(R.string.list_request_match),
 					Account.getInstance().getTeam()), Account.getInstance().getUid());
 		} else if (type == MatchListAdapter.INFORMATION) {
-
+			MatchDialog dialog = new MatchDialog(getActivity(), getContext(), MatchDialog.LIST, mList.get(position));
+			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+			WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+			params.copyFrom(dialog.getWindow().getAttributes());
+			params.width = WindowManager.LayoutParams.MATCH_PARENT;
+			params.height = WindowManager.LayoutParams.MATCH_PARENT;
+			dialog.show();
+			Window window = dialog.getWindow();
+			window.setAttributes(params);
 		}
 	}
 

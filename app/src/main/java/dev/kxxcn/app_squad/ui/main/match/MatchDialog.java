@@ -56,6 +56,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	private static final int MATCH = 0;
 	private static final int RECRUITMENT = 1;
 	private static final int PLAYER = 2;
+	public static final int LIST = 4;
 
 	private MatchContract.Presenter mPresenter;
 
@@ -97,6 +98,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	@BindView(R.id.ib_register)
 	ImageButton ib_register;
+	@BindView(R.id.ib_cancel)
+	ImageButton ib_cancel;
 
 	@BindView(R.id.progressbar)
 	ProgressBar progressBar;
@@ -118,16 +121,21 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	private FirebaseAuth mAuth;
 
+	private Information mInformation;
+
+	private boolean isUseable = true;
+
 	@Override
 	public void setPresenter(MatchContract.Presenter presenter) {
 		mPresenter = presenter;
 	}
 
-	public MatchDialog(@NonNull Activity activity, @NonNull Context context, int position) {
+	public MatchDialog(@NonNull Activity activity, @NonNull Context context, int position, Information information) {
 		super(context);
 		mActivity = activity;
 		mContext = context;
 		mPosition = position;
+		mInformation = information;
 		isEndTime = true;
 		mAuth = FirebaseAuth.getInstance();
 		new MatchPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(
@@ -178,19 +186,47 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				ll_place.setVisibility(View.GONE);
 				ll_time.setVisibility(View.GONE);
 				break;
+			case LIST:
+				isUseable = false;
+				tv_title.setText(mContext.getString(R.string.match_title_registration));
+				spinner_region.setText(mInformation.getRegion());
+				spinner_region.setEnabled(false);
+				et_place.setText(mInformation.getPlace());
+				et_place.setFocusable(false);
+				et_place.setClickable(false);
+				tv_date.setText(mInformation.getDate());
+				tv_time.setText(mInformation.getTime());
+				et_money.setText(mInformation.getMoney());
+				et_money.setFocusable(false);
+				et_money.setClickable(false);
+				spinner_rule.setText(mInformation.getRule());
+				spinner_rule.setEnabled(false);
+				et_inquiry.setText(mInformation.getInquiry());
+				et_inquiry.setFocusable(false);
+				et_inquiry.setClickable(false);
+				spinner_age.setText(mInformation.getAge());
+				spinner_age.setEnabled(false);
+				ib_cancel.setVisibility(View.VISIBLE);
+				ib_register.setVisibility(View.GONE);
+				ll_age.setVisibility(View.GONE);
+				break;
 		}
 	}
 
 	@OnClick(R.id.ll_date)
 	public void showDatePickerDialog() {
-		KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
-		DialogUtils.showDatePickerDialog(mContext, dateSetListener);
+		if (isUseable) {
+			KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
+			DialogUtils.showDatePickerDialog(mContext, dateSetListener);
+		}
 	}
 
 	@OnClick(R.id.ll_time)
 	public void showTimePickerDialog() {
-		KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
-		DialogUtils.showTimePickerDialog(mContext, timeSetListener);
+		if (isUseable) {
+			KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
+			DialogUtils.showTimePickerDialog(mContext, timeSetListener);
+		}
 	}
 
 	@OnClick(R.id.ib_register)
@@ -218,6 +254,11 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		} else {
 			Toast.makeText(mContext, getContext().getString(R.string.input_all), Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	@OnClick(R.id.ib_cancel)
+	public void onCancel() {
+		dismiss();
 	}
 
 	private boolean onVerifyUsability(View view, String str) {

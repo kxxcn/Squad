@@ -123,7 +123,7 @@ public class MatchAdpater extends PagerAdapter {
 	}
 
 	private void showRegistrationPage(int position) {
-		MatchDialog dialog = new MatchDialog(mActivity, mContext, position);
+		MatchDialog dialog = new MatchDialog(mActivity, mContext, position, null);
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 		WindowManager.LayoutParams params = new WindowManager.LayoutParams();
 		params.copyFrom(dialog.getWindow().getAttributes());
