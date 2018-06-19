@@ -29,6 +29,6 @@ public interface MatchListContract {
 	}
 
 	interface ItemClickListener {
-		void onClick(int position);
+		void onClick(int position, int type);
 	}
 }

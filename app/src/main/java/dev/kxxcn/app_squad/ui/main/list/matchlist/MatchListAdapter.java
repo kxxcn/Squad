@@ -1,6 +1,7 @@
 package dev.kxxcn.app_squad.ui.main.list.matchlist;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,9 @@ import dev.kxxcn.app_squad.util.StateButton;
  */
 
 public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.ViewHolder> {
+
+	public static final int REQUEST = 0;
+	public static final int INFORMATION = 1;
 
 	private Context mContext;
 	private List<Information> mList;
@@ -73,6 +77,9 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.View
 	}
 
 	static class ViewHolder extends RecyclerView.ViewHolder {
+		@BindView(R.id.cv_list)
+		CardView cv_list;
+
 		@BindView(R.id.tv_team)
 		TextView tv_team;
 		@BindView(R.id.tv_region)
@@ -94,7 +101,13 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.View
 			btn_request.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					itemClickListener.onClick(getAdapterPosition());
+					itemClickListener.onClick(getAdapterPosition(), REQUEST);
+				}
+			});
+			cv_list.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					itemClickListener.onClick(getAdapterPosition(), INFORMATION);
 				}
 			});
 		}
