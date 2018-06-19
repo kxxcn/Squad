@@ -1,5 +1,6 @@
 package dev.kxxcn.app_squad.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.PowerManager;
 import android.os.Vibrator;
@@ -29,6 +30,12 @@ public class SystemUtils {
 	public static void onVibrate(Context context, long time) {
 		Vibrator vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 		vibrator.vibrate(1000);
+	}
+
+	public static void onFinish(Activity activity) {
+		activity.moveTaskToBack(true);
+		activity.finish();
+		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 
 }

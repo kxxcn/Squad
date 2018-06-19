@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.util.SwipeViewPager;
+import dev.kxxcn.app_squad.util.SystemUtils;
 import dev.kxxcn.app_squad.util.TransitionUtils;
 import devlight.io.library.ntb.NavigationTabBar;
 
@@ -61,9 +62,7 @@ public class MainActivity extends AppCompatActivity {
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						moveTaskToBack(true);
-						finish();
-						android.os.Process.killProcess(android.os.Process.myPid());
+						SystemUtils.onFinish(MainActivity.this);
 					}
 				}).setNegativeButton(getString(R.string.no),
 				new DialogInterface.OnClickListener() {
