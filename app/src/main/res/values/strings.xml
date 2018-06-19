@@ -22,6 +22,7 @@
     <string name="match_title_match">매치등록</string>
     <string name="match_title_player">용병등록</string>
     <string name="match_title_recruitment">용병모집</string>
+    <string name="match_title_registration">등록정보</string>
 
     <string name="input_date">날짜를 입력하세요.</string>
     <string name="input_time">시간을 입력하세요.</string>
