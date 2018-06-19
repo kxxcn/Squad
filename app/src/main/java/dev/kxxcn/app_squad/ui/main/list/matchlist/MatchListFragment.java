@@ -113,7 +113,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 		if (type == MatchListAdapter.REQUEST) {
 			mPresenter.onRequest(mList.get(position).getEmail(), getString(R.string.app_name), String.format(getString(R.string.list_request_match),
 					Account.getInstance().getTeam()), Account.getInstance().getUid());
-		} else if(type==MatchListAdapter.INFORMATION){
+		} else if (type == MatchListAdapter.INFORMATION) {
 
 		}
 	}
