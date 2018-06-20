@@ -81,6 +81,9 @@
 
     <string name="navigation_news">새 소식</string>
 
+    <string name="team_notification_match">NEW</string>
+    <string name="team_no_notification">알림이력이 없습니다.</string>
+
     <!-- LOG -->
     <string name="log_information">%s, %s, %s, %s, %s, %s, %s, %s, %s</string>
 </resources>
