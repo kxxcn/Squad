@@ -29,6 +29,7 @@ import java.util.TimeZone;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
+import dev.kxxcn.app_squad.util.BusProvider;
 import dev.kxxcn.app_squad.util.Dlog;
 import dev.kxxcn.app_squad.util.SystemUtils;
 
@@ -40,26 +41,23 @@ import static dev.kxxcn.app_squad.util.Constants.VIBRATE_NOTIFICATION;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-	private final static String FCM_TITLE = "title";
-	private final static String FCM_MESSAGE = "message";
-	private final static String FCM_SENDER = "sender";
+	private static final String FCM_TITLE = "title";
+	private static final String FCM_MESSAGE = "message";
+	private static final String FCM_SENDER = "sender";
 
-	private final static boolean DID_NOT_CHECK = false;
+	private static final boolean DID_NOT_CHECK = false;
 
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.KOREA);
 
 	@Override
 	public void onMessageReceived(RemoteMessage remoteMessage) {
-		if (remoteMessage.getData().isEmpty()) {
-			sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),
-					getString(R.string.app_name), remoteMessage.getSentTime());
-		} else {
-			sendNotification(remoteMessage.getData().get(FCM_TITLE), remoteMessage.getData().get(FCM_MESSAGE),
-					remoteMessage.getData().get(FCM_SENDER), remoteMessage.getSentTime());
-		}
+		sendNotification(remoteMessage.getData().get(FCM_TITLE), remoteMessage.getData().get(FCM_MESSAGE),
+				remoteMessage.getData().get(FCM_SENDER), remoteMessage.getSentTime());
 	}
 
 	private void sendNotification(String title, String message, String from, long time) {
+		BusProvider.getInstance().post(MainActivity.SHOW_BADGE);
+
 		SystemUtils.onAcquire(this);
 		SystemUtils.onVibrate(this, VIBRATE_NOTIFICATION);
 
@@ -83,7 +81,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
 		NotificationCompat.Builder notificationBuilder;
-
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			NotificationChannel channel = new NotificationChannel(

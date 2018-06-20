@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
 import com.bumptech.glide.Glide;
@@ -37,6 +38,8 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.ui.login.LoginActivity;
+import dev.kxxcn.app_squad.ui.main.MainActivity;
+import dev.kxxcn.app_squad.util.BusProvider;
 
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
@@ -141,6 +144,11 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 				unReadNotifications.add(notifications.get(i));
 			}
 		}
+		if (unReadNotifications.size() != 0) {
+			BusProvider.getInstance().post(MainActivity.SHOW_BADGE);
+		} else {
+			BusProvider.getInstance().post(MainActivity.HIDE_BADGE);
+		}
 		fab.setCount(unReadNotifications.size());
 
 		Collections.sort(notifications, new Compare());
@@ -164,7 +172,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		if (notifications.size() != 0) {
 			navigation_drawer.openDrawer(GravityCompat.END);
 		} else {
-
+			Toast.makeText(getContext(), getString(R.string.team_no_notification), Toast.LENGTH_SHORT).show();
 		}
 	}
 
