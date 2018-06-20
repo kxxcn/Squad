@@ -29,7 +29,6 @@ import java.util.TimeZone;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
-import dev.kxxcn.app_squad.util.BusProvider;
 import dev.kxxcn.app_squad.util.Dlog;
 import dev.kxxcn.app_squad.util.SystemUtils;
 
@@ -56,8 +55,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	}
 
 	private void sendNotification(String title, String message, String from, long time) {
-		BusProvider.getInstance().post(MainActivity.SHOW_BADGE);
-
 		SystemUtils.onAcquire(this);
 		SystemUtils.onVibrate(this, VIBRATE_NOTIFICATION);
 
