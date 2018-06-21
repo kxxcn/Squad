@@ -3,13 +3,17 @@ package dev.kxxcn.app_squad.util;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.view.ContextThemeWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import dev.kxxcn.app_squad.R;
 
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_DATE;
@@ -50,6 +54,13 @@ public class DialogUtils {
 		TimePickerDialog timePickerDialog = new TimePickerDialog(instance, timeSetListener,
 				Integer.parseInt(hourOfDay), Integer.parseInt(minute), false);
 		timePickerDialog.show();
+	}
+
+	public static void showAlertDialog(Context context, String message, DialogInterface.OnClickListener positiveListener, DialogInterface.OnClickListener negativeListener) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setMessage(message);
+		builder.setPositiveButton(context.getString(R.string.yes), positiveListener)
+				.setNegativeButton(context.getString(R.string.no), negativeListener).show();
 	}
 
 	public static String getFormattedDate(String date, int type) {
