@@ -1,5 +1,7 @@
 package dev.kxxcn.app_squad.data.model;
 
+import java.util.List;
+
 /**
  * Created by kxxcn on 2018-05-18.
  */
@@ -17,7 +19,8 @@ public class Information {
 	private String inquiry;
 	private boolean isConnect;
 	private String team;
-	private String battle;
+	private String choice;
+	private List<String> join;
 
 	public Information() {
 
@@ -124,12 +127,20 @@ public class Information {
 		this.team = team;
 	}
 
-	public String getBattle() {
-		return battle;
+	public String getChoice() {
+		return choice;
 	}
 
-	public void setBattle(String battle) {
-		this.battle = battle;
+	public void setChoice(String choice) {
+		this.choice = choice;
+	}
+
+	public List<String> getJoin() {
+		return join;
+	}
+
+	public void setJoin(List<String> join) {
+		this.join = join;
 	}
 
 }
