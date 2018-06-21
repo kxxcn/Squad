@@ -18,6 +18,7 @@ import dev.kxxcn.app_squad.R;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_DATE;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
+import static dev.kxxcn.app_squad.util.Constants.SIMPLE_DATE_FORMAT2;
 import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 import static dev.kxxcn.app_squad.util.Constants.TYPE_SORT;
 
@@ -81,5 +82,12 @@ public class DialogUtils {
 				break;
 		}
 		return format;
+	}
+
+	public static String getDate() {
+		long now = System.currentTimeMillis();
+		Date date = new Date(now);
+		SimpleDateFormat format = new SimpleDateFormat(SIMPLE_DATE_FORMAT2, Locale.KOREA);
+		return format.format(date);
 	}
 }
