@@ -13,6 +13,8 @@
     <string name="input_confirm">비밀번호를 재입력하세요.</string>
     <string name="input_all">모든 항목을 입력하세요.</string>
     <string name="input_information">회원정보를 입력하세요.</string>
+    <string name="input_start_time">시작시간을 입력하세요.</string>
+    <string name="input_end_time">종료시간을 입력하세요.</string>
 
     <string name="navi_title_match">MATCH</string>
     <string name="navi_title_list">LIST</string>
