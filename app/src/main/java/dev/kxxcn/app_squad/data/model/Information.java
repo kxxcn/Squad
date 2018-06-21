@@ -17,6 +17,7 @@ public class Information {
 	private String inquiry;
 	private boolean isConnect;
 	private String team;
+	private String battle;
 
 	public Information() {
 
@@ -121,6 +122,14 @@ public class Information {
 
 	public void setTeam(String team) {
 		this.team = team;
+	}
+
+	public String getBattle() {
+		return battle;
+	}
+
+	public void setBattle(String battle) {
+		this.battle = battle;
 	}
 
 }
