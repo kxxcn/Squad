@@ -60,6 +60,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	private static final int PLAYER = 2;
 	public static final int LIST = 4;
 
+	private static final int LIMITED_LINE_COUNT = 3;
+
 	private MatchContract.Presenter mPresenter;
 
 	@BindView(R.id.spinner_region)
@@ -381,7 +383,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			if (et_inquiry.getLineCount() > 3) {
+			if (et_inquiry.getLineCount() > LIMITED_LINE_COUNT) {
 				et_inquiry.setText(previous);
 				et_inquiry.setSelection(et_inquiry.length());
 			}
