@@ -117,7 +117,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	public void onClick(int position, int type) {
 		if (type == MatchListAdapter.REQUEST) {
 			mPresenter.onRequest(mList.get(position).getEmail(), getString(R.string.app_name), String.format(getString(R.string.list_request_match),
-					Account.getInstance().getTeam()), Account.getInstance().getUid());
+					Account.getInstance().getTeam()), Account.getInstance().getUid(), mList.get(position).getDate().replace("-", ""));
 		} else if (type == MatchListAdapter.INFORMATION) {
 			MatchDialog dialog = new MatchDialog(getActivity(), getContext(), MatchDialog.LIST, mList.get(position));
 			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

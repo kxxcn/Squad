@@ -25,7 +25,7 @@ public interface MatchListContract {
 
 		void onLoadList();
 
-		void onRequest(String to, String title, String message, String from);
+		void onRequest(String to, String title, String message, String from, String date);
 	}
 
 	interface ItemClickListener {

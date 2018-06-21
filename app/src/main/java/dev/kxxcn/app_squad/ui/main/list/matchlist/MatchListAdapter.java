@@ -57,16 +57,21 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.View
 		} else {
 			holder.ll_mine.setVisibility(View.VISIBLE);
 			holder.tv_team.setTextColor(mContext.getResources().getColor(R.color.list_team));
-			if (mList.get(holder.getAdapterPosition()).isConnect()) {
-				holder.btn_request.setEnabled(false);
-				holder.btn_request.setRound(false);
-				holder.btn_request.setNormalStrokeColor(mContext.getResources().getColor(R.color.list_linked));
-				holder.btn_request.setNormalTextColor(mContext.getResources().getColor(R.color.list_linked));
-			} else {
-				holder.btn_request.setEnabled(true);
-				holder.btn_request.setRound(true);
-				holder.btn_request.setNormalStrokeColor(mContext.getResources().getColor(R.color.list_unlinked));
-				holder.btn_request.setNormalTextColor(mContext.getResources().getColor(R.color.list_unlinked));
+			holder.btn_request.setEnabled(true);
+			holder.btn_request.setRound(true);
+			holder.btn_request.setNormalStrokeColor(mContext.getResources().getColor(R.color.list_unlinked));
+			holder.btn_request.setNormalTextColor(mContext.getResources().getColor(R.color.list_unlinked));
+			for (int i = 0; i < mList.get(holder.getAdapterPosition()).getJoin().size(); i++) {
+				if (mList.get(holder.getAdapterPosition()).getJoin().get(i).equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+					holder.btn_request.setText(mContext.getString(R.string.list_checking));
+					holder.btn_request.setOnClickListener(null);
+					holder.btn_request.setRound(false);
+					holder.btn_request.setNormalStrokeColor(mContext.getResources().getColor(R.color.list_linked));
+					holder.btn_request.setNormalTextColor(mContext.getResources().getColor(R.color.list_linked));
+					holder.btn_request.setPressedStrokeColor(mContext.getResources().getColor(R.color.list_linked));
+					holder.btn_request.setPressedTextColor(mContext.getResources().getColor(R.color.list_linked));
+					break;
+				}
 			}
 		}
 	}

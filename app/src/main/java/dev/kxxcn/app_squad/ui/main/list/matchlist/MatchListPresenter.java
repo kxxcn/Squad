@@ -57,11 +57,11 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 	}
 
 	@Override
-	public void onRequest(String to, String title, String message, String from) {
+	public void onRequest(String to, String title, String message, String from, String date) {
 		if (mMatchListView == null) {
 			return;
 		}
-		mDataRepository.onSendMessage(new DataSource.GetSendMessageCallback() {
+		mDataRepository.onRequest(new DataSource.GetSendMessageCallback() {
 			@Override
 			public void onSuccess() {
 				mMatchListView.showSuccessfullyRequested();
@@ -77,7 +77,7 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 			public void onError() {
 				mMatchListView.showUnuccessfullyRequested();
 			}
-		}, to, title, message, from);
+		}, to, title, message, from, date);
 	}
 
 }
