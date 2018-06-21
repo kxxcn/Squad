@@ -37,12 +37,13 @@ public class DialogUtils {
 			// API 24 이상일 경우 시스템 기본 테마 사용
 			instance = context;
 		}
-		DatePickerDialog datePickerDialog = new DatePickerDialog(instance, dateSetListener, year, month, day);
+		DatePickerDialog datePickerDialog = new DatePickerDialog(instance, android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK, dateSetListener,
+				year, month, day);
 		datePickerDialog.getDatePicker().setMinDate(calendar.getTime().getTime());
 		datePickerDialog.show();
 	}
 
-	public static void showTimePickerDialog(Context context, TimePickerDialog.OnTimeSetListener timeSetListener) {
+	public static void showTimePickerDialog(Context context, TimePickerDialog.OnTimeSetListener timeSetListener, String title) {
 		Date hour = new Date();
 		String hourOfDay = new SimpleDateFormat("HH", Locale.KOREA).format(hour);
 		Date min = new Date();
@@ -52,8 +53,10 @@ public class DialogUtils {
 			// API 24 이상일 경우 시스템 기본 테마 사용
 			instance = context;
 		}
-		TimePickerDialog timePickerDialog = new TimePickerDialog(instance, timeSetListener,
-				Integer.parseInt(hourOfDay), Integer.parseInt(minute), false);
+		TimePickerDialog timePickerDialog = new TimePickerDialog(instance, android.R.style.Theme_Holo_Dialog, timeSetListener,
+				Integer.parseInt(hourOfDay), 0, false);
+		timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+		timePickerDialog.setTitle(title);
 		timePickerDialog.show();
 	}
 

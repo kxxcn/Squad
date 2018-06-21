@@ -232,7 +232,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	public void showTimePickerDialog() {
 		if (isUseable) {
 			KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
-			DialogUtils.showTimePickerDialog(mContext, timeSetListener);
+			DialogUtils.showTimePickerDialog(mContext, timeSetListener, getContext().getString(R.string.input_start_time));
 		}
 	}
 
@@ -324,7 +324,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 			} else {
 				mStartHour = hourOfDay;
 				mStartTime = String.format(mContext.getString(R.string.select_time), hourOfDay, formattedMin);
-				DialogUtils.showTimePickerDialog(mContext, timeSetListener);
+				DialogUtils.showTimePickerDialog(mContext, timeSetListener, getContext().getString(R.string.input_end_time));
 			}
 		}
 	};
