@@ -54,7 +54,7 @@ public abstract class DataSource {
 	}
 
 	public interface GetInformationCallback {
-		void onSuccess(boolean isConnect);
+		void onSuccess(Information information);
 
 		void onFailure(Throwable throwable);
 	}

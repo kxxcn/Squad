@@ -238,8 +238,10 @@ public class RemoteDataSource extends DataSource {
 				for (int i = 0; i < userList.size(); i++) {
 					if (to.equals(userList.get(i).getEmail())) {
 						user = userList.get(i);
+						break;
 					}
 				}
+
 				final String token = user.getToken();
 
 				if (token != null) {
@@ -377,7 +379,7 @@ public class RemoteDataSource extends DataSource {
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				try {
 					Information information = dataSnapshot.getValue(Information.class);
-					callback.onSuccess(information.isConnect());
+					callback.onSuccess(information);
 				} catch (NullPointerException e) {
 					e.printStackTrace();
 				}

@@ -2,6 +2,7 @@ package dev.kxxcn.app_squad.ui.main.team;
 
 import java.util.List;
 
+import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.ui.BasePresenter;
 import dev.kxxcn.app_squad.ui.BaseView;
@@ -20,7 +21,7 @@ public interface TeamContract {
 
 		void showFailureLoadNotification();
 
-		void showSuccessTeamDialog();
+		void showSuccessTeamDialog(Information information);
 
 		void showFailureTeamDialog();
 	}

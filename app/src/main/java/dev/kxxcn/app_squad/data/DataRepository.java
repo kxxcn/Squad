@@ -197,8 +197,8 @@ public class DataRepository {
 	public void isConnectedMatch(final DataSource.GetInformationCallback callback, String date) {
 		dataSource.isConnectedMatch(new DataSource.GetInformationCallback() {
 			@Override
-			public void onSuccess(boolean isConnect) {
-				callback.onSuccess(isConnect);
+			public void onSuccess(Information information) {
+				callback.onSuccess(information);
 			}
 
 			@Override

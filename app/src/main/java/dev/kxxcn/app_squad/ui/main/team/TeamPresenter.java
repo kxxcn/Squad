@@ -5,6 +5,7 @@ import java.util.List;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Account;
+import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Dlog;
@@ -132,9 +133,9 @@ public class TeamPresenter implements TeamContract.Presenter {
 
 		mDataRepository.isConnectedMatch(new DataSource.GetInformationCallback() {
 			@Override
-			public void onSuccess(boolean isConnect) {
-				if (!isConnect) {
-					mTeamView.showSuccessTeamDialog();
+			public void onSuccess(Information information) {
+				if (!information.isConnect()) {
+					mTeamView.showSuccessTeamDialog(information);
 				} else {
 					mTeamView.showFailureTeamDialog();
 				}
