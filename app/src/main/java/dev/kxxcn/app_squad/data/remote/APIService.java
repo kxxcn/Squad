@@ -13,10 +13,10 @@ import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
-import static dev.kxxcn.app_squad.data.remote.APIPersistence.DATE_FORMAT;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.FCM_SERVER_KEY;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.FCM_SERVER_URL;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.SEND_MESSAGE;
+import static dev.kxxcn.app_squad.util.Constants.GSON_DATE_FORMAT;
 
 /**
  * Created by kxxcn on 2018-05-01.
@@ -27,7 +27,7 @@ public interface APIService {
 	class Factory {
 		static APIService create() {
 			Gson gson = new GsonBuilder()
-					.setDateFormat(DATE_FORMAT)
+					.setDateFormat(GSON_DATE_FORMAT)
 					.create();
 			GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gson);
 
