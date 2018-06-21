@@ -41,11 +41,12 @@ import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 public class RemoteDataSource extends DataSource {
 
 	public static final String COLLECTION_NAME_USER = "user";
-	private static final String COLLECTION_NAME_MATCH = "match";
+	public static final String COLLECTION_NAME_MATCH = "match";
 	private static final String COLLECTION_NAME_RECRUITMENT = "recruitment";
 	private static final String COLLECTION_NAME_PLAYER = "player";
 
 	public static final String DOCUMENT_NAME_MESSAGE = "message";
+	public static final String DOCUMENT_NAME_JOIN = "join";
 
 	private static RemoteDataSource remoteDataSource;
 
@@ -187,7 +188,10 @@ public class RemoteDataSource extends DataSource {
 
 	@Override
 	public void onRegister(final GetCommonCallback callback, final Information information, final Constants.ListsFilterType requestType) {
+		List<String> joinList = new ArrayList<>(0);
+		joinList.add("SQUAD");
 		information.setTeam(Account.getInstance().getTeam());
+		information.setJoin(joinList);
 		String collection = null;
 		switch (requestType) {
 			case MATCH_LIST:
@@ -221,7 +225,7 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onSendMessage(final GetSendMessageCallback callback, final String to, final String title, final String message, final String from) {
+	public void onRequest(final GetSendMessageCallback callback, final String to, final String title, final String message, final String from, final String date) {
 		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
@@ -243,6 +247,7 @@ public class RemoteDataSource extends DataSource {
 					data.setTitle(title);
 					data.setMessage(message);
 					data.setSender(from);
+					data.setDate(date);
 
 					Send send = new Send();
 					send.setTo(token);
@@ -322,17 +327,65 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onRemove(final GetCommonCallback callback, String date) {
+	public void onRemove(final GetCommonCallback callback, final String date) {
 		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
 		reference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
 			@Override
 			public void onSuccess(Void aVoid) {
+				final DatabaseReference userReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid()).child(DOCUMENT_NAME_MESSAGE);
+				userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+					@Override
+					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+						for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
+							Notification notification = parentSnapshot.getValue(Notification.class);
+							if (notification.getDate().equals(date)) {
+								userReference.child(String.valueOf(notification.getKey())).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+									@Override
+									public void onSuccess(Void aVoid) {
+										callback.onSuccess();
+									}
+								}).addOnFailureListener(new OnFailureListener() {
+									@Override
+									public void onFailure(@NonNull Exception e) {
+										callback.onFailure(e.getCause());
+									}
+								});
+							}
+						}
+					}
+
+					@Override
+					public void onCancelled(@NonNull DatabaseError databaseError) {
+						callback.onFailure(databaseError.toException());
+					}
+				});
 				callback.onSuccess();
 			}
 		}).addOnFailureListener(new OnFailureListener() {
 			@Override
 			public void onFailure(@NonNull Exception e) {
 				callback.onFailure(e.getCause());
+			}
+		});
+	}
+
+	@Override
+	public void isConnectedMatch(final GetInformationCallback callback, String date) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
+		reference.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				try {
+					Information information = dataSnapshot.getValue(Information.class);
+					callback.onSuccess(information.isConnect());
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				callback.onFailure(databaseError.toException());
 			}
 		});
 	}

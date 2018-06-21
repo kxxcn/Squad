@@ -53,6 +53,12 @@ public abstract class DataSource {
 		void onFailure(Throwable throwable);
 	}
 
+	public interface GetInformationCallback {
+		void onSuccess(boolean isConnect);
+
+		void onFailure(Throwable throwable);
+	}
+
 	public abstract void onSignup(GetSignupCallback callback, String email, String password, String team);
 
 	public abstract void onLogin(GetCommonCallback callback, String email, String password);
@@ -65,7 +71,7 @@ public abstract class DataSource {
 
 	public abstract void onLoadRecord(GetLoadRecordCallback callback);
 
-	public abstract void onSendMessage(GetSendMessageCallback callback, String to, String title, String message, String from);
+	public abstract void onRequest(GetSendMessageCallback callback, String to, String title, String message, String from, String date);
 
 	public abstract void onLoadAccount(GetCommonCallback callback);
 
@@ -74,5 +80,7 @@ public abstract class DataSource {
 	public abstract void onReadNotification(GetCommonCallback callback, List<Notification> notifications);
 
 	public abstract void onRemove(GetCommonCallback callback, String date);
+
+	public abstract void isConnectedMatch(GetInformationCallback callback, String date);
 
 }

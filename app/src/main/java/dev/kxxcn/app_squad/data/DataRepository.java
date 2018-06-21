@@ -119,8 +119,8 @@ public class DataRepository {
 		});
 	}
 
-	public void onSendMessage(final DataSource.GetSendMessageCallback callback, String to, String title, String message, String from) {
-		dataSource.onSendMessage(new DataSource.GetSendMessageCallback() {
+	public void onRequest(final DataSource.GetSendMessageCallback callback, String to, String title, String message, String from, String date) {
+		dataSource.onRequest(new DataSource.GetSendMessageCallback() {
 			@Override
 			public void onSuccess() {
 				callback.onSuccess();
@@ -135,7 +135,7 @@ public class DataRepository {
 			public void onError() {
 
 			}
-		}, to, title, message, from);
+		}, to, title, message, from, date);
 	}
 
 	public void onLoadAccount(final DataSource.GetCommonCallback callback) {
@@ -185,6 +185,20 @@ public class DataRepository {
 			@Override
 			public void onSuccess() {
 				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, date);
+	}
+
+	public void isConnectedMatch(final DataSource.GetInformationCallback callback, String date) {
+		dataSource.isConnectedMatch(new DataSource.GetInformationCallback() {
+			@Override
+			public void onSuccess(boolean isConnect) {
+				callback.onSuccess(isConnect);
 			}
 
 			@Override
