@@ -10,16 +10,18 @@ public class Notification {
 	private String sender;
 	private String timestamp;
 	private boolean isCheck;
+	private String date;
 
 	public Notification() {
 
 	}
 
-	public Notification(String message, String sender, String timestamp, boolean isCheck) {
+	public Notification(String message, String sender, String timestamp, boolean isCheck, String date) {
 		this.message = message;
 		this.sender = sender;
 		this.timestamp = timestamp;
 		this.isCheck = isCheck;
+		this.date = date;
 	}
 
 	public void setKey(int key) {
@@ -48,5 +50,9 @@ public class Notification {
 
 	public boolean isCheck() {
 		return isCheck;
+	}
+
+	public String getDate() {
+		return date;
 	}
 }
