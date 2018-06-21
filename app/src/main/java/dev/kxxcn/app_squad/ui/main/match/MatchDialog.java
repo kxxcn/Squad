@@ -5,8 +5,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -35,6 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
+import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.Constants;
@@ -98,6 +101,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	@BindView(R.id.ib_register)
 	ImageButton ib_register;
+	@BindView(R.id.ib_remove)
+	ImageButton ib_remove;
 	@BindView(R.id.ib_cancel)
 	ImageButton ib_cancel;
 
@@ -207,6 +212,9 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				spinner_age.setText(mInformation.getAge());
 				spinner_age.setEnabled(false);
 				ib_cancel.setVisibility(View.VISIBLE);
+				if (mInformation.getEmail().equals(Account.getInstance().getEmail())) {
+					ib_remove.setVisibility(View.VISIBLE);
+				}
 				ib_register.setVisibility(View.GONE);
 				ll_age.setVisibility(View.GONE);
 				break;
@@ -254,6 +262,25 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		} else {
 			Toast.makeText(mContext, getContext().getString(R.string.input_all), Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	@OnClick(R.id.ib_remove)
+	public void onRemove() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+		builder.setMessage(getContext().getString(R.string.want_to_remove));
+		builder.setPositiveButton(getContext().getString(R.string.yes),
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						mPresenter.onRemove(mInformation.getDate().replace("-", ""));
+					}
+				}).setNegativeButton(getContext().getString(R.string.no),
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						return;
+					}
+				}).show();
 	}
 
 	@OnClick(R.id.ib_cancel)
@@ -380,6 +407,17 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	@Override
 	public void showUnsuccessfullyRegister() {
 		Toast.makeText(mActivity, getContext().getString(R.string.unsuccessfully_registration), Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void showSuccessfullyRemove() {
+		Toast.makeText(mActivity, getContext().getString(R.string.successfully_remove), Toast.LENGTH_SHORT).show();
+		dismiss();
+	}
+
+	@Override
+	public void showUnsuccessfullyRemove() {
+		Toast.makeText(mActivity, getContext().getString(R.string.unsuccessfully_remove), Toast.LENGTH_SHORT).show();
 	}
 
 }

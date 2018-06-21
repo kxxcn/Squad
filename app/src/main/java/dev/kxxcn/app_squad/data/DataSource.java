@@ -73,4 +73,6 @@ public abstract class DataSource {
 
 	public abstract void onReadNotification(GetCommonCallback callback, List<Notification> notifications);
 
+	public abstract void onRemove(GetCommonCallback callback, String date);
+
 }

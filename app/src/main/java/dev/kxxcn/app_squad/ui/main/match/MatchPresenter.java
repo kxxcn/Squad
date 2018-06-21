@@ -43,4 +43,26 @@ public class MatchPresenter implements MatchContract.Presenter {
 		}, information, requestType);
 	}
 
+	@Override
+	public void onRemove(String date) {
+		if (mMatchView == null) {
+			return;
+		}
+
+		mMatchView.showLoadingIndicator(true);
+		mDataRepository.onRemove(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				mMatchView.showSuccessfullyRemove();
+				mMatchView.showLoadingIndicator(false);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				mMatchView.showUnsuccessfullyRemove();
+				mMatchView.showLoadingIndicator(false);
+			}
+		}, date);
+	}
+
 }

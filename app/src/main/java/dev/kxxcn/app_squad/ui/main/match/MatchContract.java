@@ -14,9 +14,15 @@ public interface MatchContract {
 		void showSuccessfullyRegister();
 
 		void showUnsuccessfullyRegister();
+
+		void showSuccessfullyRemove();
+
+		void showUnsuccessfullyRemove();
 	}
 
 	interface Presenter extends BasePresenter {
 		void onRegister(Information information, Constants.ListsFilterType requestType);
+
+		void onRemove(String date);
 	}
 }

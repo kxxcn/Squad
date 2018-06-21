@@ -180,4 +180,18 @@ public class DataRepository {
 		}, notifications);
 	}
 
+	public void onRemove(final DataSource.GetCommonCallback callback, String date) {
+		dataSource.onRemove(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, date);
+	}
+
 }
