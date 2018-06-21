@@ -4,7 +4,6 @@ package dev.kxxcn.app_squad.ui.main;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.squareup.otto.Subscribe;
@@ -15,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.util.BusProvider;
+import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.SwipeViewPager;
 import dev.kxxcn.app_squad.util.SystemUtils;
 import dev.kxxcn.app_squad.util.TransitionUtils;
@@ -67,22 +67,22 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void showDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(getString(R.string.want_to_quit));
-		builder.setPositiveButton(getString(R.string.yes),
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						SystemUtils.onFinish(MainActivity.this);
-					}
-				}).setNegativeButton(getString(R.string.no),
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						return;
-					}
-				}).show();
+		DialogUtils.showAlertDialog(this, getString(R.string.want_to_quit), positiveListener, negativeListener);
 	}
+
+	private DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			SystemUtils.onFinish(MainActivity.this);
+		}
+	};
+
+	private DialogInterface.OnClickListener negativeListener = new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			return;
+		}
+	};
 
 	@Subscribe
 	public void onRecived(Object o) {

@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -266,22 +265,22 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	@OnClick(R.id.ib_remove)
 	public void onRemove() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-		builder.setMessage(getContext().getString(R.string.want_to_remove));
-		builder.setPositiveButton(getContext().getString(R.string.yes),
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						mPresenter.onRemove(mInformation.getDate().replace("-", ""));
-					}
-				}).setNegativeButton(getContext().getString(R.string.no),
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						return;
-					}
-				}).show();
+		DialogUtils.showAlertDialog(getContext(), getContext().getString(R.string.want_to_remove), positiveListener, negativeListener);
 	}
+
+	private OnClickListener positiveListener = new OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			mPresenter.onRemove(mInformation.getDate().replace("-", ""));
+		}
+	};
+
+	private OnClickListener negativeListener = new OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			return;
+		}
+	};
 
 	@OnClick(R.id.ib_cancel)
 	public void onCancel() {
