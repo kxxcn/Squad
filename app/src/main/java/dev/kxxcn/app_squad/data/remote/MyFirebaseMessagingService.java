@@ -22,16 +22,19 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 
 import dev.kxxcn.app_squad.R;
+import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
 import dev.kxxcn.app_squad.util.Dlog;
 import dev.kxxcn.app_squad.util.SystemUtils;
 
+import static dev.kxxcn.app_squad.util.Constants.SIMPLE_DATE_FORMAT1;
 import static dev.kxxcn.app_squad.util.Constants.VIBRATE_NOTIFICATION;
 
 /**
@@ -43,18 +46,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	private static final String FCM_TITLE = "title";
 	private static final String FCM_MESSAGE = "message";
 	private static final String FCM_SENDER = "sender";
+	private static final String FCM_DATE = "date";
 
 	private static final boolean DID_NOT_CHECK = false;
 
-	private SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.KOREA);
+	private static final String INIT = "1";
+
+	private SimpleDateFormat format = new SimpleDateFormat(SIMPLE_DATE_FORMAT1, Locale.KOREA);
+
+	public static NotificationManager notificationManager;
 
 	@Override
 	public void onMessageReceived(RemoteMessage remoteMessage) {
 		sendNotification(remoteMessage.getData().get(FCM_TITLE), remoteMessage.getData().get(FCM_MESSAGE),
-				remoteMessage.getData().get(FCM_SENDER), remoteMessage.getSentTime());
+				remoteMessage.getData().get(FCM_SENDER), remoteMessage.getSentTime(), remoteMessage.getData().get(FCM_DATE));
 	}
 
-	private void sendNotification(String title, String message, String from, long time) {
+	private void sendNotification(String title, String message, String from, long time, String matchDate) {
 		SystemUtils.onAcquire(this);
 		SystemUtils.onVibrate(this, VIBRATE_NOTIFICATION);
 
@@ -62,7 +70,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		format.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
 		String timestamp = format.format(date);
 
-		onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK));
+		onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate));
 
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -75,7 +83,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 		Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
 		NotificationCompat.Builder notificationBuilder;
 
@@ -107,8 +115,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				notification.setKey((int) (dataSnapshot.getChildrenCount() + 1));
-				reference.child(String.valueOf(dataSnapshot.getChildrenCount() + 1)).setValue(notification);
+				String key = null;
+				if (dataSnapshot.getChildrenCount() == 0) {
+					key = INIT;
+				} else {
+					for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
+						key = String.valueOf(Integer.parseInt(parentSnapshot.getKey()) + 1);
+					}
+				}
+				notification.setKey(Integer.parseInt(key));
+				reference.child(key).setValue(notification);
+				final DatabaseReference matchReference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_MATCH)
+						.child(notification.getDate()).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+				matchReference.addListenerForSingleValueEvent(new ValueEventListener() {
+					@Override
+					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+						Information information = dataSnapshot.getValue(Information.class);
+						List<String> joinList = information.getJoin();
+						joinList.add(notification.getSender());
+						matchReference.child(RemoteDataSource.DOCUMENT_NAME_JOIN).setValue(joinList);
+					}
+
+					@Override
+					public void onCancelled(@NonNull DatabaseError databaseError) {
+
+					}
+				});
 			}
 
 			@Override
