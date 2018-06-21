@@ -3,6 +3,7 @@ package dev.kxxcn.app_squad.ui.main.team;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,6 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
+import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.remote.MyFirebaseMessagingService;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
@@ -176,7 +178,11 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		}
 		if (notifications.size() != 0) {
 			if (MyFirebaseMessagingService.notificationManager != null) {
-				MyFirebaseMessagingService.notificationManager.cancelAll();
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+					MyFirebaseMessagingService.notificationManager.deleteNotificationChannel(getString(R.string.app_name));
+				} else {
+					MyFirebaseMessagingService.notificationManager.cancelAll();
+				}
 			}
 			navigation_drawer.openDrawer(GravityCompat.END);
 		} else {
@@ -224,7 +230,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	}
 
 	@Override
-	public void showSuccessTeamDialog() {
+	public void showSuccessTeamDialog(Information information) {
 		TeamDialog dialog = new TeamDialog(getContext());
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 		WindowManager.LayoutParams params = new WindowManager.LayoutParams();
