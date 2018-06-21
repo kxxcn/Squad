@@ -123,4 +123,28 @@ public class TeamPresenter implements TeamContract.Presenter {
 		}, notifications);
 
 	}
+
+	@Override
+	public void isConnectedMatch(String date) {
+		if (mTeamView == null) {
+			return;
+		}
+
+		mDataRepository.isConnectedMatch(new DataSource.GetInformationCallback() {
+			@Override
+			public void onSuccess(boolean isConnect) {
+				if (!isConnect) {
+					mTeamView.showSuccessTeamDialog();
+				} else {
+					mTeamView.showFailureTeamDialog();
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				Dlog.e(throwable.getMessage());
+			}
+		}, date);
+	}
+
 }

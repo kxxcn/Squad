@@ -19,6 +19,10 @@ public interface TeamContract {
 		void showSuccessLoadNotification(List<Notification> list);
 
 		void showFailureLoadNotification();
+
+		void showSuccessTeamDialog();
+
+		void showFailureTeamDialog();
 	}
 
 	interface Presenter extends BasePresenter {
@@ -29,5 +33,11 @@ public interface TeamContract {
 		void onLoadNotification();
 
 		void onReadNotification(List<Notification> notifications);
+
+		void isConnectedMatch(String date);
+	}
+
+	interface ItemClickListener {
+		void onClick(int position);
 	}
 }
