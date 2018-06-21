@@ -32,6 +32,8 @@
     <string name="input_inquiry">기타사항을 입력하세요.</string>
     <string name="successfully_registration">등록되었습니다.</string>
     <string name="unsuccessfully_registration">등록을 실패했습니다.</string>
+    <string name="successfully_remove">삭제되었습니다.</string>
+    <string name="unsuccessfully_remove">삭제를 실패했습니다.</string>
 
     <string name="quick_match">빠른 매칭</string>
     <string name="quick_button">Match</string>
@@ -51,6 +53,7 @@
     <string name="exist_team">이미 존재하는 팀입니다.</string>
     <string name="badly_formatted">이메일 형식이 올바르지 않습니다.</string>
     <string name="want_to_quit">스쿼드를 종료하시겠습니까?</string>
+    <string name="want_to_remove">등록된 정보를 삭제하시겠습니까?</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
     <string name="registration">등록하기</string>
