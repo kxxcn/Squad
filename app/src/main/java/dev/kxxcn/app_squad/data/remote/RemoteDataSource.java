@@ -165,7 +165,10 @@ public class RemoteDataSource extends DataSource {
 								Dlog.i(childSnapshot.getValue().toString());
 								final Information information = childSnapshot.getValue(Information.class);
 								if (!information.isConnect()) {
-									list.add(information);
+									if (Integer.parseInt(DialogUtils.getFormattedDate(DialogUtils.getDate(), TYPE_COLLECTION)) <=
+											Integer.parseInt(information.getDate().replace("-", ""))) {
+										list.add(information);
+									}
 								}
 							}
 						}
