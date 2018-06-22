@@ -1,12 +1,15 @@
 package dev.kxxcn.app_squad.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by kxxcn on 2018-05-18.
  */
 
-public class Information {
+public class Information implements Parcelable {
 
 	private String email;
 	private String region;
@@ -19,11 +22,25 @@ public class Information {
 	private String inquiry;
 	private boolean isConnect;
 	private String team;
-	private String choice;
+	private String enemy;
 	private List<String> join;
 
 	public Information() {
 
+	}
+
+	public Information(Parcel in) {
+		this.email = in.readString();
+		this.region = in.readString();
+		this.place = in.readString();
+		this.date = in.readString();
+		this.time = in.readString();
+		this.money = in.readString();
+		this.rule = in.readString();
+		this.age = in.readString();
+		this.inquiry = in.readString();
+		this.team = in.readString();
+		this.enemy = in.readString();
 	}
 
 	public Information(String email, String region, String place, String date, String time, String money, String rule, String age, String inquiry, boolean isConnect) {
@@ -127,12 +144,12 @@ public class Information {
 		this.team = team;
 	}
 
-	public String getChoice() {
-		return choice;
+	public String getEnemy() {
+		return enemy;
 	}
 
-	public void setChoice(String choice) {
-		this.choice = choice;
+	public void setEnemy(String enemy) {
+		this.enemy = enemy;
 	}
 
 	public List<String> getJoin() {
@@ -141,6 +158,38 @@ public class Information {
 
 	public void setJoin(List<String> join) {
 		this.join = join;
+	}
+
+	public static final Parcelable.Creator<Information> CREATOR = new Parcelable.Creator<Information>() {
+		@Override
+		public Information createFromParcel(Parcel source) {
+			return new Information(source);
+		}
+
+		@Override
+		public Information[] newArray(int size) {
+			return new Information[size];
+		}
+	};
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(email);
+		dest.writeString(region);
+		dest.writeString(place);
+		dest.writeString(date);
+		dest.writeString(time);
+		dest.writeString(money);
+		dest.writeString(rule);
+		dest.writeString(age);
+		dest.writeString(inquiry);
+		dest.writeString(team);
+		dest.writeString(enemy);
 	}
 
 }
