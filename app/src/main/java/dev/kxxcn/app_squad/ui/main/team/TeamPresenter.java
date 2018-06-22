@@ -30,7 +30,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 		if (mTeamView == null) {
 			return;
 		}
-		mDataRepository.onLoadRecord(new DataSource.GetLoadRecordCallback() {
+		mDataRepository.onLoadRecord(new DataSource.GetUserCallback() {
 			@Override
 			public void onSuccess(User user) {
 				try {
@@ -126,19 +126,15 @@ public class TeamPresenter implements TeamContract.Presenter {
 	}
 
 	@Override
-	public void isConnectedMatch(String date) {
+	public void onLoadMatch(String date) {
 		if (mTeamView == null) {
 			return;
 		}
 
-		mDataRepository.isConnectedMatch(new DataSource.GetInformationCallback() {
+		mDataRepository.onLoadMatch(new DataSource.GetInformationCallback() {
 			@Override
 			public void onSuccess(Information information) {
-				if (!information.isConnect()) {
-					mTeamView.showSuccessTeamDialog(information);
-				} else {
-					mTeamView.showFailureTeamDialog();
-				}
+				mTeamView.showSuccessfullyLoadInformation(information);
 			}
 
 			@Override

@@ -1,14 +1,13 @@
 package dev.kxxcn.app_squad.ui.main.team;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,8 +16,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -46,6 +43,7 @@ import dev.kxxcn.app_squad.data.remote.MyFirebaseMessagingService;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.ui.login.LoginActivity;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
+import dev.kxxcn.app_squad.ui.main.team.notification.NotificationDialog;
 import dev.kxxcn.app_squad.util.BusProvider;
 
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
@@ -55,6 +53,10 @@ import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
  * Created by kxxcn on 2018-04-26.
  */
 public class TeamFragment extends Fragment implements TeamContract.View, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, TeamContract.ItemClickListener {
+
+	private static final String DIALOG_FRAGMENT = "dialog";
+
+	private static final int BEGIN_INDEX = 1;
 
 	@BindView(R.id.rv_team)
 	RecyclerView rv_team;
@@ -79,6 +81,8 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	View include_drawer_header;
 
 	private TeamContract.Presenter mPresenter;
+
+	private String mEnemy;
 
 	private int[] imgs = {R.drawable.team_banner1, R.drawable.team_banner2, R.drawable.team_banner3,
 			R.drawable.team_banner4, R.drawable.team_banner5, R.drawable.team_banner6, R.drawable.team_banner7,
@@ -159,7 +163,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		fab.setCount(unReadNotifications.size());
 
 		Collections.sort(notifications, new Compare());
-		rv_notification.setAdapter(new NotificationAdapter(notifications, this));
+		rv_notification.setAdapter(new LoadAdapter(notifications, this));
 	}
 
 	@Override
@@ -226,25 +230,24 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	@Override
 	public void onClick(int position) {
-		mPresenter.isConnectedMatch(notifications.get(position).getDate());
+		int index = notifications.get(position).getMessage().indexOf("]");
+		mEnemy = notifications.get(position).getMessage().substring(BEGIN_INDEX, index);
+		mPresenter.onLoadMatch(notifications.get(position).getDate());
 	}
 
 	@Override
-	public void showSuccessTeamDialog(Information information) {
-		TeamDialog dialog = new TeamDialog(getContext());
-		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-		WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-		params.copyFrom(dialog.getWindow().getAttributes());
-		params.width = WindowManager.LayoutParams.MATCH_PARENT;
-		params.height = WindowManager.LayoutParams.MATCH_PARENT;
-		dialog.show();
-		Window window = dialog.getWindow();
-		window.setAttributes(params);
+	public void showSuccessfullyLoadInformation(Information information) {
+		if (!information.isConnect()) {
+			navigation_drawer.closeDrawer(GravityCompat.END);
+			DialogFragment newFragment = NotificationDialog.newInstance(information, mEnemy);
+			newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
+		} else {
+			showScheduledMatch();
+		}
 	}
 
-	@Override
-	public void showFailureTeamDialog() {
-		Toast.makeText(getContext(), getString(R.string.team_complete_match), Toast.LENGTH_SHORT).show();
+	private void showScheduledMatch() {
+		Toast.makeText(getContext(), getString(R.string.team_scheduled_match), Toast.LENGTH_SHORT).show();
 	}
 
 }
