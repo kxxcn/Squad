@@ -89,8 +89,13 @@
 
     <string name="team_notification_match">NEW</string>
     <string name="team_no_notification">알림이력이 없습니다.</string>
-    <string name="team_complete_match">매칭이 완료된 경기입니다.</string>
+    <string name="team_scheduled_match">매칭이 완료된 경기입니다.</string>
     <string name="team_cancel_match">취소된 경기입니다.</string>
+    <string name="team_deadline">"일정이 지난 경기입니다."</string>
+    <string name="team_agree">수락하기</string>
+
+    <string name="notification_schedule">경기일정</string>
+    <string name="notification_no_introduce">클럽 소개글이 없습니다.</string>
 
     <!-- LOG -->
     <string name="log_information">%s, %s, %s, %s, %s, %s, %s, %s, %s</string>

@@ -46,4 +46,7 @@
     <color name="navigation_sub_text">#bdbdbd</color>
     <color name="navigation_division_line">#f3e7e7</color>
     <color name="navigation_item_division_line">#fcf0f0</color>
+
+    <color name="selected_circleindicator">#000000</color>
+    <color name="unselected_circleindicator">#84797d</color>
 </resources>
