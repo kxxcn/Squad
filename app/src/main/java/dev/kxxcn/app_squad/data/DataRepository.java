@@ -105,8 +105,8 @@ public class DataRepository {
 		}, information, requestType);
 	}
 
-	public void onLoadRecord(final DataSource.GetLoadRecordCallback callback) {
-		dataSource.onLoadRecord(new DataSource.GetLoadRecordCallback() {
+	public void onLoadRecord(final DataSource.GetUserCallback callback) {
+		dataSource.onLoadRecord(new DataSource.GetUserCallback() {
 			@Override
 			public void onSuccess(User user) {
 				callback.onSuccess(user);
@@ -194,8 +194,8 @@ public class DataRepository {
 		}, date);
 	}
 
-	public void isConnectedMatch(final DataSource.GetInformationCallback callback, String date) {
-		dataSource.isConnectedMatch(new DataSource.GetInformationCallback() {
+	public void onLoadMatch(final DataSource.GetInformationCallback callback, String date) {
+		dataSource.onLoadMatch(new DataSource.GetInformationCallback() {
 			@Override
 			public void onSuccess(Information information) {
 				callback.onSuccess(information);
@@ -206,6 +206,21 @@ public class DataRepository {
 				callback.onFailure(throwable);
 			}
 		}, date);
+	}
+
+	public void onLoadEnemyData(final DataSource.GetUserCallback callback, String enemy) {
+		dataSource.onLoadEnemyData(new DataSource.GetUserCallback() {
+			@Override
+			public void onSuccess(User user) {
+				callback.onSuccess(user);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, enemy);
+
 	}
 
 }

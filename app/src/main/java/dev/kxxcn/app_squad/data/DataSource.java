@@ -33,7 +33,7 @@ public abstract class DataSource {
 		void onFailure(Throwable throwable);
 	}
 
-	public interface GetLoadRecordCallback {
+	public interface GetUserCallback {
 		void onSuccess(User user);
 
 		void onFailure(Throwable throwable);
@@ -69,7 +69,7 @@ public abstract class DataSource {
 
 	public abstract void onRegister(GetCommonCallback callback, Information information, Constants.ListsFilterType requestType);
 
-	public abstract void onLoadRecord(GetLoadRecordCallback callback);
+	public abstract void onLoadRecord(GetUserCallback callback);
 
 	public abstract void onRequest(GetSendMessageCallback callback, String to, String title, String message, String from, String date);
 
@@ -81,6 +81,8 @@ public abstract class DataSource {
 
 	public abstract void onRemove(GetCommonCallback callback, String date);
 
-	public abstract void isConnectedMatch(GetInformationCallback callback, String date);
+	public abstract void onLoadMatch(GetInformationCallback callback, String date);
+
+	public abstract void onLoadEnemyData(GetUserCallback callback, String enemy);
 
 }
