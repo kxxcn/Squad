@@ -37,6 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
+import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.remote.MyFirebaseMessagingService;
@@ -118,11 +119,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		mPresenter.onLoadAccount();
-		mPresenter.onLoadRecord();
-		mPresenter.onLoadNotification();
 		Glide.with(this).load(imgs[new Random().nextInt(imgs.length)]).diskCacheStrategy(DiskCacheStrategy.NONE).into(iv_collapsing);
-		List<String> list = new ArrayList<>(0);
-		rv_team.setAdapter(new TeamAdapter(list));
 	}
 
 	public static Fragment newInstance() {
@@ -137,6 +134,8 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	@Override
 	public void setToolbarTitle(String title) {
 		toolbar.setTitle(title);
+		mPresenter.onLoadRecord();
+		mPresenter.onLoadNotification();
 	}
 
 	@Override
@@ -237,17 +236,24 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	@Override
 	public void showSuccessfullyLoadInformation(Information information) {
-		if (!information.isConnect()) {
-			navigation_drawer.closeDrawer(GravityCompat.END);
-			DialogFragment newFragment = NotificationDialog.newInstance(information, mEnemy);
-			newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
-		} else {
-			showScheduledMatch();
-		}
+		navigation_drawer.closeDrawer(GravityCompat.END);
+		DialogFragment newFragment = NotificationDialog.newInstance(information, mEnemy);
+		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
 	}
 
-	private void showScheduledMatch() {
-		Toast.makeText(getContext(), getString(R.string.team_scheduled_match), Toast.LENGTH_SHORT).show();
+	@Override
+	public void showSuccessfullyLoadBattle(List<Battle> battleList) {
+		rv_team.setAdapter(new TeamAdapter(battleList));
+	}
+
+	@Override
+	public void showUnsuccessfullyLoadBattle() {
+
+	}
+
+	@Override
+	public void showInvalidAccount() {
+		startActivity(new Intent(getActivity(), LoginActivity.class));
 	}
 
 }

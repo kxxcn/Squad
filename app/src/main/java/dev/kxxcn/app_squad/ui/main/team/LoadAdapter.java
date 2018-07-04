@@ -16,6 +16,8 @@ import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.model.Notification;
 
+import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_RESPONSE;
+
 /**
  * Created by kxxcn on 2018-06-14.
  */
@@ -45,6 +47,10 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.ViewHolder> {
 			holder.ll_root.setOnClickListener(null);
 			holder.ib_arrow.setVisibility(View.GONE);
 			holder.iv_icon.setBackgroundResource(R.drawable.ic_admin);
+		}
+		if (mList.get(holder.getAdapterPosition()).getType().equals(TYPE_RESPONSE)) {
+			holder.ll_root.setOnClickListener(null);
+			holder.ib_arrow.setVisibility(View.GONE);
 		}
 	}
 

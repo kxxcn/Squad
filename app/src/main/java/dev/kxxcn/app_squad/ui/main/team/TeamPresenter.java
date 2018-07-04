@@ -5,9 +5,9 @@ import java.util.List;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Account;
+import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
-import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Dlog;
 
 /**
@@ -30,20 +30,15 @@ public class TeamPresenter implements TeamContract.Presenter {
 		if (mTeamView == null) {
 			return;
 		}
-		mDataRepository.onLoadRecord(new DataSource.GetUserCallback() {
+		mDataRepository.onLoadRecord(new DataSource.GetBattleCallback() {
 			@Override
-			public void onSuccess(User user) {
-				try {
-
-				} catch (NullPointerException e) {
-					onLogout();
-					e.printStackTrace();
-				}
+			public void onSuccess(List<Battle> battleList) {
+				mTeamView.showSuccessfullyLoadBattle(battleList);
 			}
 
 			@Override
 			public void onFailure(Throwable throwable) {
-
+				mTeamView.showUnsuccessfullyLoadBattle();
 			}
 		});
 	}
@@ -62,8 +57,8 @@ public class TeamPresenter implements TeamContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				onLogout();
-				Dlog.d(throwable.getMessage());
+				mTeamView.showInvalidAccount();
+				Dlog.e(throwable.getMessage());
 			}
 		});
 	}

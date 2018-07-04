@@ -2,6 +2,7 @@ package dev.kxxcn.app_squad.ui.main.team;
 
 import java.util.List;
 
+import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.ui.BasePresenter;
@@ -22,6 +23,12 @@ public interface TeamContract {
 		void showFailureLoadNotification();
 
 		void showSuccessfullyLoadInformation(Information information);
+
+		void showSuccessfullyLoadBattle(List<Battle> battleList);
+
+		void showUnsuccessfullyLoadBattle();
+
+		void showInvalidAccount();
 	}
 
 	interface Presenter extends BasePresenter {
