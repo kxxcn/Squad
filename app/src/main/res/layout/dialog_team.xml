@@ -98,9 +98,26 @@
                     android:id="@+id/btn_agree"
                     android:layout_width="170dp"
                     android:layout_height="50dp"
+                    android:visibility="gone"
                     app:buttonText="@string/team_agree"
-                    app:buttonTextSize="16sp"
+                    app:buttonTextSize="14sp"
                     app:progressStyle="loading"/>
+
+                <dev.kxxcn.app_squad.util.StateButton
+                    android:id="@+id/btn_complete"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notification_complete_match"
+                    android:visibility="gone"
+                    app:normalStrokeColor="@android:color/holo_blue_bright"
+                    app:normalStrokeWidth="1dp"
+                    app:normalTextColor="@android:color/holo_blue_bright"
+                    app:pressedStrokeColor="@android:color/holo_blue_bright"
+                    app:pressedStrokeWidth="1dp"
+                    app:pressedTextColor="@android:color/holo_blue_bright"
+                    app:unableStrokeColor="@android:color/holo_blue_bright"
+                    app:unableStrokeWidth="1dp"
+                    app:unableTextColor="@android:color/holo_blue_bright"/>
 
             </LinearLayout>
 
