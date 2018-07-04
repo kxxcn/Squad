@@ -2,6 +2,7 @@ package dev.kxxcn.app_squad.ui.main.team.notification;
 
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
+import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Dlog;
 
@@ -22,8 +23,28 @@ public class NotificationPresenter implements NotificationContract.Presenter {
 	}
 
 	@Override
-	public void onAgree() {
+	public void onAgree(Information information, String title, String message) {
+		if (mNotificationView == null) {
+			return;
+		}
 
+		mDataRepository.onAgree(new DataSource.GetSendMessageCallback() {
+			@Override
+			public void onSuccess() {
+				mNotificationView.showSuccessfullyAgree();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				Dlog.e(throwable.getMessage());
+				mNotificationView.showUnsuccessfullyAgree();
+			}
+
+			@Override
+			public void onError() {
+				mNotificationView.showUnsuccessfullyAgree();
+			}
+		}, information, title, message);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,7 +26,11 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
+import dev.kxxcn.app_squad.util.StateButton;
+import dev.kxxcn.app_squad.util.threading.UiThread;
 import me.relex.circleindicator.CircleIndicator;
+
+import static dev.kxxcn.app_squad.util.Constants.DISMISS_NOTI_DIALOG;
 
 /**
  * Created by kxxcn on 2018-06-22.
@@ -48,7 +53,12 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 	@BindView(R.id.btn_agree)
 	SubmitButton btn_agree;
 
+	@BindView(R.id.btn_complete)
+	StateButton btn_complete;
+
 	private NotificationContract.Presenter mPresenter;
+
+	Information mInformation;
 
 	private String mEnemy;
 
@@ -103,7 +113,7 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 
 	@OnClick(R.id.btn_agree)
 	public void onAgree() {
-		mPresenter.onAgree();
+		mPresenter.onAgree(mInformation, getString(R.string.app_name), String.format(getString(R.string.notification_agree), mInformation.getTeam()));
 	}
 
 	@Override
@@ -113,11 +123,35 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 
 	@Override
 	public void showEnemyData(User user) {
-		Information information = getArguments().getParcelable(INFORMATION);
-		information.setEnemy(mEnemy);
+		mInformation = getArguments().getParcelable(INFORMATION);
+		mInformation.setEnemy(mEnemy);
 		tv_enemy.setText(getString(R.string.notification_schedule));
-		vp_information.setAdapter(new NotificationPagerAdapter(getChildFragmentManager(), information, user));
+		vp_information.setAdapter(new NotificationPagerAdapter(getChildFragmentManager(), mInformation, user));
 		indicator.setViewPager(vp_information);
+		if (mInformation.isConnect()) {
+			btn_agree.setVisibility(View.GONE);
+			btn_complete.setVisibility(View.VISIBLE);
+		} else {
+			btn_agree.setVisibility(View.VISIBLE);
+			btn_complete.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	public void showSuccessfullyAgree() {
+		btn_agree.doResult(true);
+		UiThread.getInstance().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				dismiss();
+			}
+		}, DISMISS_NOTI_DIALOG);
+	}
+
+	@Override
+	public void showUnsuccessfullyAgree() {
+		btn_agree.doResult(false);
+		Toast.makeText(getContext(), getString(R.string.notification_unsuccessfully_agree), Toast.LENGTH_SHORT).show();
 	}
 
 }
