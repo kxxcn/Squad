@@ -41,7 +41,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		Glide.with(mContext).load(R.drawable.ic_team_background).diskCacheStrategy(DiskCacheStrategy.NONE).into(holder.iv_background);
+		Glide.with(mContext).load(R.drawable.team_list_background).diskCacheStrategy(DiskCacheStrategy.NONE).into(holder.iv_background);
 		holder.tv_date.setText(getFormattedDate(mList.get(holder.getAdapterPosition()).getDate()));
 		holder.tv_place.setText(mList.get(holder.getAdapterPosition()).getPlace());
 		if (mList.get(holder.getAdapterPosition()).isHome()) {
