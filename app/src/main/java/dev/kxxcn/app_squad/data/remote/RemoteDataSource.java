@@ -20,6 +20,7 @@ import java.util.List;
 
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Account;
+import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
@@ -32,6 +33,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_REQUEST;
+import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_RESPONSE;
 import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 
 /**
@@ -44,6 +47,7 @@ public class RemoteDataSource extends DataSource {
 	public static final String COLLECTION_NAME_MATCH = "match";
 	private static final String COLLECTION_NAME_RECRUITMENT = "recruitment";
 	private static final String COLLECTION_NAME_PLAYER = "player";
+	public static final String COLLECTION_NAME_BATTLE = "battle";
 
 	public static final String DOCUMENT_NAME_MESSAGE = "message";
 	public static final String DOCUMENT_NAME_JOIN = "join";
@@ -223,8 +227,25 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onLoadRecord(final GetUserCallback callback) {
+	public void onLoadRecord(final GetBattleCallback callback) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_BATTLE).child(mAuth.getCurrentUser().getUid());
+		reference.addValueEventListener(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				if (dataSnapshot.getChildrenCount() != 0) {
+					List<Battle> battleList = new ArrayList<>(0);
+					for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+						battleList.add(childSnapshot.getValue(Battle.class));
+					}
+					callback.onSuccess(battleList);
+				}
+			}
 
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				callback.onFailure(databaseError.toException());
+			}
+		});
 	}
 
 	@Override
@@ -233,19 +254,7 @@ public class RemoteDataSource extends DataSource {
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				List<User> userList = new ArrayList<>(0);
-				for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-					userList.add(childSnapshot.getValue(User.class));
-				}
-				User user = null;
-				for (int i = 0; i < userList.size(); i++) {
-					if (to.equals(userList.get(i).getEmail())) {
-						user = userList.get(i);
-						break;
-					}
-				}
-
-				final String token = user.getToken();
+				final String token = getTokenOfRrecipient(dataSnapshot, to, Constants.TYPE_REQUEST);
 
 				if (token != null) {
 					Data data = new Data();
@@ -253,6 +262,7 @@ public class RemoteDataSource extends DataSource {
 					data.setMessage(message);
 					data.setSender(from);
 					data.setDate(date);
+					data.setType(TYPE_REQUEST);
 
 					Send send = new Send();
 					send.setTo(token);
@@ -288,19 +298,28 @@ public class RemoteDataSource extends DataSource {
 
 	@Override
 	public void onLoadAccount(final GetCommonCallback callback) {
-		DatabaseReference accountReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid());
-		accountReference.addListenerForSingleValueEvent(new ValueEventListener() {
-			@Override
-			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				new Account(dataSnapshot.getValue(User.class));
-				callback.onSuccess();
-			}
+		try {
+			DatabaseReference accountReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid());
+			accountReference.addListenerForSingleValueEvent(new ValueEventListener() {
+				@Override
+				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+					if (dataSnapshot.getChildrenCount() != 0) {
+						new Account(dataSnapshot.getValue(User.class));
+						callback.onSuccess();
+					} else {
+						callback.onFailure(new Exception());
+					}
+				}
 
-			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {
-				callback.onFailure(databaseError.toException());
-			}
-		});
+				@Override
+				public void onCancelled(@NonNull DatabaseError databaseError) {
+					callback.onFailure(databaseError.toException());
+				}
+			});
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			callback.onFailure(e);
+		}
 	}
 
 	@Override
@@ -417,6 +436,81 @@ public class RemoteDataSource extends DataSource {
 		});
 	}
 
+	@Override
+	public void onAgree(final GetSendMessageCallback callback, final Information information, final String title, final String message) {
+		information.setConnect(true);
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH)
+				.child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION)).child(mAuth.getCurrentUser().getUid());
+		reference.setValue(information).addOnSuccessListener(new OnSuccessListener<Void>() {
+			@Override
+			public void onSuccess(Void aVoid) {
+				DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
+				reference.addListenerForSingleValueEvent(new ValueEventListener() {
+					@Override
+					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+						final String token = getTokenOfRrecipient(dataSnapshot, information.getEnemy(), Constants.TYPE_RESPONSE);
+
+						if (token != null) {
+							Data data = new Data();
+							data.setTitle(title);
+							data.setMessage(message);
+							data.setSender(information.getTeam());
+							data.setDate(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION));
+							data.setType(TYPE_RESPONSE);
+							data.setPlace(information.getPlace());
+
+							Send send = new Send();
+							send.setTo(token);
+							send.setData(data);
+
+							Call<Void> call = service.sendMessage(send);
+							call.enqueue(new Callback<Void>() {
+								@Override
+								public void onResponse(@NonNull final Call<Void> call, @NonNull Response<Void> response) {
+									if (response.isSuccessful()) {
+										DatabaseReference battleReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_BATTLE)
+												.child(mAuth.getCurrentUser().getUid()).child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION));
+										battleReference.setValue(new Battle(information.getEnemy(), DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION), information.getPlace(), true))
+												.addOnSuccessListener(new OnSuccessListener<Void>() {
+													@Override
+													public void onSuccess(Void aVoid) {
+														callback.onSuccess();
+													}
+												}).addOnFailureListener(new OnFailureListener() {
+											@Override
+											public void onFailure(@NonNull Exception e) {
+												callback.onFailure(e);
+											}
+										});
+									} else {
+										callback.onError();
+									}
+								}
+
+								@Override
+								public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+									callback.onFailure(t);
+								}
+							});
+						} else {
+							callback.onError();
+						}
+					}
+
+					@Override
+					public void onCancelled(@NonNull DatabaseError databaseError) {
+						callback.onFailure(databaseError.toException());
+					}
+				});
+			}
+		}).addOnFailureListener(new OnFailureListener() {
+			@Override
+			public void onFailure(@NonNull Exception e) {
+				callback.onFailure(e);
+			}
+		});
+	}
+
 	/**
 	 * 팀명 중복 체크
 	 *
@@ -429,6 +523,39 @@ public class RemoteDataSource extends DataSource {
 			rtn = true;
 		}
 		return rtn;
+	}
+
+	/**
+	 * 상대방 토큰 획득
+	 *
+	 * @author kxxcn
+	 * @since 2018-06-25 오후 12:43
+	 */
+	private String getTokenOfRrecipient(DataSnapshot dataSnapshot, String to, int type) {
+		List<User> userList = new ArrayList<>(0);
+		for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+			userList.add(childSnapshot.getValue(User.class));
+		}
+
+		User user = null;
+
+		for (int i = 0; i < userList.size(); i++) {
+			switch (type) {
+				case Constants.TYPE_REQUEST:
+					if (to.equals(userList.get(i).getEmail())) {
+						user = userList.get(i);
+						break;
+					}
+					break;
+				case Constants.TYPE_RESPONSE:
+					if (to.equals(userList.get(i).getTeam())) {
+						user = userList.get(i);
+						break;
+					}
+					break;
+			}
+		}
+		return user.getToken();
 	}
 
 }

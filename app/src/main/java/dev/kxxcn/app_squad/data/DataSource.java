@@ -2,6 +2,7 @@ package dev.kxxcn.app_squad.data;
 
 import java.util.List;
 
+import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
@@ -59,6 +60,12 @@ public abstract class DataSource {
 		void onFailure(Throwable throwable);
 	}
 
+	public interface GetBattleCallback {
+		void onSuccess(List<Battle> battleList);
+
+		void onFailure(Throwable throwable);
+	}
+
 	public abstract void onSignup(GetSignupCallback callback, String email, String password, String team);
 
 	public abstract void onLogin(GetCommonCallback callback, String email, String password);
@@ -69,7 +76,7 @@ public abstract class DataSource {
 
 	public abstract void onRegister(GetCommonCallback callback, Information information, Constants.ListsFilterType requestType);
 
-	public abstract void onLoadRecord(GetUserCallback callback);
+	public abstract void onLoadRecord(GetBattleCallback callback);
 
 	public abstract void onRequest(GetSendMessageCallback callback, String to, String title, String message, String from, String date);
 
@@ -84,5 +91,7 @@ public abstract class DataSource {
 	public abstract void onLoadMatch(GetInformationCallback callback, String date);
 
 	public abstract void onLoadEnemyData(GetUserCallback callback, String enemy);
+
+	public abstract void onAgree(GetSendMessageCallback callback, Information information, String title, String message);
 
 }

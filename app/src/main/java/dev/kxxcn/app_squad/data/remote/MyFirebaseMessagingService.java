@@ -11,6 +11,8 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,12 +30,15 @@ import java.util.Random;
 import java.util.TimeZone;
 
 import dev.kxxcn.app_squad.R;
+import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
 import dev.kxxcn.app_squad.util.Dlog;
 import dev.kxxcn.app_squad.util.SystemUtils;
 
+import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_REQUEST;
+import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_RESPONSE;
 import static dev.kxxcn.app_squad.util.Constants.SIMPLE_DATE_FORMAT1;
 import static dev.kxxcn.app_squad.util.Constants.VIBRATE_NOTIFICATION;
 
@@ -47,6 +52,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	private static final String FCM_MESSAGE = "message";
 	private static final String FCM_SENDER = "sender";
 	private static final String FCM_DATE = "date";
+	private static final String FCM_TYPE = "type";
+	private static final String FCM_PLACE = "place";
 
 	private static final boolean DID_NOT_CHECK = false;
 
@@ -59,10 +66,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	@Override
 	public void onMessageReceived(RemoteMessage remoteMessage) {
 		sendNotification(remoteMessage.getData().get(FCM_TITLE), remoteMessage.getData().get(FCM_MESSAGE),
-				remoteMessage.getData().get(FCM_SENDER), remoteMessage.getSentTime(), remoteMessage.getData().get(FCM_DATE));
+				remoteMessage.getData().get(FCM_SENDER), remoteMessage.getSentTime(), remoteMessage.getData().get(FCM_DATE),
+				remoteMessage.getData().get(FCM_TYPE), remoteMessage.getData().get(FCM_PLACE));
 	}
 
-	private void sendNotification(String title, String message, String from, long time, String matchDate) {
+	private void sendNotification(String title, String message, String from, long time, String matchDate, String type, String place) {
 		SystemUtils.onAcquire(this);
 		SystemUtils.onVibrate(this, VIBRATE_NOTIFICATION);
 
@@ -70,7 +78,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		format.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
 		String timestamp = format.format(date);
 
-		onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate));
+		onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type));
+
+		onRegisterBattle(new Battle(from, matchDate, place, false), type);
 
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -124,21 +134,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 					}
 				}
 				notification.setKey(Integer.parseInt(key));
-				reference.child(key).setValue(notification);
-				final DatabaseReference matchReference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_MATCH)
-						.child(notification.getDate()).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-				matchReference.addListenerForSingleValueEvent(new ValueEventListener() {
+				reference.child(key).setValue(notification).addOnSuccessListener(new OnSuccessListener<Void>() {
 					@Override
-					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-						Information information = dataSnapshot.getValue(Information.class);
-						List<String> joinList = information.getJoin();
-						joinList.add(notification.getSender());
-						matchReference.child(RemoteDataSource.DOCUMENT_NAME_JOIN).setValue(joinList);
+					public void onSuccess(Void aVoid) {
+						if (notification.getType().equals(TYPE_REQUEST)) {
+							final DatabaseReference matchReference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_MATCH)
+									.child(notification.getDate()).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+							matchReference.addListenerForSingleValueEvent(new ValueEventListener() {
+								@Override
+								public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+									Information information = dataSnapshot.getValue(Information.class);
+									List<String> joinList = information.getJoin();
+									joinList.add(notification.getSender());
+									matchReference.child(RemoteDataSource.DOCUMENT_NAME_JOIN).setValue(joinList);
+								}
+
+								@Override
+								public void onCancelled(@NonNull DatabaseError databaseError) {
+
+								}
+							});
+						}
 					}
-
+				}).addOnFailureListener(new OnFailureListener() {
 					@Override
-					public void onCancelled(@NonNull DatabaseError databaseError) {
-
+					public void onFailure(@NonNull Exception e) {
+						Dlog.e(e.getMessage());
 					}
 				});
 			}
@@ -148,6 +169,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				Dlog.e(databaseError.getMessage());
 			}
 		});
+	}
+
+	private void onRegisterBattle(final Battle battle, String type) {
+		if (type.equals(TYPE_RESPONSE)) {
+			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_BATTLE)
+					.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(battle.getDate());
+			reference.setValue(battle);
+		}
 	}
 
 	@Override

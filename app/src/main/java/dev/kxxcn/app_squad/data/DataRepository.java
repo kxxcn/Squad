@@ -2,6 +2,7 @@ package dev.kxxcn.app_squad.data;
 
 import java.util.List;
 
+import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
@@ -105,11 +106,11 @@ public class DataRepository {
 		}, information, requestType);
 	}
 
-	public void onLoadRecord(final DataSource.GetUserCallback callback) {
-		dataSource.onLoadRecord(new DataSource.GetUserCallback() {
+	public void onLoadRecord(final DataSource.GetBattleCallback callback) {
+		dataSource.onLoadRecord(new DataSource.GetBattleCallback() {
 			@Override
-			public void onSuccess(User user) {
-				callback.onSuccess(user);
+			public void onSuccess(List<Battle> battleList) {
+				callback.onSuccess(battleList);
 			}
 
 			@Override
@@ -221,6 +222,25 @@ public class DataRepository {
 			}
 		}, enemy);
 
+	}
+
+	public void onAgree(final DataSource.GetSendMessageCallback callback, Information information, String title, String message) {
+		dataSource.onAgree(new DataSource.GetSendMessageCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+
+			@Override
+			public void onError() {
+				callback.onError();
+			}
+		}, information, title, message);
 	}
 
 }
