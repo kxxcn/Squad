@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 			public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 				FirebaseUser user = firebaseAuth.getCurrentUser();
 				if (user != null) {
-					Dlog.v("User : " + user.getEmail());
+					Dlog.v("UID : " + user.getUid());
 					startActivity(new Intent(LoginActivity.this, MainActivity.class));
 					finish();
 				}

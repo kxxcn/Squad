@@ -77,6 +77,7 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	@Override
 	public void showUnsuccessfullyLogout() {
+		btn_logout.doResult(false);
 		Toast.makeText(getContext(), getString(R.string.setting_failure_logout), Toast.LENGTH_SHORT).show();
 	}
 

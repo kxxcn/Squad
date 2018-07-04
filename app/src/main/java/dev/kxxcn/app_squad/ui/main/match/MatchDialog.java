@@ -241,7 +241,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	@OnClick(R.id.ib_register)
 	public void onRegister() {
 		KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
-		String email = mAuth.getCurrentUser().getEmail();
+		String email = Account.getInstance().getEmail();
 		String region = spinner_region.getText().toString();
 		String place = et_place.getText().toString();
 		String date = tv_date.getText().toString();
