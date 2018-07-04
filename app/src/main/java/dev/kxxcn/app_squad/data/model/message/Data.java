@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Data {
+
 	@SerializedName("title")
 	@Expose
 	private String title;
@@ -20,6 +21,12 @@ public class Data {
 	@SerializedName("date")
 	@Expose
 	private String date;
+	@SerializedName("type")
+	@Expose
+	private String type;
+	@SerializedName("place")
+	@Expose
+	private String place;
 
 	public String getTitle() {
 		return title;
@@ -52,4 +59,21 @@ public class Data {
 	public void setDate(String date) {
 		this.date = date;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+
 }
