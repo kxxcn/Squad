@@ -161,7 +161,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		}
 		fab.setCount(unReadNotifications.size());
 
-		Collections.sort(notifications, new Compare());
+		Collections.sort(notifications, new CompareNotification());
 		rv_notification.setAdapter(new LoadAdapter(notifications, this));
 	}
 
@@ -204,7 +204,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		navigation_drawer.closeDrawer(GravityCompat.END);
 	}
 
-	class Compare implements Comparator<Notification> {
+	class CompareNotification implements Comparator<Notification> {
 		@Override
 		public int compare(Notification o1, Notification o2) {
 			int ret = 0;
@@ -227,6 +227,17 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		}
 	}
 
+	class CompareBattle implements Comparator<Battle> {
+		@Override
+		public int compare(Battle o1, Battle o2) {
+			int ret = 0;
+			String date1 = o1.getDate();
+			String date2 = o2.getDate();
+			ret = date2.compareTo(date1);
+			return ret;
+		}
+	}
+
 	@Override
 	public void onClick(int position) {
 		int index = notifications.get(position).getMessage().indexOf("]");
@@ -243,7 +254,8 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	@Override
 	public void showSuccessfullyLoadBattle(List<Battle> battleList) {
-		rv_team.setAdapter(new TeamAdapter(battleList));
+		Collections.sort(battleList, new CompareBattle());
+		rv_team.setAdapter(new TeamAdapter(getContext(), battleList));
 	}
 
 	@Override

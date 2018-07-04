@@ -1,5 +1,6 @@
 package dev.kxxcn.app_squad.ui.main.team;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,11 @@ import dev.kxxcn.app_squad.data.model.Battle;
 
 public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 
+	private Context mContext;
 	private List<Battle> mList;
 
-	public TeamAdapter(List<Battle> list) {
+	public TeamAdapter(Context context, List<Battle> list) {
+		this.mContext = context;
 		this.mList = list;
 	}
 
@@ -34,7 +37,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		holder.tv_date.setText(mList.get(holder.getAdapterPosition()).getDate());
+		holder.tv_date.setText(getFormattedDate(mList.get(holder.getAdapterPosition()).getDate()));
 		holder.tv_place.setText(mList.get(holder.getAdapterPosition()).getPlace());
 		if (mList.get(holder.getAdapterPosition()).isHome()) {
 			holder.tv_home.setText(Account.getInstance().getTeam());
@@ -64,6 +67,14 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 		}
+	}
+
+	private String getFormattedDate(String date) {
+		String year = date.substring(0, 4);
+		String month = date.substring(4, 6);
+		String day = date.substring(6, 8);
+
+		return String.format(mContext.getString(R.string.team_date), year, month, day);
 	}
 
 }
