@@ -97,6 +97,7 @@
     <string name="team_home">HOME</string>
     <string name="team_away">AWAY</string>
     <string name="team_divider">/</string>
+    <string name="team_date">%s-%s-%s</string>
 
     <string name="notification_schedule">경기일정</string>
     <string name="notification_no_introduce">클럽 소개글이 없습니다.</string>
