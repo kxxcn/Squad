@@ -58,9 +58,7 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 
 	private NotificationContract.Presenter mPresenter;
 
-	Information mInformation;
-
-	private String mEnemy;
+	private Information mInformation;
 
 	@Override
 	public void setPresenter(NotificationContract.Presenter presenter) {
@@ -88,9 +86,7 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 		new NotificationPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(
 				FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().getReference())));
 
-		mEnemy = getArguments().getString(ENEMY);
-
-		mPresenter.onLoadEnemyData(mEnemy);
+		mPresenter.onLoadEnemyData(getArguments().getString(ENEMY));
 
 		return view;
 	}
@@ -124,7 +120,7 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 	@Override
 	public void showEnemyData(User user) {
 		mInformation = getArguments().getParcelable(INFORMATION);
-		mInformation.setEnemy(mEnemy);
+		mInformation.setEnemy(user.getTeam());
 		tv_enemy.setText(getString(R.string.notification_schedule));
 		vp_information.setAdapter(new NotificationPagerAdapter(getChildFragmentManager(), mInformation, user));
 		indicator.setViewPager(vp_information);
