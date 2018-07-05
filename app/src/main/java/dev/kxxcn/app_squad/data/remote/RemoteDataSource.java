@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.DataSource;
-import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
@@ -51,6 +50,9 @@ public class RemoteDataSource extends DataSource {
 
 	public static final String DOCUMENT_NAME_MESSAGE = "message";
 	public static final String DOCUMENT_NAME_JOIN = "join";
+	public static final String DOCUMENT_NAME_NOTICE = "notice";
+	public static final String DOCUMENT_NAME_SQUAD = "squad";
+	public static final String DOCUMENT_NAME_EVENT = "event";
 
 	private static RemoteDataSource remoteDataSource;
 
@@ -197,7 +199,6 @@ public class RemoteDataSource extends DataSource {
 	public void onRegister(final GetCommonCallback callback, final Information information, final Constants.ListsFilterType requestType) {
 		List<String> joinList = new ArrayList<>(0);
 		joinList.add("SQUAD");
-		information.setTeam(Account.getInstance().getTeam());
 		information.setJoin(joinList);
 		String collection = null;
 		switch (requestType) {
@@ -297,15 +298,14 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onLoadAccount(final GetCommonCallback callback) {
+	public void onLoadAccount(final GetUserCallback callback) {
 		try {
 			DatabaseReference accountReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid());
-			accountReference.addListenerForSingleValueEvent(new ValueEventListener() {
+			accountReference.addValueEventListener(new ValueEventListener() {
 				@Override
 				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 					if (dataSnapshot.getChildrenCount() != 0) {
-						new Account(dataSnapshot.getValue(User.class));
-						callback.onSuccess();
+						callback.onSuccess(dataSnapshot.getValue(User.class));
 					} else {
 						callback.onFailure(new Exception());
 					}
@@ -509,6 +509,25 @@ public class RemoteDataSource extends DataSource {
 				callback.onFailure(e);
 			}
 		});
+	}
+
+	@Override
+	public void onUpdateNotice(GetCommonCallback callback, boolean on, Constants.NoticeFilterType requestType) {
+		String type = null;
+		switch (requestType) {
+			case SQAUD:
+				type = DOCUMENT_NAME_SQUAD;
+				break;
+			case NOTICE:
+				type = DOCUMENT_NAME_NOTICE;
+				break;
+			case EVENT:
+				type = DOCUMENT_NAME_EVENT;
+				break;
+		}
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid())
+				.child(DOCUMENT_NAME_NOTICE).child(type);
+		reference.setValue(on);
 	}
 
 	/**

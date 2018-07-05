@@ -80,7 +80,7 @@ public abstract class DataSource {
 
 	public abstract void onRequest(GetSendMessageCallback callback, String to, String title, String message, String from, String date);
 
-	public abstract void onLoadAccount(GetCommonCallback callback);
+	public abstract void onLoadAccount(GetUserCallback callback);
 
 	public abstract void onLoadNotification(GetNotificationCallback callback);
 
@@ -93,5 +93,7 @@ public abstract class DataSource {
 	public abstract void onLoadEnemyData(GetUserCallback callback, String enemy);
 
 	public abstract void onAgree(GetSendMessageCallback callback, Information information, String title, String message);
+
+	public abstract void onUpdateNotice(GetCommonCallback callback, boolean on, Constants.NoticeFilterType requestType);
 
 }

@@ -139,11 +139,11 @@ public class DataRepository {
 		}, to, title, message, from, date);
 	}
 
-	public void onLoadAccount(final DataSource.GetCommonCallback callback) {
-		dataSource.onLoadAccount(new DataSource.GetCommonCallback() {
+	public void onLoadAccount(final DataSource.GetUserCallback callback) {
+		dataSource.onLoadAccount(new DataSource.GetUserCallback() {
 			@Override
-			public void onSuccess() {
-				callback.onSuccess();
+			public void onSuccess(User user) {
+				callback.onSuccess(user);
 			}
 
 			@Override
@@ -241,6 +241,20 @@ public class DataRepository {
 				callback.onError();
 			}
 		}, information, title, message);
+	}
+
+	public void onUpdateNotice(final DataSource.GetCommonCallback callback, boolean on, Constants.NoticeFilterType requestType) {
+		dataSource.onUpdateNotice(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, on, requestType);
 	}
 
 }
