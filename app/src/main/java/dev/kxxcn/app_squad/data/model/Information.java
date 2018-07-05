@@ -43,7 +43,8 @@ public class Information implements Parcelable {
 		this.enemy = in.readString();
 	}
 
-	public Information(String email, String region, String place, String date, String time, String money, String rule, String age, String inquiry, boolean isConnect) {
+	public Information(String team, String email, String region, String place, String date, String time, String money, String rule, String age, String inquiry, boolean isConnect) {
+		this.team = team;
 		this.email = email;
 		this.region = region;
 		this.place = place;
