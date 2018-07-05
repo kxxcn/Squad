@@ -123,13 +123,13 @@
                 android:gravity="center">
 
                 <com.zcw.togglebutton.ToggleButton
+                    android:id="@+id/tb_squad"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     app:tbAsDefaultOn="true"
                     app:tbBorderWidth="1dp"
                     app:tbOffBorderColor="@color/toggle_off"
-                    app:tbOnColor="@color/toggle_on">
-                </com.zcw.togglebutton.ToggleButton>
+                    app:tbOnColor="@color/toggle_on"/>
 
             </LinearLayout>
 
@@ -174,13 +174,13 @@
                 android:gravity="center">
 
                 <com.zcw.togglebutton.ToggleButton
+                    android:id="@+id/tb_notice"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     app:tbAsDefaultOn="true"
                     app:tbBorderWidth="1dp"
                     app:tbOffBorderColor="@color/toggle_off"
-                    app:tbOnColor="@color/toggle_on">
-                </com.zcw.togglebutton.ToggleButton>
+                    app:tbOnColor="@color/toggle_on"/>
 
             </LinearLayout>
 
@@ -217,13 +217,13 @@
                 android:gravity="center">
 
                 <com.zcw.togglebutton.ToggleButton
+                    android:id="@+id/tb_event"
                     android:layout_width="50dp"
                     android:layout_height="25dp"
                     app:tbAsDefaultOn="true"
                     app:tbBorderWidth="1dp"
                     app:tbOffBorderColor="@color/toggle_off"
-                    app:tbOnColor="@color/toggle_on">
-                </com.zcw.togglebutton.ToggleButton>
+                    app:tbOnColor="@color/toggle_on"/>
 
             </LinearLayout>
 

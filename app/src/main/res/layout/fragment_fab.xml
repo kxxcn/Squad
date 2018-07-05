@@ -40,7 +40,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:orientation="vertical"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:weightSum="2">
 
                         <TextView
@@ -59,11 +59,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
                         android:gravity="center"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
                             android:background="@drawable/ic_quick_match"/>
 
                     </LinearLayout>

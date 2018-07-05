@@ -20,17 +20,18 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/layout_appbar"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="0dp">
 
             <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/ll_collapstoolbar"
+                android:id="@+id/layout_collapsing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMargin="25dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -60,7 +61,7 @@
             android:src="@drawable/ic_notification"
             android:theme="@style/AppTheme.FabOverlay"
             android:tint="@color/fab_tint"
-            app:layout_anchor="@id/ll_collapstoolbar"
+            app:layout_anchor="@id/layout_collapsing"
             app:layout_anchorGravity="right|bottom"/>
 
     </android.support.design.widget.CoordinatorLayout>
