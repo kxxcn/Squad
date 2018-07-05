@@ -5,6 +5,7 @@ import java.util.List;
 import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
+import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.ui.BasePresenter;
 import dev.kxxcn.app_squad.ui.BaseView;
 
@@ -14,9 +15,9 @@ import dev.kxxcn.app_squad.ui.BaseView;
 
 public interface TeamContract {
 	interface View extends BaseView<TeamContract.Presenter> {
-		void setToolbarTitle(String title);
+		void setToolbarTitle(User user);
 
-		void showErrorBadRequest();
+		void showSuccessfullyLogout();
 
 		void showSuccessLoadNotification(List<Notification> list);
 
@@ -41,6 +42,8 @@ public interface TeamContract {
 		void onReadNotification(List<Notification> notifications);
 
 		void onLoadMatch(String date);
+
+		void onLogout();
 	}
 
 	interface ItemClickListener {

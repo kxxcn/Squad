@@ -16,7 +16,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
-import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.Battle;
 
 /**
@@ -28,9 +27,12 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 	private Context mContext;
 	private List<Battle> mList;
 
-	public TeamAdapter(Context context, List<Battle> list) {
+	private String mTeam;
+
+	public TeamAdapter(Context context, List<Battle> list, String team) {
 		this.mContext = context;
 		this.mList = list;
+		this.mTeam = team;
 	}
 
 	@Override
@@ -41,15 +43,15 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		Glide.with(mContext).load(R.drawable.team_list_background).diskCacheStrategy(DiskCacheStrategy.NONE).into(holder.iv_background);
+		Glide.with(mContext).load(R.drawable.team_list).diskCacheStrategy(DiskCacheStrategy.NONE).into(holder.iv_background);
 		holder.tv_date.setText(getFormattedDate(mList.get(holder.getAdapterPosition()).getDate()));
 		holder.tv_place.setText(mList.get(holder.getAdapterPosition()).getPlace());
 		if (mList.get(holder.getAdapterPosition()).isHome()) {
-			holder.tv_home.setText(Account.getInstance().getTeam());
+			holder.tv_home.setText(mTeam);
 			holder.tv_away.setText(mList.get(holder.getAdapterPosition()).getEnemy());
 		} else {
 			holder.tv_home.setText(mList.get(holder.getAdapterPosition()).getEnemy());
-			holder.tv_away.setText(Account.getInstance().getTeam());
+			holder.tv_away.setText(mTeam);
 		}
 	}
 

@@ -4,10 +4,10 @@ import java.util.List;
 
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
-import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
+import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Dlog;
 
 /**
@@ -49,10 +49,10 @@ public class TeamPresenter implements TeamContract.Presenter {
 			return;
 		}
 
-		mDataRepository.onLoadAccount(new DataSource.GetCommonCallback() {
+		mDataRepository.onLoadAccount(new DataSource.GetUserCallback() {
 			@Override
-			public void onSuccess() {
-				mTeamView.setToolbarTitle(Account.getInstance().getTeam());
+			public void onSuccess(User user) {
+				mTeamView.setToolbarTitle(user);
 			}
 
 			@Override
@@ -63,7 +63,8 @@ public class TeamPresenter implements TeamContract.Presenter {
 		});
 	}
 
-	private void onLogout() {
+	@Override
+	public void onLogout() {
 		if (mTeamView == null) {
 			return;
 		}
@@ -71,7 +72,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 		mDataRepository.onLogout(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
-				mTeamView.showErrorBadRequest();
+				mTeamView.showSuccessfullyLogout();
 			}
 
 			@Override

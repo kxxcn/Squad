@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
@@ -40,6 +41,7 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
+import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.MyFirebaseMessagingService;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.ui.login.LoginActivity;
@@ -62,8 +64,10 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	@BindView(R.id.rv_team)
 	RecyclerView rv_team;
 
-	@BindView(R.id.ll_collapstoolbar)
-	CollapsingToolbarLayout toolbar;
+	@BindView(R.id.layout_appbar)
+	AppBarLayout layout_appbar;
+	@BindView(R.id.layout_collapsing)
+	CollapsingToolbarLayout layout_collapsing;
 
 	@BindView(R.id.iv_collapsing)
 	ImageView iv_collapsing;
@@ -91,6 +95,8 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	private List<Notification> notifications;
 	private List<Notification> unReadNotifications;
+
+	private User mUser;
 
 	@Override
 	public void setPresenter(TeamContract.Presenter presenter) {
@@ -120,6 +126,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		super.onViewCreated(view, savedInstanceState);
 		mPresenter.onLoadAccount();
 		Glide.with(this).load(imgs[new Random().nextInt(imgs.length)]).diskCacheStrategy(DiskCacheStrategy.NONE).into(iv_collapsing);
+		layout_collapsing.setContentScrimResource(R.drawable.background);
 	}
 
 	public static Fragment newInstance() {
@@ -132,15 +139,16 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	}
 
 	@Override
-	public void setToolbarTitle(String title) {
-		toolbar.setTitle(title);
+	public void setToolbarTitle(User user) {
+		this.mUser = user;
+		layout_collapsing.setTitle(user.getTeam());
 		mPresenter.onLoadRecord();
 		mPresenter.onLoadNotification();
 	}
 
 	@Override
-	public void showErrorBadRequest() {
-		getContext().startActivity(new Intent(getContext(), LoginActivity.class));
+	public void showSuccessfullyLogout() {
+		startActivity(new Intent(getContext(), LoginActivity.class));
 		getActivity().finish();
 	}
 
@@ -255,7 +263,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	@Override
 	public void showSuccessfullyLoadBattle(List<Battle> battleList) {
 		Collections.sort(battleList, new CompareBattle());
-		rv_team.setAdapter(new TeamAdapter(getContext(), battleList));
+		rv_team.setAdapter(new TeamAdapter(getContext(), battleList, mUser.getTeam()));
 	}
 
 	@Override
@@ -265,7 +273,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	@Override
 	public void showInvalidAccount() {
-		startActivity(new Intent(getActivity(), LoginActivity.class));
+		mPresenter.onLogout();
 	}
 
 }
