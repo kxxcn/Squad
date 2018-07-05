@@ -15,6 +15,7 @@ public class User implements Parcelable {
 	private String token;
 	private String age;
 	private String intro;
+	private Notice notice;
 
 	public User() {
 
@@ -34,6 +35,7 @@ public class User implements Parcelable {
 		this.uid = uid;
 		this.team = team;
 		this.token = token;
+		this.notice = new Notice(true, true, true);
 	}
 
 	public String getEmail() {
@@ -66,6 +68,10 @@ public class User implements Parcelable {
 
 	public void setIntro(String intro) {
 		this.intro = intro;
+	}
+
+	public Notice getNotice() {
+		return notice;
 	}
 
 	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
