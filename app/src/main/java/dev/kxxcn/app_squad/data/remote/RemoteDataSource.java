@@ -394,9 +394,9 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onLoadMatch(final GetInformationCallback callback, final String date, final Battle battle) {
+	public void onLoadMatch(final GetInformationCallback callback, final Battle battle) {
 		if (battle.isHome()) {
-			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
+			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(battle.getDate()).child(mAuth.getCurrentUser().getUid());
 			reference.addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -422,7 +422,7 @@ public class RemoteDataSource extends DataSource {
 						User user = childSnapshot.getValue(User.class);
 						if (battle.getEnemy().equals(user.getTeam())) {
 							String uid = user.getUid();
-							DatabaseReference matchReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(uid);
+							DatabaseReference matchReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(battle.getDate()).child(uid);
 							matchReference.addListenerForSingleValueEvent(new ValueEventListener() {
 								@Override
 								public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -566,6 +566,22 @@ public class RemoteDataSource extends DataSource {
 		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid())
 				.child(DOCUMENT_NAME_NOTICE).child(type);
 		reference.setValue(on);
+	}
+
+	@Override
+	public void onRemoveNotification(final GetCommonCallback callback) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid()).child(DOCUMENT_NAME_MESSAGE);
+		reference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+			@Override
+			public void onSuccess(Void aVoid) {
+				callback.onSuccess();
+			}
+		}).addOnFailureListener(new OnFailureListener() {
+			@Override
+			public void onFailure(@NonNull Exception e) {
+				callback.onFailure(e);
+			}
+		});
 	}
 
 	/**

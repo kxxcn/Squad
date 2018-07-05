@@ -30,6 +30,10 @@ public interface TeamContract {
 		void showUnsuccessfullyLoadBattle();
 
 		void showInvalidAccount();
+
+		void showSuccessfullyRemoveNotification();
+
+		void showUnsuccessfullyRemoveNotification();
 	}
 
 	interface Presenter extends BasePresenter {
@@ -41,7 +45,7 @@ public interface TeamContract {
 
 		void onReadNotification(List<Notification> notifications);
 
-		void onLoadMatch(String date, Battle battle);
+		void onLoadMatch(Battle battle);
 
 		void onLogout();
 

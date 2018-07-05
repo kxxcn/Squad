@@ -88,12 +88,14 @@ public abstract class DataSource {
 
 	public abstract void onRemove(GetCommonCallback callback, String date);
 
-	public abstract void onLoadMatch(GetInformationCallback callback, String date, Battle battle);
+	public abstract void onLoadMatch(GetInformationCallback callback, Battle battle);
 
 	public abstract void onLoadEnemyData(GetUserCallback callback, String enemy);
 
 	public abstract void onAgree(GetSendMessageCallback callback, Information information, String title, String message);
 
 	public abstract void onUpdateNotice(GetCommonCallback callback, boolean on, Constants.NoticeFilterType requestType);
+
+	public abstract void onRemoveNotification(GetCommonCallback callback);
 
 }

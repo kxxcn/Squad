@@ -195,7 +195,7 @@ public class DataRepository {
 		}, date);
 	}
 
-	public void onLoadMatch(final DataSource.GetInformationCallback callback, String date, Battle battle) {
+	public void onLoadMatch(final DataSource.GetInformationCallback callback, Battle battle) {
 		dataSource.onLoadMatch(new DataSource.GetInformationCallback() {
 			@Override
 			public void onSuccess(Information information) {
@@ -206,7 +206,7 @@ public class DataRepository {
 			public void onFailure(Throwable throwable) {
 				callback.onFailure(throwable);
 			}
-		}, date, battle);
+		}, battle);
 	}
 
 	public void onLoadEnemyData(final DataSource.GetUserCallback callback, String enemy) {
@@ -255,6 +255,20 @@ public class DataRepository {
 				callback.onFailure(throwable);
 			}
 		}, on, requestType);
+	}
+
+	public void onRemoveNotification(final DataSource.GetCommonCallback callback) {
+		dataSource.onRemoveNotification(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		});
 	}
 
 }

@@ -265,16 +265,8 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	@Override
 	public void onClick(int position) {
-		int index = notifications.get(position).getMessage().indexOf("]");
-		mEnemy = notifications.get(position).getMessage().substring(BEGIN_INDEX, index);
-		Battle battle = null;
-		for (int i = 0; i < mBattleList.size(); i++) {
-			if (notifications.get(position).getDate().equals(mBattleList.get(i).getDate())) {
-				battle = mBattleList.get(i);
-				break;
-			}
-		}
-		mPresenter.onLoadMatch(notifications.get(position).getDate(), battle);
+		mEnemy = mBattleList.get(position).getEnemy();
+		mPresenter.onLoadMatch(mBattleList.get(position));
 	}
 
 	@Override
@@ -299,6 +291,17 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	@Override
 	public void showInvalidAccount() {
 		mPresenter.onLogout();
+	}
+
+	@Override
+	public void showSuccessfullyRemoveNotification() {
+		navigation_drawer.closeDrawer(GravityCompat.END);
+		Toast.makeText(getContext(), getString(R.string.successfully_remove), Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void showUnsuccessfullyRemoveNotification() {
+		Toast.makeText(getContext(), getString(R.string.unsuccessfully_remove), Toast.LENGTH_SHORT).show();
 	}
 
 }

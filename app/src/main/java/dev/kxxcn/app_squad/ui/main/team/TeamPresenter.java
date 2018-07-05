@@ -122,7 +122,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 	}
 
 	@Override
-	public void onLoadMatch(String date, Battle battle) {
+	public void onLoadMatch(Battle battle) {
 		if (mTeamView == null) {
 			return;
 		}
@@ -137,12 +137,26 @@ public class TeamPresenter implements TeamContract.Presenter {
 			public void onFailure(Throwable throwable) {
 				Dlog.e(throwable.getMessage());
 			}
-		}, date, battle);
+		}, battle);
 	}
 
 	@Override
 	public void onRemoveNotification() {
+		if (mTeamView == null) {
+			return;
+		}
 
+		mDataRepository.onRemoveNotification(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				mTeamView.showSuccessfullyRemoveNotification();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				mTeamView.showUnsuccessfullyRemoveNotification();
+			}
+		});
 	}
 
 }
