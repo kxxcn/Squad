@@ -1,5 +1,6 @@
 package dev.kxxcn.app_squad.ui.main.setting;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,6 +26,7 @@ import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.ui.login.LoginActivity;
 import dev.kxxcn.app_squad.util.Constants;
+import dev.kxxcn.app_squad.util.DialogUtils;
 
 /**
  * Created by kxxcn on 2018-04-26.
@@ -68,12 +70,20 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	@OnClick(R.id.btn_logout)
 	public void onLogout() {
-		mPresenter.onLogout();
+		btn_logout.reset();
+		DialogUtils.showAlertDialog(getContext(), getString(R.string.setting_want_logout), positiveListener, null);
 	}
 
 	public static Fragment newInstance() {
 		return new SettingFragment();
 	}
+
+	DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			mPresenter.onLogout();
+		}
+	};
 
 	@Override
 	public void showLoadingIndicator(boolean isShowing) {
@@ -82,7 +92,6 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	@Override
 	public void showSuccessfullyLogout() {
-//		Toast.makeText(getContext(), getString(R.string.setting_success_logout), Toast.LENGTH_SHORT).show();
 		getContext().startActivity(new Intent(getContext(), LoginActivity.class));
 		getActivity().finish();
 	}

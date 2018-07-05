@@ -67,20 +67,13 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void showDialog() {
-		DialogUtils.showAlertDialog(this, getString(R.string.want_to_quit), positiveListener, negativeListener);
+		DialogUtils.showAlertDialog(this, getString(R.string.want_to_quit), positiveListener, null);
 	}
 
 	private DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			SystemUtils.onFinish(MainActivity.this);
-		}
-	};
-
-	private DialogInterface.OnClickListener negativeListener = new DialogInterface.OnClickListener() {
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			return;
 		}
 	};
 
