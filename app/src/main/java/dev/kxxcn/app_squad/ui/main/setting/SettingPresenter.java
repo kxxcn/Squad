@@ -2,6 +2,8 @@ package dev.kxxcn.app_squad.ui.main.setting;
 
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
+import dev.kxxcn.app_squad.data.model.User;
+import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.Dlog;
 
 /**
@@ -37,6 +39,45 @@ public class SettingPresenter implements SettingContract.Presenter {
 				mSettingView.showUnsuccessfullyLogout();
 			}
 		});
+	}
+
+	@Override
+	public void onLoadAccount() {
+		if (mSettingView == null) {
+			return;
+		}
+
+		mDataRepository.onLoadAccount(new DataSource.GetUserCallback() {
+			@Override
+			public void onSuccess(User user) {
+				mSettingView.setToggleButton(user);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				mSettingView.showInvalidAccount();
+				Dlog.e(throwable.getMessage());
+			}
+		});
+	}
+
+	@Override
+	public void onUpdateNotice(boolean on, Constants.NoticeFilterType type) {
+		if (mSettingView == null) {
+			return;
+		}
+
+		mDataRepository.onUpdateNotice(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+
+			}
+		}, on, type);
 	}
 
 }
