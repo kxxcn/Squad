@@ -30,4 +30,10 @@ public class Constants {
 		RECRUITMENT_LIST,
 		PLAYER_LIST
 	}
+
+	public enum NoticeFilterType {
+		SQAUD,
+		NOTICE,
+		EVENT
+	}
 }
