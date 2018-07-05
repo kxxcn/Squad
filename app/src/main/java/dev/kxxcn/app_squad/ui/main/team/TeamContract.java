@@ -44,6 +44,8 @@ public interface TeamContract {
 		void onLoadMatch(String date, Battle battle);
 
 		void onLogout();
+
+		void onRemoveNotification();
 	}
 
 	interface ItemClickListener {

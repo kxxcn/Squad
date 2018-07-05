@@ -1,5 +1,6 @@
 package dev.kxxcn.app_squad.ui.main.team;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import dev.kxxcn.app_squad.ui.login.LoginActivity;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
 import dev.kxxcn.app_squad.ui.main.team.notification.NotificationDialog;
 import dev.kxxcn.app_squad.util.BusProvider;
+import dev.kxxcn.app_squad.util.DialogUtils;
 
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
@@ -82,9 +84,6 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	@BindView(R.id.rv_notification)
 	RecyclerView rv_notification;
 
-	@BindView(R.id.include_drawer_header)
-	View include_drawer_header;
-
 	private TeamContract.Presenter mPresenter;
 
 	private String mEnemy;
@@ -117,7 +116,9 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		navigation_drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		navigation_view.setNavigationItemSelectedListener(this);
 
+		ImageButton ib_remove = view.findViewById(R.id.ib_remove);
 		ImageButton ib_cancel = view.findViewById(R.id.ib_cancel);
+		ib_remove.setOnClickListener(this);
 		ib_cancel.setOnClickListener(this);
 
 		return view;
@@ -211,8 +212,22 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	@Override
 	public void onClick(View v) {
-		navigation_drawer.closeDrawer(GravityCompat.END);
+		switch (v.getId()) {
+			case R.id.ib_remove:
+				DialogUtils.showAlertDialog(getContext(), getString(R.string.team_want_remove), positiveListener, null);
+				break;
+			case R.id.ib_cancel:
+				navigation_drawer.closeDrawer(GravityCompat.END);
+				break;
+		}
 	}
+
+	DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			mPresenter.onRemoveNotification();
+		}
+	};
 
 	class CompareNotification implements Comparator<Notification> {
 		@Override

@@ -140,4 +140,9 @@ public class TeamPresenter implements TeamContract.Presenter {
 		}, date, battle);
 	}
 
+	@Override
+	public void onRemoveNotification() {
+
+	}
+
 }
