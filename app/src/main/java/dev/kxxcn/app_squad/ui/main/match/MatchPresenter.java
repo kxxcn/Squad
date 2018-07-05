@@ -3,6 +3,7 @@ package dev.kxxcn.app_squad.ui.main.match;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.Dlog;
 
@@ -63,6 +64,25 @@ public class MatchPresenter implements MatchContract.Presenter {
 				mMatchView.showLoadingIndicator(false);
 			}
 		}, date);
+	}
+
+	@Override
+	public void onLoadAccount() {
+		if (mMatchView == null) {
+			return;
+		}
+
+		mDataRepository.onLoadAccount(new DataSource.GetUserCallback() {
+			@Override
+			public void onSuccess(User user) {
+				mMatchView.showSuccessfullyLoadAccount(user);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				Dlog.e(throwable.getMessage());
+			}
+		});
 	}
 
 }

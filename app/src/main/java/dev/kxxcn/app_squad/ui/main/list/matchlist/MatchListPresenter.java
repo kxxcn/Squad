@@ -5,6 +5,7 @@ import java.util.List;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.Dlog;
 
@@ -78,6 +79,45 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 				mMatchListView.showUnuccessfullyRequested();
 			}
 		}, to, title, message, from, date);
+	}
+
+	@Override
+	public void onLoadAccount() {
+		if (mMatchListView == null) {
+			return;
+		}
+
+		mDataRepository.onLoadAccount(new DataSource.GetUserCallback() {
+			@Override
+			public void onSuccess(User user) {
+				mMatchListView.showSuccessfullyLoadAccount(user);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				mMatchListView.showInvalidAccount();
+				Dlog.e(throwable.getMessage());
+			}
+		});
+	}
+
+	@Override
+	public void onLogout() {
+		if (mMatchListView == null) {
+			return;
+		}
+
+		mDataRepository.onLogout(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				mMatchListView.showSuccessfullyLogout();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				Dlog.e(throwable.getMessage());
+			}
+		});
 	}
 
 }

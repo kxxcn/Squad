@@ -36,8 +36,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
-import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.DialogUtils;
@@ -131,6 +131,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	private boolean isUseable = true;
 
+	private User mUser;
+
 	@Override
 	public void setPresenter(MatchContract.Presenter presenter) {
 		mPresenter = presenter;
@@ -153,7 +155,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_match);
 		ButterKnife.bind(this);
-		initUI();
+		mPresenter.onLoadAccount();
 	}
 
 	private void initUI() {
@@ -213,7 +215,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				spinner_age.setText(mInformation.getAge());
 				spinner_age.setEnabled(false);
 				ib_cancel.setVisibility(View.VISIBLE);
-				if (mInformation.getEmail().equals(Account.getInstance().getEmail())) {
+				if (mInformation.getEmail().equals(mUser.getEmail())) {
 					ib_remove.setVisibility(View.VISIBLE);
 				}
 				ib_register.setVisibility(View.GONE);
@@ -241,7 +243,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	@OnClick(R.id.ib_register)
 	public void onRegister() {
 		KeyboardUtils.hideKeyboard(mActivity, getCurrentFocus());
-		String email = Account.getInstance().getEmail();
+		String team = mUser.getTeam();
+		String email = mUser.getEmail();
 		String region = spinner_region.getText().toString();
 		String place = et_place.getText().toString();
 		String date = tv_date.getText().toString();
@@ -258,7 +261,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				onVerifyUsability(ll_time, time) && onVerifyUsability(ll_money, money)) {
 			Dlog.i(String.format(getContext().getString(R.string.log_information),
 					email, region, place, date, time, money, rule, age, inquiry));
-			Information information = new Information(email, region, place, date, time, money, rule, age, inquiry, false);
+			Information information = new Information(team, email, region, place, date, time, money, rule, age, inquiry, false);
 			mPresenter.onRegister(information, mFilterType);
 		} else {
 			Toast.makeText(mContext, getContext().getString(R.string.input_all), Toast.LENGTH_SHORT).show();
@@ -419,6 +422,12 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	@Override
 	public void showUnsuccessfullyRemove() {
 		Toast.makeText(mActivity, getContext().getString(R.string.unsuccessfully_remove), Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void showSuccessfullyLoadAccount(User user) {
+		this.mUser = user;
+		initUI();
 	}
 
 }

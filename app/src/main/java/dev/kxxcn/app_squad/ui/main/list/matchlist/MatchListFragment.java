@@ -1,5 +1,6 @@
 package dev.kxxcn.app_squad.ui.main.list.matchlist;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,9 +27,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
-import dev.kxxcn.app_squad.data.model.Account;
 import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
+import dev.kxxcn.app_squad.ui.login.LoginActivity;
 import dev.kxxcn.app_squad.ui.main.match.MatchDialog;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.threading.UiThread;
@@ -48,6 +50,8 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	private MatchListContract.Presenter mPresenter;
 
 	private List<Information> mList;
+
+	private User mUser;
 
 	@Override
 	public void setPresenter(MatchListContract.Presenter presenter) {
@@ -71,7 +75,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		mPresenter.onLoadList();
+		mPresenter.onLoadAccount();
 	}
 
 	public static Fragment newInstance() {
@@ -117,7 +121,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	public void onClick(int position, int type) {
 		if (type == MatchListAdapter.REQUEST) {
 			mPresenter.onRequest(mList.get(position).getEmail(), getString(R.string.app_name), String.format(getString(R.string.list_request_match),
-					Account.getInstance().getTeam()), Account.getInstance().getUid(), mList.get(position).getDate().replace("-", ""));
+					mUser.getTeam()), mUser.getUid(), mList.get(position).getDate().replace("-", ""));
 		} else if (type == MatchListAdapter.INFORMATION) {
 			MatchDialog dialog = new MatchDialog(getActivity(), getContext(), MatchDialog.LIST, mList.get(position));
 			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -149,6 +153,23 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 				Toast.makeText(getContext(), getString(R.string.list_unsuccessfully_request), Toast.LENGTH_SHORT).show();
 			}
 		});
+	}
+
+	@Override
+	public void showSuccessfullyLoadAccount(User user) {
+		this.mUser = user;
+		mPresenter.onLoadList();
+	}
+
+	@Override
+	public void showInvalidAccount() {
+		mPresenter.onLogout();
+	}
+
+	@Override
+	public void showSuccessfullyLogout() {
+		startActivity(new Intent(getContext(), LoginActivity.class));
+		getActivity().finish();
 	}
 
 }
