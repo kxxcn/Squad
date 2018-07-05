@@ -99,6 +99,7 @@
     <string name="team_away">AWAY</string>
     <string name="team_divider">/</string>
     <string name="team_date">%s-%s-%s</string>
+    <string name="team_want_remove">알림이력을 모두 삭제하시겠습니까?</string>
 
     <string name="notification_schedule">경기일정</string>
     <string name="notification_no_introduce">클럽 소개글이 없습니다.</string>
