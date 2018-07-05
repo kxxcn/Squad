@@ -4,8 +4,8 @@ import android.app.Activity;
 
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
-import dev.kxxcn.app_squad.util.Dlog;
 import dev.kxxcn.app_squad.util.PermissionUtils;
+import dev.kxxcn.app_squad.util.SystemUtils;
 
 /**
  * Created by kxxcn on 2018-04-30.
@@ -44,7 +44,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				Dlog.e(throwable.getMessage());
+				SystemUtils.Dlog.e(throwable.getMessage());
 				mLoginView.showUnsuccessfullyAuth();
 				mLoginView.showLoadingIndicator(false);
 			}

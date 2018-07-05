@@ -34,7 +34,6 @@ import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
-import dev.kxxcn.app_squad.util.Dlog;
 import dev.kxxcn.app_squad.util.SystemUtils;
 
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_REQUEST;
@@ -159,14 +158,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				}).addOnFailureListener(new OnFailureListener() {
 					@Override
 					public void onFailure(@NonNull Exception e) {
-						Dlog.e(e.getMessage());
+						SystemUtils.Dlog.e(e.getMessage());
 					}
 				});
 			}
 
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
-				Dlog.e(databaseError.getMessage());
+				SystemUtils.Dlog.e(databaseError.getMessage());
 			}
 		});
 	}

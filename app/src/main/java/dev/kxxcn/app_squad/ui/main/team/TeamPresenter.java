@@ -8,7 +8,8 @@ import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
-import dev.kxxcn.app_squad.util.Dlog;
+import dev.kxxcn.app_squad.util.SystemUtils;
+
 
 /**
  * Created by kxxcn on 2018-04-30.
@@ -58,7 +59,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 			@Override
 			public void onFailure(Throwable throwable) {
 				mTeamView.showInvalidAccount();
-				Dlog.e(throwable.getMessage());
+				SystemUtils.Dlog.e(throwable.getMessage());
 			}
 		});
 	}
@@ -77,7 +78,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				Dlog.e(throwable.getMessage());
+				SystemUtils.Dlog.e(throwable.getMessage());
 			}
 		});
 	}
@@ -135,7 +136,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				Dlog.e(throwable.getMessage());
+				SystemUtils.Dlog.e(throwable.getMessage());
 			}
 		}, battle);
 	}

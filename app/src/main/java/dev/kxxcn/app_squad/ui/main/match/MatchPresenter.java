@@ -5,7 +5,8 @@ import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
-import dev.kxxcn.app_squad.util.Dlog;
+import dev.kxxcn.app_squad.util.SystemUtils;
+
 
 /**
  * Created by kxxcn on 2018-04-30.
@@ -37,7 +38,7 @@ public class MatchPresenter implements MatchContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				Dlog.e(throwable.getMessage());
+				SystemUtils.Dlog.e(throwable.getMessage());
 				mMatchView.showUnsuccessfullyRegister();
 				mMatchView.showLoadingIndicator(false);
 			}
@@ -80,7 +81,7 @@ public class MatchPresenter implements MatchContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				Dlog.e(throwable.getMessage());
+				SystemUtils.Dlog.e(throwable.getMessage());
 			}
 		});
 	}

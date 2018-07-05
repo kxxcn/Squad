@@ -27,7 +27,7 @@ import dev.kxxcn.app_squad.data.model.message.Data;
 import dev.kxxcn.app_squad.data.model.message.Send;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.DialogUtils;
-import dev.kxxcn.app_squad.util.Dlog;
+import dev.kxxcn.app_squad.util.SystemUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -168,7 +168,7 @@ public class RemoteDataSource extends DataSource {
 						List<Information> list = new ArrayList<>(0);
 						for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
 							for (DataSnapshot childSnapshot : parentSnapshot.getChildren()) {
-								Dlog.i(childSnapshot.getValue().toString());
+								SystemUtils.Dlog.i(childSnapshot.getValue().toString());
 								final Information information = childSnapshot.getValue(Information.class);
 								if (!information.isConnect()) {
 									if (Integer.parseInt(DialogUtils.getFormattedDate(DialogUtils.getDate(), TYPE_COLLECTION)) <=

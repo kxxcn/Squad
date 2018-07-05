@@ -22,7 +22,7 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
 import dev.kxxcn.app_squad.ui.signup.SignupActivity;
-import dev.kxxcn.app_squad.util.Dlog;
+import dev.kxxcn.app_squad.util.SystemUtils;
 import dev.kxxcn.app_squad.util.TransitionUtils;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 			public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 				FirebaseUser user = firebaseAuth.getCurrentUser();
 				if (user != null) {
-					Dlog.v("UID : " + user.getUid());
+					SystemUtils.Dlog.v("UID : " + user.getUid());
 					startActivity(new Intent(LoginActivity.this, MainActivity.class));
 					finish();
 				}

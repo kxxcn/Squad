@@ -41,8 +41,8 @@ import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.DialogUtils;
-import dev.kxxcn.app_squad.util.Dlog;
 import dev.kxxcn.app_squad.util.KeyboardUtils;
+import dev.kxxcn.app_squad.util.SystemUtils;
 
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
@@ -259,7 +259,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 		if (onVerifyUsability(ll_place, place) && onVerifyUsability(ll_date, date) &&
 				onVerifyUsability(ll_time, time) && onVerifyUsability(ll_money, money)) {
-			Dlog.i(String.format(getContext().getString(R.string.log_information),
+			SystemUtils.Dlog.i(String.format(getContext().getString(R.string.log_information),
 					email, region, place, date, time, money, rule, age, inquiry));
 			Information information = new Information(team, email, region, place, date, time, money, rule, age, inquiry, false);
 			mPresenter.onRegister(information, mFilterType);

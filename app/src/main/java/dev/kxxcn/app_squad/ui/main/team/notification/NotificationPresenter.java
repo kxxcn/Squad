@@ -4,7 +4,8 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.User;
-import dev.kxxcn.app_squad.util.Dlog;
+import dev.kxxcn.app_squad.util.SystemUtils;
+
 
 /**
  * Created by kxxcn on 2018-06-22.
@@ -36,7 +37,7 @@ public class NotificationPresenter implements NotificationContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				Dlog.e(throwable.getMessage());
+				SystemUtils.Dlog.e(throwable.getMessage());
 				mNotificationView.showUnsuccessfullyAgree();
 			}
 
@@ -61,7 +62,7 @@ public class NotificationPresenter implements NotificationContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				Dlog.e(throwable.getMessage());
+				SystemUtils.Dlog.e(throwable.getMessage());
 			}
 		}, enemy);
 	}

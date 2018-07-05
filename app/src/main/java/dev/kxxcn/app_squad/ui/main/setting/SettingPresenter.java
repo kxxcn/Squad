@@ -4,7 +4,7 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
-import dev.kxxcn.app_squad.util.Dlog;
+import dev.kxxcn.app_squad.util.SystemUtils;
 
 /**
  * Created by kxxcn on 2018-04-30.
@@ -35,7 +35,7 @@ public class SettingPresenter implements SettingContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				Dlog.e(throwable.getMessage());
+				SystemUtils.Dlog.e(throwable.getMessage());
 				mSettingView.showUnsuccessfullyLogout();
 			}
 		});
@@ -56,7 +56,7 @@ public class SettingPresenter implements SettingContract.Presenter {
 			@Override
 			public void onFailure(Throwable throwable) {
 				mSettingView.showInvalidAccount();
-				Dlog.e(throwable.getMessage());
+				SystemUtils.Dlog.e(throwable.getMessage());
 			}
 		});
 	}

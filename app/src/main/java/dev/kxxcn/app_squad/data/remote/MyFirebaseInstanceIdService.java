@@ -12,7 +12,8 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 import java.util.HashMap;
 import java.util.Map;
 
-import dev.kxxcn.app_squad.util.Dlog;
+import dev.kxxcn.app_squad.util.SystemUtils;
+
 
 /**
  * Created by kxxcn on 2018-06-11.
@@ -30,7 +31,7 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 	}
 
 	private void saveNewToken(String token) {
-		Dlog.i("New token : " + token);
+		SystemUtils.Dlog.i("New token : " + token);
 		Map<String, Object> task = new HashMap<>();
 		task.put(TOKEN, token);
 		try {
@@ -39,12 +40,12 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 			reference.setValue(task).addOnFailureListener(new OnFailureListener() {
 				@Override
 				public void onFailure(@NonNull Exception e) {
-					Dlog.e(e.getMessage());
+					SystemUtils.Dlog.e(e.getMessage());
 				}
 			});
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			Dlog.e(e.getMessage());
+			SystemUtils.Dlog.e(e.getMessage());
 		}
 	}
 
