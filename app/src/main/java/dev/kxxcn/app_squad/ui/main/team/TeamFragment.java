@@ -98,6 +98,8 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	private User mUser;
 
+	private List<Battle> mBattleList;
+
 	@Override
 	public void setPresenter(TeamContract.Presenter presenter) {
 		this.mPresenter = presenter;
@@ -250,7 +252,14 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	public void onClick(int position) {
 		int index = notifications.get(position).getMessage().indexOf("]");
 		mEnemy = notifications.get(position).getMessage().substring(BEGIN_INDEX, index);
-		mPresenter.onLoadMatch(notifications.get(position).getDate());
+		Battle battle = null;
+		for (int i = 0; i < mBattleList.size(); i++) {
+			if (notifications.get(position).getDate().equals(mBattleList.get(i).getDate())) {
+				battle = mBattleList.get(i);
+				break;
+			}
+		}
+		mPresenter.onLoadMatch(notifications.get(position).getDate(), battle);
 	}
 
 	@Override
@@ -262,8 +271,9 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	@Override
 	public void showSuccessfullyLoadBattle(List<Battle> battleList) {
+		this.mBattleList = battleList;
 		Collections.sort(battleList, new CompareBattle());
-		rv_team.setAdapter(new TeamAdapter(getContext(), battleList, mUser.getTeam()));
+		rv_team.setAdapter(new TeamAdapter(getContext(), battleList, mUser.getTeam(), this));
 	}
 
 	@Override

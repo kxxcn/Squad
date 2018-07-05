@@ -41,7 +41,7 @@ public interface TeamContract {
 
 		void onReadNotification(List<Notification> notifications);
 
-		void onLoadMatch(String date);
+		void onLoadMatch(String date, Battle battle);
 
 		void onLogout();
 	}

@@ -394,24 +394,62 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onLoadMatch(final GetInformationCallback callback, String date) {
-		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
-		reference.addListenerForSingleValueEvent(new ValueEventListener() {
-			@Override
-			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				try {
-					Information information = dataSnapshot.getValue(Information.class);
-					callback.onSuccess(information);
-				} catch (NullPointerException e) {
-					e.printStackTrace();
+	public void onLoadMatch(final GetInformationCallback callback, final String date, final Battle battle) {
+		if (battle.isHome()) {
+			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
+			reference.addListenerForSingleValueEvent(new ValueEventListener() {
+				@Override
+				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+					try {
+						callback.onSuccess(dataSnapshot.getValue(Information.class));
+					} catch (NullPointerException e) {
+						callback.onFailure(e);
+						e.printStackTrace();
+					}
 				}
-			}
 
-			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {
-				callback.onFailure(databaseError.toException());
-			}
-		});
+				@Override
+				public void onCancelled(@NonNull DatabaseError databaseError) {
+					callback.onFailure(databaseError.toException());
+				}
+			});
+		} else {
+			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
+			reference.addListenerForSingleValueEvent(new ValueEventListener() {
+				@Override
+				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+					for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+						User user = childSnapshot.getValue(User.class);
+						if (battle.getEnemy().equals(user.getTeam())) {
+							String uid = user.getUid();
+							DatabaseReference matchReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(uid);
+							matchReference.addListenerForSingleValueEvent(new ValueEventListener() {
+								@Override
+								public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+									try {
+										callback.onSuccess(dataSnapshot.getValue(Information.class));
+									} catch (NullPointerException e) {
+										callback.onFailure(e);
+										e.printStackTrace();
+									}
+								}
+
+								@Override
+								public void onCancelled(@NonNull DatabaseError databaseError) {
+									callback.onFailure(databaseError.toException());
+								}
+							});
+							break;
+						}
+					}
+				}
+
+				@Override
+				public void onCancelled(@NonNull DatabaseError databaseError) {
+
+				}
+			});
+		}
 	}
 
 	@Override

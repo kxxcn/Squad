@@ -195,7 +195,7 @@ public class DataRepository {
 		}, date);
 	}
 
-	public void onLoadMatch(final DataSource.GetInformationCallback callback, String date) {
+	public void onLoadMatch(final DataSource.GetInformationCallback callback, String date, Battle battle) {
 		dataSource.onLoadMatch(new DataSource.GetInformationCallback() {
 			@Override
 			public void onSuccess(Information information) {
@@ -206,7 +206,7 @@ public class DataRepository {
 			public void onFailure(Throwable throwable) {
 				callback.onFailure(throwable);
 			}
-		}, date);
+		}, date, battle);
 	}
 
 	public void onLoadEnemyData(final DataSource.GetUserCallback callback, String enemy) {
