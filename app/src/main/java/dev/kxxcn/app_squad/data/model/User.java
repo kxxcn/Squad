@@ -3,10 +3,13 @@ package dev.kxxcn.app_squad.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 /**
  * Created by kxxcn on 2018-05-08.
  */
 
+@IgnoreExtraProperties
 public class User implements Parcelable {
 
 	private String email;
