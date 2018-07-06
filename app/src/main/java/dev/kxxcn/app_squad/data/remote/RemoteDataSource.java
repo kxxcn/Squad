@@ -78,7 +78,7 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onSignup(final GetSignupCallback callback, final String email, final String password, final String team) {
+	public void onSignup(final GetSignupCallback callback, final String email, final String phone, final String password, final String team) {
 		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
@@ -93,7 +93,7 @@ public class RemoteDataSource extends DataSource {
 						mIsDuplicate = false;
 					}
 				}
-				onCreateUser(callback, email, password, team);
+				onCreateUser(callback, email, phone, password, team);
 			}
 
 			@Override
@@ -103,7 +103,7 @@ public class RemoteDataSource extends DataSource {
 		});
 	}
 
-	private void onCreateUser(final GetSignupCallback callback, final String email, final String password, final String team) {
+	private void onCreateUser(final GetSignupCallback callback, final String email, final String contact, final String password, final String team) {
 		if (!mIsDuplicate) {
 			mAuth.createUserWithEmailAndPassword(email, password)
 					.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -112,7 +112,7 @@ public class RemoteDataSource extends DataSource {
 							if (task.isSuccessful()) {
 								String uid = mAuth.getCurrentUser().getUid();
 								String token = FirebaseInstanceId.getInstance().getToken();
-								User user = new User(email, uid, team, token);
+								User user = new User(email, contact, uid, team, token);
 								mReference.child(COLLECTION_NAME_USER).child(uid).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
 									@Override
 									public void onSuccess(Void aVoid) {

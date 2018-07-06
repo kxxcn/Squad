@@ -24,7 +24,7 @@ public class SignupPresenter implements SignupContract.Presenter {
 	}
 
 	@Override
-	public void signup(String email, String password, String team) {
+	public void signup(String email, String contact, String password, String team) {
 		if (mSignupView == null) {
 			return;
 		}
@@ -56,7 +56,7 @@ public class SignupPresenter implements SignupContract.Presenter {
 				mSignupView.showAlreadyExistTeam();
 				mSignupView.showLoadingIndicator(false);
 			}
-		}, email, password, team);
+		}, email, contact, password, team);
 	}
 
 }

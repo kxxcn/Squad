@@ -29,7 +29,7 @@ public class DataRepository {
 		return dataRepository;
 	}
 
-	public void onSignup(final DataSource.GetSignupCallback callback, String email, String password, String team) {
+	public void onSignup(final DataSource.GetSignupCallback callback, String email, String contact, String password, String team) {
 		dataSource.onSignup(new DataSource.GetSignupCallback() {
 			@Override
 			public void onSuccess() {
@@ -45,7 +45,7 @@ public class DataRepository {
 			public void onDuplicatedTeam() {
 				callback.onDuplicatedTeam();
 			}
-		}, email, password, team);
+		}, email, contact, password, team);
 	}
 
 

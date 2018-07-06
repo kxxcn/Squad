@@ -66,7 +66,7 @@ public abstract class DataSource {
 		void onFailure(Throwable throwable);
 	}
 
-	public abstract void onSignup(GetSignupCallback callback, String email, String password, String team);
+	public abstract void onSignup(GetSignupCallback callback, String email, String contact, String password, String team);
 
 	public abstract void onLogin(GetCommonCallback callback, String email, String password);
 

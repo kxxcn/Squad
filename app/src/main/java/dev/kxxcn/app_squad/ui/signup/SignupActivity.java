@@ -1,9 +1,11 @@
 package dev.kxxcn.app_squad.ui.signup;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -26,6 +28,7 @@ import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.StateButton;
+import dev.kxxcn.app_squad.util.SystemUtils;
 import dev.kxxcn.app_squad.util.TransitionUtils;
 import dev.kxxcn.app_squad.util.WatcherUtils;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
@@ -45,6 +48,8 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 	ExtendedEditText et_email;
 	@BindView(R.id.et_team)
 	ExtendedEditText et_team;
+	@BindView(R.id.et_contact)
+	ExtendedEditText et_contact;
 	@BindView(R.id.et_pass)
 	ExtendedEditText et_pass;
 	@BindView(R.id.et_confirm)
@@ -86,16 +91,30 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 		et_team.addTextChangedListener(WatcherUtils.noSpaceWatcher(et_team));
 		et_confirm.addTextChangedListener(validatePassWatcher);
 
+		initUI();
+	}
+
+	private void initUI() {
 		registerShowAndHideView(ll_rootview, ll_top, ll_middle);
+		try {
+			TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+			String contact = manager.getLine1Number();
+			contact = contact.replace("+82", "0");
+			et_contact.setText(contact);
+		} catch (SecurityException e) {
+			SystemUtils.Dlog.e(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	@OnClick(R.id.btn_signup)
 	public void onSignup() {
 		if (!TextUtils.isEmpty(et_email.getText()) && !TextUtils.isEmpty(et_team.getText()) &&
-				!TextUtils.isEmpty(et_pass.getText()) && !TextUtils.isEmpty(et_confirm.getText())) {
+				!TextUtils.isEmpty(et_contact.getText()) && !TextUtils.isEmpty(et_pass.getText()) && !TextUtils.isEmpty(et_confirm.getText())) {
 			if (et_team.getText().length() <= LIMITED_MAX_CHARACTER) {
 				if (et_confirm.getText().length() >= LIMITED_MIN_CHARACTER) {
-					mPresenter.signup(et_email.getText().toString(), et_confirm.getText().toString(), et_team.getText().toString());
+					mPresenter.signup(et_email.getText().toString(), et_contact.getText().toString(),
+							et_confirm.getText().toString(), et_team.getText().toString());
 				} else {
 					Toast.makeText(this, getString(R.string.password_rule), Toast.LENGTH_SHORT).show();
 				}

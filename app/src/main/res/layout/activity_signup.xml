@@ -2,7 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -56,107 +55,143 @@
                     android:id="@+id/ll_middle"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_weight="3">
 
-                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-                        android:layout_width="280dp"
-                        android:layout_height="wrap_content"
-                        app:counterTextColor="@color/signup_edittext"
-                        app:iconSignifier="@drawable/ic_identity"
-                        app:labelText="@string/input_email"
-                        app:secondaryColor="@color/signup_edittext"
-                        app:useDenseSpacing="true">
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
-                            android:id="@+id/et_email"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textEmailAddress"
-                            android:maxLines="1"
-                            android:textColor="@color/login_font"/>
+                            android:layout_marginTop="20dp"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+                            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                app:counterTextColor="@color/signup_edittext"
+                                app:iconSignifier="@drawable/ic_identity"
+                                app:labelText="@string/input_email"
+                                app:secondaryColor="@color/signup_edittext"
+                                app:useDenseSpacing="true">
 
-                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-                        android:layout_width="280dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        app:counterTextColor="@color/signup_edittext"
-                        app:iconSignifier="@drawable/ic_my"
-                        app:labelText="@string/input_team"
-                        app:maxCharacters="10"
-                        app:secondaryColor="@color/signup_edittext"
-                        app:useDenseSpacing="true">
+                                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                                    android:id="@+id/et_email"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textEmailAddress"
+                                    android:maxLines="1"
+                                    android:textColor="@color/login_font"/>
 
-                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
-                            android:id="@+id/et_team"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:textColor="@color/login_font"/>
+                            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
-                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+                            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                app:counterTextColor="@color/signup_edittext"
+                                app:iconSignifier="@drawable/ic_my"
+                                app:labelText="@string/input_team"
+                                app:maxCharacters="10"
+                                app:secondaryColor="@color/signup_edittext"
+                                app:useDenseSpacing="true">
 
-                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-                        android:layout_width="280dp"
-                        android:layout_height="wrap_content"
-                        app:iconSignifier="@drawable/ic_key"
-                        app:labelText="@string/input_pass"
-                        app:minCharacters="6"
-                        app:secondaryColor="@color/signup_edittext"
-                        app:useDenseSpacing="true">
+                                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                                    android:id="@+id/et_team"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="text"
+                                    android:maxLines="1"
+                                    android:textColor="@color/login_font"/>
 
-                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
-                            android:id="@+id/et_pass"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:textColor="@color/login_font"/>
+                            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
-                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+                            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                app:iconSignifier="@drawable/ic_contact"
+                                app:labelText="@string/input_contact"
+                                app:secondaryColor="@color/signup_edittext"
+                                app:useDenseSpacing="true">
 
-                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-                        android:layout_width="280dp"
-                        android:layout_height="wrap_content"
-                        app:iconSignifier="@drawable/ic_key"
-                        app:labelText="@string/input_confirm"
-                        app:minCharacters="6"
-                        app:secondaryColor="@color/signup_edittext"
-                        app:useDenseSpacing="true">
+                                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                                    android:id="@+id/et_contact"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="numberDecimal"
+                                    android:maxLines="1"
+                                    android:textColor="@color/login_font"/>
 
-                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
-                            android:id="@+id/et_confirm"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:textColor="@color/login_font"/>
+                            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
-                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+                            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                app:iconSignifier="@drawable/ic_key"
+                                app:labelText="@string/input_pass"
+                                app:minCharacters="6"
+                                app:secondaryColor="@color/signup_edittext"
+                                app:useDenseSpacing="true">
 
-                    <dev.kxxcn.app_squad.util.StateButton
-                        android:id="@+id/btn_signup"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
-                        android:enabled="false"
-                        android:text="@string/signup"
-                        app:normalStrokeColor="@android:color/white"
-                        app:normalStrokeWidth="1dp"
-                        app:normalTextColor="@android:color/white"
-                        app:pressedStrokeColor="@android:color/holo_red_light"
-                        app:pressedStrokeWidth="1dp"
-                        app:pressedTextColor="@android:color/holo_red_light"
-                        app:round="true"
-                        app:unableStrokeColor="@color/unable_signup"
-                        app:unableStrokeWidth="1dp"
-                        app:unableTextColor="@color/unable_signup"/>
+                                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                                    android:id="@+id/et_pass"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textPassword"
+                                    android:maxLines="1"
+                                    android:textColor="@color/login_font"/>
+
+                            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                app:iconSignifier="@drawable/ic_key"
+                                app:labelText="@string/input_confirm"
+                                app:minCharacters="6"
+                                app:secondaryColor="@color/signup_edittext"
+                                app:useDenseSpacing="true">
+
+                                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                                    android:id="@+id/et_confirm"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textPassword"
+                                    android:maxLines="1"
+                                    android:textColor="@color/login_font"/>
+
+                            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                            <dev.kxxcn.app_squad.util.StateButton
+                                android:id="@+id/btn_signup"
+                                android:layout_width="250dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:enabled="false"
+                                android:text="@string/signup"
+                                app:normalStrokeColor="@android:color/white"
+                                app:normalStrokeWidth="1dp"
+                                app:normalTextColor="@android:color/white"
+                                app:pressedStrokeColor="@android:color/holo_red_light"
+                                app:pressedStrokeWidth="1dp"
+                                app:pressedTextColor="@android:color/holo_red_light"
+                                app:round="true"
+                                app:unableStrokeColor="@color/unable_signup"
+                                app:unableStrokeWidth="1dp"
+                                app:unableTextColor="@color/unable_signup"/>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"/>
+
+                        </LinearLayout>
+
+                    </ScrollView>
 
                 </LinearLayout>
 
