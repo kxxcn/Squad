@@ -45,7 +45,7 @@ public interface TeamContract {
 
 		void onReadNotification(List<Notification> notifications);
 
-		void onLoadMatch(Battle battle);
+		void onLoadMatch(boolean isHome, String date, String enemy);
 
 		void onLogout();
 
@@ -53,6 +53,6 @@ public interface TeamContract {
 	}
 
 	interface ItemClickListener {
-		void onClick(int position);
+		void onClick(int position, int type);
 	}
 }

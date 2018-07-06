@@ -62,6 +62,8 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	private static final String DIALOG_FRAGMENT = "dialog";
 
 	private static final int BEGIN_INDEX = 1;
+	public static final int NOTIFICATION = 0;
+	public static final int BATTLE = 1;
 
 	@BindView(R.id.rv_team)
 	RecyclerView rv_team;
@@ -264,9 +266,15 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	}
 
 	@Override
-	public void onClick(int position) {
-		mEnemy = mBattleList.get(position).getEnemy();
-		mPresenter.onLoadMatch(mBattleList.get(position));
+	public void onClick(int position, int type) {
+		if (type == NOTIFICATION) {
+			int index = notifications.get(position).getMessage().indexOf("]");
+			mEnemy = notifications.get(position).getMessage().substring(1, index);
+			mPresenter.onLoadMatch(true, notifications.get(position).getDate(), mEnemy);
+		} else if (type == BATTLE) {
+			mEnemy = mBattleList.get(position).getEnemy();
+			mPresenter.onLoadMatch(mBattleList.get(position).isHome(), mBattleList.get(position).getDate(), mEnemy);
+		}
 	}
 
 	@Override

@@ -394,9 +394,9 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onLoadMatch(final GetInformationCallback callback, final Battle battle) {
-		if (battle.isHome()) {
-			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(battle.getDate()).child(mAuth.getCurrentUser().getUid());
+	public void onLoadMatch(final GetInformationCallback callback, boolean isHome, final String date, final String enemy) {
+		if (isHome) {
+			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
 			reference.addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -420,9 +420,9 @@ public class RemoteDataSource extends DataSource {
 				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 					for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
 						User user = childSnapshot.getValue(User.class);
-						if (battle.getEnemy().equals(user.getTeam())) {
+						if (enemy.equals(user.getTeam())) {
 							String uid = user.getUid();
-							DatabaseReference matchReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(battle.getDate()).child(uid);
+							DatabaseReference matchReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(uid);
 							matchReference.addListenerForSingleValueEvent(new ValueEventListener() {
 								@Override
 								public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

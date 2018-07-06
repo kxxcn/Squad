@@ -123,7 +123,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 	}
 
 	@Override
-	public void onLoadMatch(Battle battle) {
+	public void onLoadMatch(boolean isHome, String date, String enemy) {
 		if (mTeamView == null) {
 			return;
 		}
@@ -138,7 +138,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 			public void onFailure(Throwable throwable) {
 				SystemUtils.Dlog.e(throwable.getMessage());
 			}
-		}, battle);
+		}, isHome, date, enemy);
 	}
 
 	@Override

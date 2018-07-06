@@ -77,7 +77,7 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.ViewHolder> {
 			ll_root.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					itemClickListener.onClick(getAdapterPosition());
+					itemClickListener.onClick(getAdapterPosition(), TeamFragment.NOTIFICATION);
 				}
 			});
 		}

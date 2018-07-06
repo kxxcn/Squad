@@ -86,7 +86,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 			cv_match.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					itemClickListener.onClick(getAdapterPosition());
+					itemClickListener.onClick(getAdapterPosition(), TeamFragment.BATTLE);
 				}
 			});
 		}

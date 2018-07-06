@@ -88,7 +88,7 @@ public abstract class DataSource {
 
 	public abstract void onRemove(GetCommonCallback callback, String date);
 
-	public abstract void onLoadMatch(GetInformationCallback callback, Battle battle);
+	public abstract void onLoadMatch(GetInformationCallback callback, boolean isHome, String date, String enemy);
 
 	public abstract void onLoadEnemyData(GetUserCallback callback, String enemy);
 
