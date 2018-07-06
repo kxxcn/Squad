@@ -26,7 +26,7 @@ import dev.kxxcn.app_squad.util.SystemUtils;
 import dev.kxxcn.app_squad.util.TransitionUtils;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 
-import static dev.kxxcn.app_squad.util.Constants.CAMERA;
+import static dev.kxxcn.app_squad.util.Constants.READ_PHONE_STATE;
 
 /**
  * Created by kxxcn on 2018-04-30.
@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 		new LoginPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance(
 				mAuth, FirebaseDatabase.getInstance().getReference())));
 
-		mPresenter.setPermission(this, CAMERA);
+		mPresenter.setPermission(this, READ_PHONE_STATE);
 
 		mAuthListener = new FirebaseAuth.AuthStateListener() {
 			@Override
