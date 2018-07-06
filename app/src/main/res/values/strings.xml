@@ -9,6 +9,7 @@
     <string name="login">LOG-IN</string>
     <string name="input_email">이메일을 입력하세요.</string>
     <string name="input_team">팀명을 입력하세요.</string>
+    <string name="input_contact">전화번호를 입력하세요.</string>
     <string name="input_pass">비밀번호를 입력하세요.</string>
     <string name="input_confirm">비밀번호를 재입력하세요.</string>
     <string name="input_all">모든 항목을 입력하세요.</string>
