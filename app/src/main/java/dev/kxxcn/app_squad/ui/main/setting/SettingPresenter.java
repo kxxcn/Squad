@@ -36,7 +36,6 @@ public class SettingPresenter implements SettingContract.Presenter {
 			@Override
 			public void onFailure(Throwable throwable) {
 				SystemUtils.Dlog.e(throwable.getMessage());
-				mSettingView.showUnsuccessfullyLogout();
 			}
 		});
 	}

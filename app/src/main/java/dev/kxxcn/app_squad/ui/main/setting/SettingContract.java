@@ -13,8 +13,6 @@ public interface SettingContract {
 	interface View extends BaseView<Presenter> {
 		void showSuccessfullyLogout();
 
-		void showUnsuccessfullyLogout();
-
 		void setToggleButton(User user);
 
 		void showInvalidAccount();

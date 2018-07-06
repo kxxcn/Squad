@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -94,12 +93,6 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	public void showSuccessfullyLogout() {
 		getContext().startActivity(new Intent(getContext(), LoginActivity.class));
 		getActivity().finish();
-	}
-
-	@Override
-	public void showUnsuccessfullyLogout() {
-		btn_logout.doResult(false);
-		Toast.makeText(getContext(), getString(R.string.setting_failure_logout), Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
