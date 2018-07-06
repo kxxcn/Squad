@@ -9,6 +9,7 @@ import android.Manifest;
 public class Constants {
 	public static final String TAG = "kxxcn";
 	public static final String CAMERA = Manifest.permission.CAMERA;
+	public static final String READ_PHONE_STATE = Manifest.permission.READ_PHONE_STATE;
 	public static final String FORMAT_CHARACTER = "0";
 	public static final String FORMAT_DATE = "-";
 	public static final String SIMPLE_DATE_FORMAT1 = "yyyy/MM/dd HH:mm";
