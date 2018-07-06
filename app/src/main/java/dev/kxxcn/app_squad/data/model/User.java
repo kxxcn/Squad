@@ -13,6 +13,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class User implements Parcelable {
 
 	private String email;
+	private String phone;
 	private String uid;
 	private String team;
 	private String token;
@@ -33,8 +34,9 @@ public class User implements Parcelable {
 		this.intro = in.readString();
 	}
 
-	public User(String email, String uid, String team, String token) {
+	public User(String email, String phone, String uid, String team, String token) {
 		this.email = email;
+		this.phone = phone;
 		this.uid = uid;
 		this.team = team;
 		this.token = token;
@@ -43,6 +45,10 @@ public class User implements Parcelable {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getPhone() {
+		return phone;
 	}
 
 	public String getUid() {
