@@ -1,16 +1,9 @@
 package dev.kxxcn.app_squad.data.remote;
 
-import android.support.annotation.NonNull;
+import android.content.SharedPreferences;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import dev.kxxcn.app_squad.util.SystemUtils;
 
@@ -21,9 +14,8 @@ import dev.kxxcn.app_squad.util.SystemUtils;
 
 public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
-	private static final String COLLECTION_NAME_USER = "user";
-
-	private static final String TOKEN = "token";
+	public static final String NAME = "pref";
+	public static final String KEY = "token";
 
 	@Override
 	public void onTokenRefresh() {
@@ -31,22 +23,11 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
 	}
 
 	private void saveNewToken(String token) {
-		SystemUtils.Dlog.i("New token : " + token);
-		Map<String, Object> task = new HashMap<>();
-		task.put(TOKEN, token);
-		try {
-			DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-					.child(COLLECTION_NAME_USER).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-			reference.setValue(task).addOnFailureListener(new OnFailureListener() {
-				@Override
-				public void onFailure(@NonNull Exception e) {
-					SystemUtils.Dlog.e(e.getMessage());
-				}
-			});
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			SystemUtils.Dlog.e(e.getMessage());
-		}
+		SystemUtils.Dlog.v("New token : " + token);
+		SharedPreferences preferences = getSharedPreferences(NAME, MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString(KEY, token);
+		editor.apply();
 	}
 
 }
