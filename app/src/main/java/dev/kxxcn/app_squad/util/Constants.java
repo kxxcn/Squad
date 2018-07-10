@@ -15,7 +15,9 @@ public class Constants {
 	public static final String FORMAT_DATE = "-";
 	public static final String SIMPLE_DATE_FORMAT1 = "yyyy/MM/dd HH:mm";
 	public static final String SIMPLE_DATE_FORMAT2 = "yyyy-MM-dd";
+	public static final String SIMPLE_DATE_FORMAT3 = "aa hh:mm";
 	public static final String GSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+	public static final String DIALOG_FRAGMENT = "dialog";
 
 	public static final int LOADING = 500;
 	public static final int POSITION_SPINNER_DEFAULT = 1;
