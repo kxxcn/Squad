@@ -20,11 +20,15 @@ public class NotificationPagerAdapter extends FragmentStatePagerAdapter {
 
 	private Information information;
 	private User user;
+	private String from;
+	private String uid;
 
-	public NotificationPagerAdapter(FragmentManager fm, Information information, User user) {
+	public NotificationPagerAdapter(FragmentManager fm, Information information, User user, String from, String uid) {
 		super(fm);
 		this.information = information;
 		this.user = user;
+		this.from = from;
+		this.uid = uid;
 	}
 
 	@Override
@@ -33,7 +37,7 @@ public class NotificationPagerAdapter extends FragmentStatePagerAdapter {
 			case 0:
 				return ScheduleFragment.newInstance(information);
 			case 1:
-				return IntroduceFragment.newInstance(user);
+				return IntroduceFragment.newInstance(user, from, uid);
 		}
 		return null;
 	}

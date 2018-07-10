@@ -40,6 +40,8 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 
 	private static final String INFORMATION = "object";
 	private static final String ENEMY = "enemy";
+	private static final String FROM = "from";
+	private static final String UID = "uid";
 
 	@BindView(R.id.vp_information)
 	ViewPager vp_information;
@@ -65,12 +67,14 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 		this.mPresenter = presenter;
 	}
 
-	public static NotificationDialog newInstance(Information information, String enemy) {
+	public static NotificationDialog newInstance(Information information, String enemy, String from, String uid) {
 		NotificationDialog dialog = new NotificationDialog();
 
 		Bundle args = new Bundle();
 		args.putParcelable(INFORMATION, information);
 		args.putString(ENEMY, enemy);
+		args.putString(FROM, from);
+		args.putString(UID, uid);
 
 		dialog.setArguments(args);
 		return dialog;
@@ -122,7 +126,8 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 		mInformation = getArguments().getParcelable(INFORMATION);
 		mInformation.setEnemy(user.getTeam());
 		tv_enemy.setText(getString(R.string.notification_schedule));
-		vp_information.setAdapter(new NotificationPagerAdapter(getChildFragmentManager(), mInformation, user));
+		vp_information.setAdapter(new NotificationPagerAdapter(getChildFragmentManager(), mInformation, user,
+				getArguments().getString(FROM), getArguments().getString(UID)));
 		indicator.setViewPager(vp_information);
 		if (mInformation.isConnect()) {
 			btn_agree.setVisibility(View.GONE);

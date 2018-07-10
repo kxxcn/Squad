@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,10 @@ import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
+import dev.kxxcn.app_squad.ui.main.team.notification.content.introduce.chat.ChattingDialog;
 import dev.kxxcn.app_squad.util.DialogUtils;
+
+import static dev.kxxcn.app_squad.util.Constants.DIALOG_FRAGMENT;
 
 /**
  * Created by kxxcn on 2018-07-09.
@@ -30,20 +34,24 @@ import dev.kxxcn.app_squad.util.DialogUtils;
 
 public class IntroduceFragment extends Fragment implements IntroduceContract.View {
 
+	private static final String USER = "object";
+	private static final String FROM = "from";
+	private static final String UID = "uid";
+
 	@BindView(R.id.tv_enemy)
 	TextView tv_enemy;
 
-	private static final String USER = "object";
-
 	private IntroduceContract.Presenter mPresenter;
 
-	private User mUser;
+	private User mEnemy;
 
-	public static IntroduceFragment newInstance(User user) {
+	public static IntroduceFragment newInstance(User user, String from, String uid) {
 		IntroduceFragment fragment = new IntroduceFragment();
 
 		Bundle args = new Bundle();
 		args.putParcelable(USER, user);
+		args.putString(FROM, from);
+		args.putString(UID, uid);
 
 		fragment.setArguments(args);
 		return fragment;
@@ -74,8 +82,8 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 	}
 
 	private void initUI() {
-		mUser = getArguments().getParcelable(USER);
-		tv_enemy.setText(mUser.getTeam());
+		mEnemy = getArguments().getParcelable(USER);
+		tv_enemy.setText(mEnemy.getTeam());
 	}
 
 	@OnClick({R.id.ll_call, R.id.ib_call})
@@ -85,13 +93,14 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 
 	@OnClick({R.id.ll_sms, R.id.ib_sms})
 	public void onTransfer() {
-
+		DialogFragment newFragment = ChattingDialog.newInstance(mEnemy, getArguments().getString(FROM), mEnemy.getUid(), getArguments().getString(UID));
+		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
 	}
 
 	DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(String.format(getString(R.string.team_information_call), mUser.getPhone())));
+			Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(String.format(getString(R.string.team_information_call), mEnemy.getPhone())));
 			startActivity(intent);
 		}
 	};
