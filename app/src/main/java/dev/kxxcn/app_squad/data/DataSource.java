@@ -98,4 +98,6 @@ public abstract class DataSource {
 
 	public abstract void onRemoveNotification(GetCommonCallback callback);
 
+	public abstract void onUpdateToken(GetCommonCallback callback, String token);
+
 }

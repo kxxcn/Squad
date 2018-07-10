@@ -271,4 +271,18 @@ public class DataRepository {
 		});
 	}
 
+	public void onUpdateToken(final DataSource.GetCommonCallback callback, String token) {
+		dataSource.onUpdateToken(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, token);
+	}
+
 }
