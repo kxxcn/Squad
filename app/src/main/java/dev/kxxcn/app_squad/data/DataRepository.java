@@ -3,6 +3,7 @@ package dev.kxxcn.app_squad.data;
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.model.Battle;
+import dev.kxxcn.app_squad.data.model.Chatting;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
@@ -283,6 +284,34 @@ public class DataRepository {
 				callback.onFailure(throwable);
 			}
 		}, token);
+	}
+
+	public void onChat(final DataSource.GetCommonCallback callback, Chatting chatting, String roomName) {
+		dataSource.onChat(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, chatting, roomName);
+	}
+
+	public void onSubscribe(final DataSource.GetChattingCallback callback, String roomName) {
+		dataSource.onSubscribe(new DataSource.GetChattingCallback() {
+			@Override
+			public void onSuccess(List<Chatting> chattingList) {
+				callback.onSuccess(chattingList);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, roomName);
 	}
 
 }

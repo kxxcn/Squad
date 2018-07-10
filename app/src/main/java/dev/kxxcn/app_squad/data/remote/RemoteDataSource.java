@@ -20,6 +20,7 @@ import java.util.List;
 
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Battle;
+import dev.kxxcn.app_squad.data.model.Chatting;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
@@ -42,10 +43,11 @@ import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 
 public class RemoteDataSource extends DataSource {
 
-	public static final String COLLECTION_NAME_USER = "user";
-	public static final String COLLECTION_NAME_MATCH = "match";
 	private static final String COLLECTION_NAME_RECRUITMENT = "recruitment";
 	private static final String COLLECTION_NAME_PLAYER = "player";
+	private static final String COLLECTION_NAME_CHATTING = "chatting";
+	public static final String COLLECTION_NAME_USER = "user";
+	public static final String COLLECTION_NAME_MATCH = "match";
 	public static final String COLLECTION_NAME_BATTLE = "battle";
 
 	public static final String DOCUMENT_NAME_MESSAGE = "message";
@@ -54,12 +56,15 @@ public class RemoteDataSource extends DataSource {
 	public static final String DOCUMENT_NAME_SQUAD = "squad";
 	public static final String DOCUMENT_NAME_EVENT = "event";
 
+	private static final String INIT = "1";
+
 	private static RemoteDataSource remoteDataSource;
 
 	private FirebaseAuth mAuth;
 	private DatabaseReference mReference;
 
 	private boolean mIsDuplicate = false;
+	private boolean mIsExistRoom = false;
 
 	private APIService service;
 
@@ -608,6 +613,61 @@ public class RemoteDataSource extends DataSource {
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
 				callback.onFailure(databaseError.toException());
+			}
+		});
+	}
+
+	@Override
+	public void onSubscribe(final GetChattingCallback callback, String roomName) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_CHATTING).child(roomName);
+		reference.addValueEventListener(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				List<Chatting> chattingList = new ArrayList<>(0);
+				for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+					chattingList.add(snapshot.getValue(Chatting.class));
+				}
+				callback.onSuccess(chattingList);
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				callback.onFailure(databaseError.toException());
+			}
+		});
+	}
+
+	@Override
+	public void onChat(final GetCommonCallback callback, final Chatting chatting, String roomName) {
+		final DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_CHATTING).child(roomName);
+		reference.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				String key = null;
+				if (dataSnapshot.getChildrenCount() == 0) {
+					key = INIT;
+				} else {
+					for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
+						key = String.valueOf(Integer.parseInt(parentSnapshot.getKey()) + 1);
+					}
+				}
+				chatting.setKey(Integer.parseInt(key));
+				reference.child(key).setValue(chatting).addOnSuccessListener(new OnSuccessListener<Void>() {
+					@Override
+					public void onSuccess(Void aVoid) {
+						callback.onSuccess();
+					}
+				}).addOnFailureListener(new OnFailureListener() {
+					@Override
+					public void onFailure(@NonNull Exception e) {
+						callback.onFailure(e);
+					}
+				});
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+
 			}
 		});
 	}

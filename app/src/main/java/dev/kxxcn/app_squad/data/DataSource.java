@@ -3,6 +3,7 @@ package dev.kxxcn.app_squad.data;
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.model.Battle;
+import dev.kxxcn.app_squad.data.model.Chatting;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.data.model.User;
@@ -66,6 +67,12 @@ public abstract class DataSource {
 		void onFailure(Throwable throwable);
 	}
 
+	public interface GetChattingCallback {
+		void onSuccess(List<Chatting> chattingList);
+
+		void onFailure(Throwable throwable);
+	}
+
 	public abstract void onSignup(GetSignupCallback callback, String email, String contact, String password, String team);
 
 	public abstract void onLogin(GetCommonCallback callback, String email, String password);
@@ -99,5 +106,9 @@ public abstract class DataSource {
 	public abstract void onRemoveNotification(GetCommonCallback callback);
 
 	public abstract void onUpdateToken(GetCommonCallback callback, String token);
+
+	public abstract void onChat(GetCommonCallback callback, Chatting chatting, String roomName);
+
+	public abstract void onSubscribe(GetChattingCallback callback, String roomName);
 
 }
