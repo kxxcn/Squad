@@ -79,7 +79,7 @@
                     <me.relex.circleindicator.CircleIndicator
                         android:id="@+id/indicator"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="38dp"
                         android:layout_gravity="bottom"
                         app:ci_drawable="@color/selected_circleindicator"
                         app:ci_drawable_unselected="@color/unselected_circleindicator"/>
