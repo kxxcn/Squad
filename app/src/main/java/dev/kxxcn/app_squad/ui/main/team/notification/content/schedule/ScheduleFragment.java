@@ -1,4 +1,4 @@
-package dev.kxxcn.app_squad.ui.main.team.notification.content;
+package dev.kxxcn.app_squad.ui.main.team.notification.content.schedule;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,7 +15,7 @@ import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.model.Information;
 
 /**
- * Created by kxxcn on 2018-06-22.
+ * Created by kxxcn on 2018-07-09.
  */
 
 public class ScheduleFragment extends Fragment {
