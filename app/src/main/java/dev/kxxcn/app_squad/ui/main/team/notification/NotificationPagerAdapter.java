@@ -6,8 +6,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.User;
-import dev.kxxcn.app_squad.ui.main.team.notification.content.IntroduceFragment;
-import dev.kxxcn.app_squad.ui.main.team.notification.content.ScheduleFragment;
+import dev.kxxcn.app_squad.ui.main.team.notification.content.introduce.IntroduceFragment;
+import dev.kxxcn.app_squad.ui.main.team.notification.content.schedule.ScheduleFragment;
+
 
 /**
  * Created by kxxcn on 2018-06-22.
