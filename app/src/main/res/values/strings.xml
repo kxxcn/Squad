@@ -16,6 +16,7 @@
     <string name="input_information">회원정보를 입력하세요.</string>
     <string name="input_start_time">시작시간을 입력하세요.</string>
     <string name="input_end_time">종료시간을 입력하세요.</string>
+    <string name="input_message">메시지를 입력하세요.</string>
 
     <string name="navi_title_match">MATCH</string>
     <string name="navi_title_list">LIST</string>
@@ -112,6 +113,8 @@
     <string name="notification_complete_match">매칭완료</string>
     <string name="notification_call">통화</string>
     <string name="notification_message">TALK</string>
+
+    <string name="chatting_failure_send">메시지 전송을 실패했습니다.</string>
 
     <!-- LOG -->
     <string name="log_information">%s, %s, %s, %s, %s, %s, %s, %s, %s</string>

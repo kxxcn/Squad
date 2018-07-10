@@ -49,6 +49,9 @@
 
     <color name="team_match_list_font">#ffffff</color>
 
+    <color name="chatting_sender">#000000</color>
+    <color name="chatting_receiver">#ffbacedd</color>
+
     <color name="selected_circleindicator">#000000</color>
     <color name="unselected_circleindicator">#84797d</color>
 </resources>
