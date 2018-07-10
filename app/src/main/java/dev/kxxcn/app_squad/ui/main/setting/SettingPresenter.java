@@ -36,6 +36,7 @@ public class SettingPresenter implements SettingContract.Presenter {
 			@Override
 			public void onFailure(Throwable throwable) {
 				SystemUtils.Dlog.e(throwable.getMessage());
+				mSettingView.showUnsuccessfullyLogout();
 			}
 		});
 	}
@@ -77,6 +78,25 @@ public class SettingPresenter implements SettingContract.Presenter {
 
 			}
 		}, on, type);
+	}
+
+	@Override
+	public void onUpdateToken(String token) {
+		if (mSettingView == null) {
+			return;
+		}
+
+		mDataRepository.onUpdateToken(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				mSettingView.showSuccessfullyUpdateToken();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				mSettingView.showUnsuccessfullyUpdateToken();
+			}
+		}, token);
 	}
 
 }

@@ -13,9 +13,15 @@ public interface SettingContract {
 	interface View extends BaseView<Presenter> {
 		void showSuccessfullyLogout();
 
+		void showUnsuccessfullyLogout();
+
 		void setToggleButton(User user);
 
 		void showInvalidAccount();
+
+		void showSuccessfullyUpdateToken();
+
+		void showUnsuccessfullyUpdateToken();
 	}
 
 	interface Presenter extends BasePresenter {
@@ -24,5 +30,7 @@ public interface SettingContract {
 		void onLoadAccount();
 
 		void onUpdateNotice(boolean on, Constants.NoticeFilterType type);
+
+		void onUpdateToken(String token);
 	}
 }
