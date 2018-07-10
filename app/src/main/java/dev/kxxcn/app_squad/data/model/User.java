@@ -63,6 +63,10 @@ public class User implements Parcelable {
 		return token;
 	}
 
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public String getAge() {
 		return age;
 	}
