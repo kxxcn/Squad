@@ -51,6 +51,7 @@ import dev.kxxcn.app_squad.ui.main.team.notification.NotificationDialog;
 import dev.kxxcn.app_squad.util.BusProvider;
 import dev.kxxcn.app_squad.util.DialogUtils;
 
+import static dev.kxxcn.app_squad.util.Constants.DIALOG_FRAGMENT;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
 
@@ -58,8 +59,6 @@ import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
  * Created by kxxcn on 2018-04-26.
  */
 public class TeamFragment extends Fragment implements TeamContract.View, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, TeamContract.ItemClickListener {
-
-	private static final String DIALOG_FRAGMENT = "dialog";
 
 	private static final int BEGIN_INDEX = 1;
 	public static final int NOTIFICATION = 0;
@@ -280,7 +279,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	@Override
 	public void showSuccessfullyLoadInformation(Information information) {
 		navigation_drawer.closeDrawer(GravityCompat.END);
-		DialogFragment newFragment = NotificationDialog.newInstance(information, mEnemy);
+		DialogFragment newFragment = NotificationDialog.newInstance(information, mEnemy, mUser.getTeam(), mUser.getUid());
 		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
 	}
 
