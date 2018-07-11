@@ -4,6 +4,7 @@ package dev.kxxcn.app_squad.ui.main;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.squareup.otto.Subscribe;
@@ -64,6 +65,24 @@ public class MainActivity extends AppCompatActivity {
 		navigationTabBar.setModels(model);
 		navigationTabBar.setViewPager(vp_main, 0);
 		navigationTabBar.getModels().get(TEAM).hideBadge();
+		navigationTabBar.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+			@Override
+			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+			}
+
+			@Override
+			public void onPageSelected(int position) {
+				if (position == TEAM) {
+					BusProvider.getInstance().post(HIDE_BADGE);
+				}
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int state) {
+
+			}
+		});
 	}
 
 	private void showDialog() {
@@ -79,10 +98,12 @@ public class MainActivity extends AppCompatActivity {
 
 	@Subscribe
 	public void onRecived(Object o) {
-		if ((int) o == SHOW_BADGE) {
-			navigationTabBar.getModels().get(TEAM).showBadge();
-		} else if ((int) o == HIDE_BADGE) {
-			navigationTabBar.getModels().get(TEAM).hideBadge();
+		if (o instanceof Integer) {
+			if ((int) o == SHOW_BADGE) {
+				navigationTabBar.getModels().get(TEAM).showBadge();
+			} else if ((int) o == HIDE_BADGE) {
+				navigationTabBar.getModels().get(TEAM).hideBadge();
+			}
 		}
 	}
 
