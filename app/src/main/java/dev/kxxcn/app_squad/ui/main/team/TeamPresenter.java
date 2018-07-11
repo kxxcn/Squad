@@ -31,6 +31,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 		if (mTeamView == null) {
 			return;
 		}
+
 		mDataRepository.onLoadRecord(new DataSource.GetBattleCallback() {
 			@Override
 			public void onSuccess(List<Battle> battleList) {
@@ -39,6 +40,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
+				SystemUtils.Dlog.e(throwable.getMessage());
 				mTeamView.showUnsuccessfullyLoadBattle();
 			}
 		});
