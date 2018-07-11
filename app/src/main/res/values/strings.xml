@@ -38,6 +38,7 @@
     <string name="unsuccessfully_registration">등록을 실패했습니다.</string>
     <string name="successfully_remove">삭제되었습니다.</string>
     <string name="unsuccessfully_remove">삭제를 실패했습니다.</string>
+    <string name="received_message">[%s]팀에서 메시지를 보냈습니다.</string>
 
     <string name="quick_match">빠른 매칭</string>
     <string name="quick_button">Match</string>
@@ -57,7 +58,7 @@
     <string name="exist_team">이미 존재하는 팀입니다.</string>
     <string name="badly_formatted">이메일 형식이 올바르지 않습니다.</string>
     <string name="want_to_quit">스쿼드를 종료하시겠습니까?</string>
-    <string name="want_to_remove">알림이력도 함께 삭제됩니다.\n등록된 매치를 삭제하시겠습니까?</string>
+    <string name="want_to_remove">등록된 매치를 삭제하시겠습니까?</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
     <string name="registration">등록하기</string>
@@ -105,6 +106,7 @@
     <string name="team_want_call">통화 하시겠습니까?</string>
     <string name="team_information_call">tel:%s</string>
     <string name="team_failure_information">"상대팀 정보를 가져오지 못했습니다."</string>
+    <string name="team_received_message">메시지가 도착했습니다.</string>
 
     <string name="notification_schedule">경기일정</string>
     <string name="notification_no_introduce">클럽 소개글이 없습니다.</string>
