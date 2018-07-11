@@ -10,4 +10,5 @@ public class APIPersistence {
 	public static final String SEND_MESSAGE = "fcm/send";
 	public static final String TYPE_REQUEST = "0";
 	public static final String TYPE_RESPONSE = "1";
+	public static final String TYPE_CHATTING = "2";
 }
