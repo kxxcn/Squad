@@ -37,7 +37,7 @@ public class NotificationPagerAdapter extends FragmentStatePagerAdapter {
 			case 0:
 				return ScheduleFragment.newInstance(information);
 			case 1:
-				return IntroduceFragment.newInstance(user, from, uid);
+				return IntroduceFragment.newInstance(user, from, uid, information.getDate().replace("-", ""));
 		}
 		return null;
 	}
