@@ -28,6 +28,7 @@ public class Constants {
 	public static final int DISMISS_NOTI_DIALOG = 1500;
 	public static final int TYPE_REQUEST = 0;
 	public static final int TYPE_RESPONSE = 1;
+	public static final int TYPE_CHATTING = 2;
 
 	public enum ListsFilterType {
 		MATCH_LIST,
