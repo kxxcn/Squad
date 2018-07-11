@@ -286,7 +286,7 @@ public class DataRepository {
 		}, token);
 	}
 
-	public void onChat(final DataSource.GetCommonCallback callback, Chatting chatting, String roomName) {
+	public void onChat(final DataSource.GetCommonCallback callback, Chatting chatting, String title, String date, String roomName) {
 		dataSource.onChat(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
@@ -297,10 +297,10 @@ public class DataRepository {
 			public void onFailure(Throwable throwable) {
 				callback.onFailure(throwable);
 			}
-		}, chatting, roomName);
+		}, chatting, title, date, roomName);
 	}
 
-	public void onSubscribe(final DataSource.GetChattingCallback callback, String roomName) {
+	public void onSubscribe(final DataSource.GetChattingCallback callback, String date, String roomName) {
 		dataSource.onSubscribe(new DataSource.GetChattingCallback() {
 			@Override
 			public void onSuccess(List<Chatting> chattingList) {
@@ -311,7 +311,7 @@ public class DataRepository {
 			public void onFailure(Throwable throwable) {
 				callback.onFailure(throwable);
 			}
-		}, roomName);
+		}, date, roomName);
 	}
 
 }

@@ -33,6 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_CHATTING;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_REQUEST;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_RESPONSE;
 import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
@@ -238,13 +239,11 @@ public class RemoteDataSource extends DataSource {
 		reference.addValueEventListener(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				if (dataSnapshot.getChildrenCount() != 0) {
-					List<Battle> battleList = new ArrayList<>(0);
-					for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-						battleList.add(childSnapshot.getValue(Battle.class));
-					}
-					callback.onSuccess(battleList);
+				List<Battle> battleList = new ArrayList<>(0);
+				for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+					battleList.add(childSnapshot.getValue(Battle.class));
 				}
+				callback.onSuccess(battleList);
 			}
 
 			@Override
@@ -618,8 +617,8 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onSubscribe(final GetChattingCallback callback, String roomName) {
-		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_CHATTING).child(roomName);
+	public void onSubscribe(final GetChattingCallback callback, String date, String roomName) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_CHATTING).child(date).child(roomName);
 		reference.addValueEventListener(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -638,9 +637,50 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onChat(final GetCommonCallback callback, final Chatting chatting, String roomName) {
-		final DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_CHATTING).child(roomName);
-		reference.addListenerForSingleValueEvent(new ValueEventListener() {
+	public void onChat(final GetCommonCallback callback, final Chatting chatting, final String title, final String date, final String roomName) {
+		final String to = roomName.replace(chatting.getUid(), "");
+		DatabaseReference sendReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
+		sendReference.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				final String token = getTokenOfRrecipient(dataSnapshot, to, Constants.TYPE_CHATTING);
+				if (token != null) {
+					Data data = new Data();
+					data.setTitle(title);
+					data.setMessage(roomName);
+					data.setSender(chatting.getFrom());
+					data.setDate(date);
+					data.setType(TYPE_CHATTING);
+
+					Send send = new Send();
+					send.setTo(token);
+					send.setData(data);
+
+					Call<Void> call = service.sendMessage(send);
+					call.enqueue(new Callback<Void>() {
+						@Override
+						public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+							if (response.isSuccessful()) {
+								callback.onSuccess();
+							}
+						}
+
+						@Override
+						public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+							callback.onFailure(t);
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				callback.onFailure(databaseError.toException());
+			}
+		});
+
+		final DatabaseReference storeReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_CHATTING).child(date).child(roomName);
+		storeReference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				String key = null;
@@ -652,7 +692,7 @@ public class RemoteDataSource extends DataSource {
 					}
 				}
 				chatting.setKey(Integer.parseInt(key));
-				reference.child(key).setValue(chatting).addOnSuccessListener(new OnSuccessListener<Void>() {
+				storeReference.child(key).setValue(chatting).addOnSuccessListener(new OnSuccessListener<Void>() {
 					@Override
 					public void onSuccess(Void aVoid) {
 						callback.onSuccess();
@@ -710,6 +750,12 @@ public class RemoteDataSource extends DataSource {
 					break;
 				case Constants.TYPE_RESPONSE:
 					if (to.equals(userList.get(i).getTeam())) {
+						user = userList.get(i);
+						break;
+					}
+					break;
+				case Constants.TYPE_CHATTING:
+					if (to.equals(userList.get(i).getUid())) {
 						user = userList.get(i);
 						break;
 					}

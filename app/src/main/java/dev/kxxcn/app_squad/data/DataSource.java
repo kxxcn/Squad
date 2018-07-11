@@ -107,8 +107,8 @@ public abstract class DataSource {
 
 	public abstract void onUpdateToken(GetCommonCallback callback, String token);
 
-	public abstract void onChat(GetCommonCallback callback, Chatting chatting, String roomName);
+	public abstract void onChat(GetCommonCallback callback, Chatting chatting, String title, String date, String roomName);
 
-	public abstract void onSubscribe(GetChattingCallback callback, String roomName);
+	public abstract void onSubscribe(GetChattingCallback callback, String date, String roomName);
 
 }
