@@ -37,6 +37,7 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 	private static final String USER = "object";
 	private static final String FROM = "from";
 	private static final String UID = "uid";
+	private static final String MATCH_DAY = "day";
 
 	@BindView(R.id.tv_enemy)
 	TextView tv_enemy;
@@ -45,13 +46,14 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 
 	private User mEnemy;
 
-	public static IntroduceFragment newInstance(User user, String from, String uid) {
+	public static IntroduceFragment newInstance(User user, String from, String uid, String matchDay) {
 		IntroduceFragment fragment = new IntroduceFragment();
 
 		Bundle args = new Bundle();
 		args.putParcelable(USER, user);
 		args.putString(FROM, from);
 		args.putString(UID, uid);
+		args.putString(MATCH_DAY, matchDay);
 
 		fragment.setArguments(args);
 		return fragment;
@@ -93,7 +95,8 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 
 	@OnClick({R.id.ll_sms, R.id.ib_sms})
 	public void onTransfer() {
-		DialogFragment newFragment = ChattingDialog.newInstance(mEnemy, getArguments().getString(FROM), mEnemy.getUid(), getArguments().getString(UID));
+		DialogFragment newFragment = ChattingDialog.newInstance(mEnemy, getArguments().getString(FROM), mEnemy.getUid(),
+				getArguments().getString(UID), getArguments().getString(MATCH_DAY));
 		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
 	}
 

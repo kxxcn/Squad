@@ -22,7 +22,7 @@ public class ChattingPresenter implements ChattingContract.Presenter {
 	}
 
 	@Override
-	public void onChat(Chatting chatting, String roomName) {
+	public void onChat(Chatting chatting, String title, String date, String roomName) {
 		if (mChattingView == null) {
 			return;
 		}
@@ -37,11 +37,11 @@ public class ChattingPresenter implements ChattingContract.Presenter {
 			public void onFailure(Throwable throwable) {
 				mChattingView.showUnsuccessfullySend();
 			}
-		}, chatting, roomName);
+		}, chatting, title, date, roomName);
 	}
 
 	@Override
-	public void onSubscribe(String roomName) {
+	public void onSubscribe(String date, String roomName) {
 		if (mChattingView == null) {
 			return;
 		}
@@ -56,7 +56,7 @@ public class ChattingPresenter implements ChattingContract.Presenter {
 			public void onFailure(Throwable throwable) {
 
 			}
-		}, roomName);
+		}, date, roomName);
 	}
 
 }

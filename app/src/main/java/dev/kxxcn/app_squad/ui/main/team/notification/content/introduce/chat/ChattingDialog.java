@@ -43,6 +43,10 @@ public class ChattingDialog extends DialogFragment implements ChattingContract.V
 	private static final String FROM = "from";
 	private static final String ENEMY_UID = "enemy_uid";
 	private static final String UID = "uid";
+	private static final String MATCH_DAY = "day";
+
+	public static String ROOM_NAME = "";
+	public static String DAY = "";
 
 	@BindView(R.id.tv_receiver)
 	TextView tv_receiver;
@@ -58,8 +62,9 @@ public class ChattingDialog extends DialogFragment implements ChattingContract.V
 	private User mEnemy;
 	private String mFrom;
 	private String roomName;
+	private String matchDay;
 
-	public static ChattingDialog newInstance(User user, String from, String enemy_uid, String uid) {
+	public static ChattingDialog newInstance(User user, String from, String enemy_uid, String uid, String matchDay) {
 		ChattingDialog dialog = new ChattingDialog();
 
 		Bundle args = new Bundle();
@@ -67,6 +72,7 @@ public class ChattingDialog extends DialogFragment implements ChattingContract.V
 		args.putString(FROM, from);
 		args.putString(ENEMY_UID, enemy_uid);
 		args.putString(UID, uid);
+		args.putString(MATCH_DAY, matchDay);
 
 		dialog.setArguments(args);
 		return dialog;
@@ -94,10 +100,11 @@ public class ChattingDialog extends DialogFragment implements ChattingContract.V
 
 		initUI();
 
+		matchDay = getArguments().getString(MATCH_DAY);
 		String[] roomList = {getArguments().getString(ENEMY_UID), getArguments().getString(UID)};
 		Arrays.sort(roomList);
 		roomName = roomList[0] + roomList[1];
-		mPresenter.onSubscribe(roomName);
+		mPresenter.onSubscribe(matchDay, roomName);
 
 		rv_chat.addItemDecoration(new RecyclerViewDecoration(30));
 
@@ -112,6 +119,8 @@ public class ChattingDialog extends DialogFragment implements ChattingContract.V
 			int width = ViewGroup.LayoutParams.MATCH_PARENT;
 			int height = ViewGroup.LayoutParams.MATCH_PARENT;
 			dialog.getWindow().setLayout(width, height);
+			ROOM_NAME = roomName;
+			DAY = matchDay;
 		}
 	}
 
@@ -125,13 +134,15 @@ public class ChattingDialog extends DialogFragment implements ChattingContract.V
 	@OnClick(R.id.ib_cancel)
 	public void onCancel() {
 		dismiss();
+		ROOM_NAME = "";
+		DAY = "";
 	}
 
 	@OnClick(R.id.ib_chat)
 	public void onChat() {
 		if (!TextUtils.isEmpty(et_message.getText())) {
 			mPresenter.onChat(new Chatting(et_message.getText().toString(), mFrom, getArguments().getString(UID),
-					DialogUtils.getTime()), roomName);
+					DialogUtils.getTime()), getString(R.string.app_name), matchDay, roomName);
 		}
 	}
 

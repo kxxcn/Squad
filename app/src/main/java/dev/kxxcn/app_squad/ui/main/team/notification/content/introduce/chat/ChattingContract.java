@@ -20,8 +20,8 @@ public interface ChattingContract {
 	}
 
 	interface Presenter extends BasePresenter {
-		void onChat(Chatting chatting, String roomName);
+		void onChat(Chatting chatting, String title, String date, String roomName);
 
-		void onSubscribe(String roomName);
+		void onSubscribe(String date, String roomName);
 	}
 }
