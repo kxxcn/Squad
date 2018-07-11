@@ -34,8 +34,10 @@ import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
+import dev.kxxcn.app_squad.ui.main.team.notification.content.introduce.chat.ChattingDialog;
 import dev.kxxcn.app_squad.util.SystemUtils;
 
+import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_CHATTING;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_REQUEST;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_RESPONSE;
 import static dev.kxxcn.app_squad.util.Constants.SIMPLE_DATE_FORMAT1;
@@ -55,6 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	private static final String FCM_PLACE = "place";
 
 	private static final boolean DID_NOT_CHECK = false;
+	private static final boolean CHECKED = true;
 
 	private static final String INIT = "1";
 
@@ -70,16 +73,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	}
 
 	private void sendNotification(String title, String message, String from, long time, String matchDate, String type, String place) {
-		SystemUtils.onAcquire(this);
-		SystemUtils.onVibrate(this, VIBRATE_NOTIFICATION);
-
 		Date date = new Date(time);
 		format.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
 		String timestamp = format.format(date);
-
-		onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type));
-
-		onRegisterBattle(new Battle(from, matchDate, place, false), type);
+		String roomName = null;
+		if (type.equals(TYPE_CHATTING)) {
+			roomName = message;
+			message = String.format(getApplicationContext().getString(R.string.received_message), from);
+		} else {
+			onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type));
+			onRegisterBattle(new Battle(from, matchDate, place, false), type);
+		}
 
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -115,7 +119,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				.setSound(defaultSoundUri)
 				.setContentIntent(pendingIntent);
 
-		notificationManager.notify(new Random().nextInt() /* ID of notification */, notificationBuilder.build());
+		if (type.equals(TYPE_CHATTING)) {
+			if (!ChattingDialog.DAY.equals(matchDate) && !ChattingDialog.ROOM_NAME.equals(roomName)) {
+				notificationManager.notify(0, notificationBuilder.build());
+				SystemUtils.onAcquire(this);
+				SystemUtils.onVibrate(this, VIBRATE_NOTIFICATION);
+				onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type));
+			}
+			if (ChattingDialog.DAY.equals(matchDate) && ChattingDialog.ROOM_NAME.equals(roomName)) {
+				onRegisterNotification(new Notification(message, from, timestamp, CHECKED, matchDate, type));
+			}
+		} else {
+			notificationManager.notify(new Random().nextInt() /* ID of notification */, notificationBuilder.build());
+			SystemUtils.onAcquire(this);
+			SystemUtils.onVibrate(this, VIBRATE_NOTIFICATION);
+		}
 	}
 
 	private void onRegisterNotification(final Notification notification) {
