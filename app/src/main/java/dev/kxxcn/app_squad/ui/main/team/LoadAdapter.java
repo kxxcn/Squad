@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.model.Notification;
 
+import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_CHATTING;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_RESPONSE;
 
 /**
@@ -48,7 +49,8 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.ViewHolder> {
 			holder.ib_arrow.setVisibility(View.GONE);
 			holder.iv_icon.setBackgroundResource(R.drawable.ic_admin);
 		}
-		if (mList.get(holder.getAdapterPosition()).getType().equals(TYPE_RESPONSE)) {
+		if (mList.get(holder.getAdapterPosition()).getType().equals(TYPE_RESPONSE) ||
+				mList.get(holder.getAdapterPosition()).getType().equals(TYPE_CHATTING)) {
 			holder.ll_root.setOnClickListener(null);
 			holder.ib_arrow.setVisibility(View.GONE);
 		}

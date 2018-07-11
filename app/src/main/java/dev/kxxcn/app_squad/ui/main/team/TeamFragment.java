@@ -51,9 +51,11 @@ import dev.kxxcn.app_squad.ui.main.team.notification.NotificationDialog;
 import dev.kxxcn.app_squad.util.BusProvider;
 import dev.kxxcn.app_squad.util.DialogUtils;
 
+import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_CHATTING;
 import static dev.kxxcn.app_squad.util.Constants.DIALOG_FRAGMENT;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
+
 
 /**
  * Created by kxxcn on 2018-04-26.
@@ -61,6 +63,7 @@ import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
 public class TeamFragment extends Fragment implements TeamContract.View, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, TeamContract.ItemClickListener {
 
 	private static final int BEGIN_INDEX = 1;
+
 	public static final int NOTIFICATION = 0;
 	public static final int BATTLE = 1;
 
@@ -99,6 +102,8 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	private User mUser;
 
 	private List<Battle> mBattleList;
+
+	private TeamAdapter adapter;
 
 	@Override
 	public void setPresenter(TeamContract.Presenter presenter) {
@@ -147,7 +152,6 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		this.mUser = user;
 		layout_collapsing.setTitle(user.getTeam());
 		mPresenter.onLoadRecord();
-		mPresenter.onLoadNotification();
 	}
 
 	@Override
@@ -168,6 +172,16 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		}
 		if (unReadNotifications.size() != 0) {
 			BusProvider.getInstance().post(MainActivity.SHOW_BADGE);
+			for (int i = 0; i < unReadNotifications.size(); i++) {
+				if (unReadNotifications.get(i).getType().equals(TYPE_CHATTING)) {
+					for (int j = 0; j < mBattleList.size(); j++) {
+						if (unReadNotifications.get(i).getDate().equals(mBattleList.get(j).getDate())) {
+							adapter.receivedMessage(j);
+							break;
+						}
+					}
+				}
+			}
 		} else {
 			BusProvider.getInstance().post(MainActivity.HIDE_BADGE);
 		}
@@ -187,7 +201,9 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		if (unReadNotifications.size() != 0) {
 			fab.setCount(0);
 			for (int i = 0; i < unReadNotifications.size(); i++) {
-				unReadNotifications.get(i).setCheck(true);
+				if (!unReadNotifications.get(i).getType().equals(TYPE_CHATTING)) {
+					unReadNotifications.get(i).setCheck(true);
+				}
 			}
 			mPresenter.onReadNotification(unReadNotifications);
 		}
@@ -271,6 +287,12 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 			mEnemy = notifications.get(position).getMessage().substring(1, index);
 			mPresenter.onLoadMatch(true, notifications.get(position).getDate(), mEnemy);
 		} else if (type == BATTLE) {
+			for (int i = 0; i < unReadNotifications.size(); i++) {
+				if (unReadNotifications.get(i).getDate().equals(mBattleList.get(position).getDate())) {
+					unReadNotifications.get(i).setCheck(true);
+				}
+			}
+			mPresenter.onReadNotification(unReadNotifications);
 			mEnemy = mBattleList.get(position).getEnemy();
 			mPresenter.onLoadMatch(mBattleList.get(position).isHome(), mBattleList.get(position).getDate(), mEnemy);
 		}
@@ -287,7 +309,10 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	public void showSuccessfullyLoadBattle(List<Battle> battleList) {
 		this.mBattleList = battleList;
 		Collections.sort(battleList, new CompareBattle());
-		rv_team.setAdapter(new TeamAdapter(getContext(), battleList, mUser.getTeam(), this));
+		adapter = new TeamAdapter(getContext(), battleList, mUser.getTeam(), this);
+		rv_team.setAdapter(adapter);
+
+		mPresenter.onLoadNotification();
 	}
 
 	@Override

@@ -7,17 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.model.Battle;
+import dev.kxxcn.app_squad.util.threading.UiThread;
+
+import static dev.kxxcn.app_squad.util.Constants.LOADING;
 
 /**
  * Created by kxxcn on 2018-06-08.
@@ -31,6 +36,8 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 	private String mTeam;
 
 	private TeamContract.ItemClickListener mItemClickListener;
+
+	ArrayList<LinearLayout> layoutList = new ArrayList<>(0);
 
 	public TeamAdapter(Context context, List<Battle> list, String team, TeamContract.ItemClickListener itemClickListener) {
 		this.mContext = context;
@@ -57,6 +64,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 			holder.tv_home.setText(mList.get(holder.getAdapterPosition()).getEnemy());
 			holder.tv_away.setText(mTeam);
 		}
+		layoutList.add(holder.ll_receive);
 	}
 
 	@Override
@@ -80,6 +88,9 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 		@BindView(R.id.tv_away)
 		TextView tv_away;
 
+		@BindView(R.id.ll_receive)
+		LinearLayout ll_receive;
+
 		public ViewHolder(View itemView, final TeamContract.ItemClickListener itemClickListener) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
@@ -98,6 +109,24 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 		String day = date.substring(6, 8);
 
 		return String.format(mContext.getString(R.string.team_date), year, month, day);
+	}
+
+	public void receivedMessage(final int position) {
+		try {
+			layoutList.get(position).setVisibility(View.VISIBLE);
+		} catch (RuntimeException e) {
+			UiThread.getInstance().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					receivedMessage(position);
+				}
+			}, LOADING);
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<LinearLayout> getLayoutList() {
+		return layoutList;
 	}
 
 }
