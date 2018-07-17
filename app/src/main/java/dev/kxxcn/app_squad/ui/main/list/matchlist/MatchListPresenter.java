@@ -33,7 +33,7 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 	}
 
 	@Override
-	public void onLoadList() {
+	public void onLoadList(final String region, final String date) {
 		if (mMatchListView == null && mCurrentFiltering == null) {
 			return;
 		}
@@ -55,7 +55,7 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 			 *                    {@link ListsFilterType#PLAYER_LIST}, or
 			 *                    {@link ListsFilterType#RECRUITMENT_LIST}
 			 */
-		}, mCurrentFiltering);
+		}, mCurrentFiltering, region, date);
 	}
 
 	@Override

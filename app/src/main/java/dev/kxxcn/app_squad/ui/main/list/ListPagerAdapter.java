@@ -20,15 +20,20 @@ public class ListPagerAdapter extends FragmentStatePagerAdapter {
 
 	private static final int COUNT = 3;
 
-	public ListPagerAdapter(FragmentManager fm) {
+	private String region;
+	private String date;
+
+	public ListPagerAdapter(FragmentManager fm, String region, String date) {
 		super(fm);
+		this.region = region;
+		this.date = date;
 	}
 
 	@Override
 	public Fragment getItem(int position) {
 		switch (position) {
 			case REGISTRATION_MATCH:
-				return MatchListFragment.newInstance();
+				return MatchListFragment.newInstance(region, date);
 			case RECRUITMENT_PLAYER:
 				return RecruitmentListFragment.newInstance();
 			case REGISTRATION_PLAYER:

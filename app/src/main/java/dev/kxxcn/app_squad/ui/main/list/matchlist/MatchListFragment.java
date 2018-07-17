@@ -35,8 +35,10 @@ import dev.kxxcn.app_squad.ui.main.match.MatchDialog;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.threading.UiThread;
 
+import static dev.kxxcn.app_squad.util.Constants.DATE;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
+import static dev.kxxcn.app_squad.util.Constants.REGION;
 
 /**
  * Created by kxxcn on 2018-05-09.
@@ -78,8 +80,15 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 		mPresenter.onLoadAccount();
 	}
 
-	public static Fragment newInstance() {
-		return new MatchListFragment();
+	public static Fragment newInstance(String region, String date) {
+		MatchListFragment fragment = new MatchListFragment();
+
+		Bundle args = new Bundle();
+		args.putString(REGION, region);
+		args.putString(DATE, date);
+
+		fragment.setArguments(args);
+		return fragment;
 	}
 
 	@Override
@@ -158,7 +167,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	@Override
 	public void showSuccessfullyLoadAccount(User user) {
 		this.mUser = user;
-		mPresenter.onLoadList();
+		mPresenter.onLoadList(getArguments().getString(REGION), getArguments().getString(DATE));
 	}
 
 	@Override

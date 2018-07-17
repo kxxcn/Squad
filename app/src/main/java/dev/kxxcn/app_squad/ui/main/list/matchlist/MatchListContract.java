@@ -30,7 +30,7 @@ public interface MatchListContract {
 	interface Presenter extends BasePresenter {
 		void setFiltering(Constants.ListsFilterType requestType);
 
-		void onLoadList();
+		void onLoadList(String region, String date);
 
 		void onLoadAccount();
 
