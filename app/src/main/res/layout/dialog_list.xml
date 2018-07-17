@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <dev.kxxcn.app_squad.util.StateButton
+            android:id="@+id/btn_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:height="70dp"
+            android:text="@string/total"
+            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalStrokeWidth="1dp"
+            app:normalTextColor="@color/dialog_list_text"
+            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeWidth="1dp"
+            app:pressedTextColor="@color/dialog_list_text"/>
+
+        <dev.kxxcn.app_squad.util.StateButton
+            android:id="@+id/btn_seoul"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:height="70dp"
+            android:text="@string/seoul"
+            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalStrokeWidth="1dp"
+            app:normalTextColor="@color/dialog_list_text"
+            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeWidth="1dp"
+            app:pressedTextColor="@color/dialog_list_text"/>
+
+        <dev.kxxcn.app_squad.util.StateButton
+            android:id="@+id/btn_busan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:height="70dp"
+            android:text="@string/busan"
+            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalStrokeWidth="1dp"
+            app:normalTextColor="@color/dialog_list_text"
+            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeWidth="1dp"
+            app:pressedTextColor="@color/dialog_list_text"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <dev.kxxcn.app_squad.util.StateButton
+            android:id="@+id/btn_daegu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:height="70dp"
+            android:text="@string/daegu"
+            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalStrokeWidth="1dp"
+            app:normalTextColor="@color/dialog_list_text"
+            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeWidth="1dp"
+            app:pressedTextColor="@color/dialog_list_text"/>
+
+        <dev.kxxcn.app_squad.util.StateButton
+            android:id="@+id/btn_jeju"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:height="70dp"
+            android:text="@string/jeju"
+            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalStrokeWidth="1dp"
+            app:normalTextColor="@color/dialog_list_text"
+            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeWidth="1dp"
+            app:pressedTextColor="@color/dialog_list_text"/>
+
+        <dev.kxxcn.app_squad.util.StateButton
+            android:id="@+id/btn_incheon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:height="70dp"
+            android:text="@string/incheon"
+            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalStrokeWidth="1dp"
+            app:normalTextColor="@color/dialog_list_text"
+            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeWidth="1dp"
+            app:pressedTextColor="@color/dialog_list_text"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <dev.kxxcn.app_squad.util.StateButton
+            android:id="@+id/btn_daejeon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:height="70dp"
+            android:text="@string/daejeon"
+            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalStrokeWidth="1dp"
+            app:normalTextColor="@color/dialog_list_text"
+            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeWidth="1dp"
+            app:pressedTextColor="@color/dialog_list_text"/>
+
+        <dev.kxxcn.app_squad.util.StateButton
+            android:id="@+id/btn_ulsan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:height="70dp"
+            android:text="@string/ulsan"
+            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalStrokeWidth="1dp"
+            app:normalTextColor="@color/dialog_list_text"
+            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeWidth="1dp"
+            app:pressedTextColor="@color/dialog_list_text"/>
+
+        <dev.kxxcn.app_squad.util.StateButton
+            android:id="@+id/btn_gwangju"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:height="70dp"
+            android:text="@string/gwangju"
+            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalStrokeWidth="1dp"
+            app:normalTextColor="@color/dialog_list_text"
+            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeWidth="1dp"
+            app:pressedTextColor="@color/dialog_list_text"/>
+
+    </LinearLayout>
+
+</LinearLayout>
