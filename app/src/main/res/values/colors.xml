@@ -33,6 +33,7 @@
     <color name="list_my_team">#9dc0fa</color>
     <color name="list_linked">#4ebb7f</color>
     <color name="list_unlinked">#ffff4444</color>
+    <color name="list_button">#83cec9</color>
 
     <color name="dialog_background">#3a5171</color>
     <color name="dialog_content">#ffffff</color>
@@ -54,4 +55,7 @@
 
     <color name="selected_circleindicator">#000000</color>
     <color name="unselected_circleindicator">#84797d</color>
+
+    <color name="dialog_list_border">#000000</color>
+    <color name="dialog_list_text">#000000</color>
 </resources>
