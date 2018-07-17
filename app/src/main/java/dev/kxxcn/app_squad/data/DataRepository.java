@@ -78,7 +78,7 @@ public class DataRepository {
 		});
 	}
 
-	public void onLoadList(final DataSource.GetLoadListCallback callback, Constants.ListsFilterType requestType) {
+	public void onLoadList(final DataSource.GetLoadListCallback callback, Constants.ListsFilterType requestType, String region, String date) {
 		dataSource.onLoadList(new DataSource.GetLoadListCallback() {
 
 			@Override
@@ -90,7 +90,7 @@ public class DataRepository {
 			public void onFailure(Throwable throwable) {
 				callback.onFailure(throwable);
 			}
-		}, requestType);
+		}, requestType, region, date);
 	}
 
 	public void onRegister(final DataSource.GetCommonCallback callback, Information information, Constants.ListsFilterType requestType) {

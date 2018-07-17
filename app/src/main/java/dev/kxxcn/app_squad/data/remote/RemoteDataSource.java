@@ -164,7 +164,7 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onLoadList(final GetLoadListCallback callback, Constants.ListsFilterType requestType) {
+	public void onLoadList(final GetLoadListCallback callback, Constants.ListsFilterType requestType, final String region, final String date) {
 		switch (requestType) {
 			case MATCH_LIST:
 				DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH);
@@ -179,7 +179,21 @@ public class RemoteDataSource extends DataSource {
 								if (!information.isConnect()) {
 									if (Integer.parseInt(DialogUtils.getFormattedDate(DialogUtils.getDate(), TYPE_COLLECTION)) <=
 											Integer.parseInt(information.getDate().replace("-", ""))) {
-										list.add(information);
+										if (region == null && date == null) {
+											list.add(information);
+										} else if (region != null && date != null) {
+											if (region.equals(information.getRegion()) && date.equals(information.getDate())) {
+												list.add(information);
+											}
+										} else if (region != null) {
+											if (region.equals(information.getRegion())) {
+												list.add(information);
+											}
+										} else if (date != null) {
+											if (date.equals(information.getDate())) {
+												list.add(information);
+											}
+										}
 									}
 								}
 							}

@@ -79,7 +79,7 @@ public abstract class DataSource {
 
 	public abstract void onLogout(GetCommonCallback callback);
 
-	public abstract void onLoadList(GetLoadListCallback callback, Constants.ListsFilterType requestType);
+	public abstract void onLoadList(GetLoadListCallback callback, Constants.ListsFilterType requestType, String region, String date);
 
 	public abstract void onRegister(GetCommonCallback callback, Information information, Constants.ListsFilterType requestType);
 
