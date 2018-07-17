@@ -19,6 +19,9 @@
         <item>광주</item>
         <item>대구</item>
         <item>제주도</item>
+        <item>인천</item>
+        <item>대전</item>
+        <item>울산</item>
     </string-array>
     <string-array name="ages">
         <item>10대</item>
