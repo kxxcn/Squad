@@ -36,6 +36,7 @@ import retrofit2.Response;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_CHATTING;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_REQUEST;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_RESPONSE;
+import static dev.kxxcn.app_squad.util.Constants.DEFAULT_NAME;
 import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 
 /**
@@ -218,7 +219,7 @@ public class RemoteDataSource extends DataSource {
 	@Override
 	public void onRegister(final GetCommonCallback callback, final Information information, final Constants.ListsFilterType requestType) {
 		List<String> joinList = new ArrayList<>(0);
-		joinList.add("SQUAD");
+		joinList.add(DEFAULT_NAME);
 		information.setJoin(joinList);
 		String collection = null;
 		switch (requestType) {

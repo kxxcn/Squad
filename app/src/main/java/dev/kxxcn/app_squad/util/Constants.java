@@ -8,6 +8,7 @@ import android.Manifest;
 
 public class Constants {
 	public static final String TAG = "kxxcn";
+	public static final String DEFAULT_NAME = "SQUAD";
 	public static final String CAMERA = Manifest.permission.CAMERA;
 	public static final String READ_PHONE_STATE = Manifest.permission.READ_PHONE_STATE;
 	public static final String CALL_PHONE = Manifest.permission.CALL_PHONE;
