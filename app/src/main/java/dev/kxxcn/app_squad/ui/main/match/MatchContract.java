@@ -26,7 +26,7 @@ public interface MatchContract {
 	interface Presenter extends BasePresenter {
 		void onRegister(Information information, Constants.ListsFilterType requestType);
 
-		void onRemove(String date);
+		void onRemove(Constants.ListsFilterType filterType, String date);
 
 		void onLoadAccount();
 	}

@@ -58,7 +58,9 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	private static final int MATCH = 0;
 	private static final int RECRUITMENT = 1;
 	private static final int PLAYER = 2;
-	public static final int LIST = 4;
+	public static final int MATCH_LIST = 4;
+	public static final int RECRUITMENT_LIST = 5;
+	public static final int PLAYER_LIST = 6;
 
 	private static final int LIMITED_LINE_COUNT = 3;
 
@@ -70,6 +72,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	NiceSpinner spinner_age;
 	@BindView(R.id.spinner_rule)
 	NiceSpinner spinner_rule;
+	@BindView(R.id.spinner_people)
+	NiceSpinner spinner_people;
 
 	@BindView(R.id.ll_region)
 	LinearLayout ll_region;
@@ -85,6 +89,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	LinearLayout ll_rule;
 	@BindView(R.id.ll_age)
 	LinearLayout ll_age;
+	@BindView(R.id.ll_people)
+	LinearLayout ll_people;
 
 	@BindView(R.id.tv_title)
 	TextView tv_title;
@@ -123,8 +129,6 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 
 	private DecimalFormat format = new DecimalFormat("#,###");
 
-	private Constants.ListsFilterType mFilterType;
-
 	private FirebaseAuth mAuth;
 
 	private Information mInformation;
@@ -132,6 +136,8 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	private boolean isUseable = true;
 
 	private User mUser;
+
+	private Constants.ListsFilterType mFilterType;
 
 	@Override
 	public void setPresenter(MatchContract.Presenter presenter) {
@@ -162,9 +168,11 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		String[] regions = mContext.getResources().getStringArray(R.array.regions);
 		String[] rules = getContext().getResources().getStringArray(R.array.group);
 		String[] ages = getContext().getResources().getStringArray(R.array.ages);
+		String[] people = getContext().getResources().getStringArray(R.array.people);
 		List<String> regionList = new LinkedList<>(Arrays.asList(regions));
 		List<String> ruleList = new LinkedList<>(Arrays.asList(rules));
 		List<String> ageList = new LinkedList<>(Arrays.asList(ages));
+		List<String> peopleList = new LinkedList<>(Arrays.asList(people));
 		spinner_region.attachDataSource(regionList);
 		et_inquiry.addTextChangedListener(lineWatcher);
 		switch (mPosition) {
@@ -175,26 +183,29 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				spinner_rule.setSelectedIndex(POSITION_SPINNER_DEFAULT);
 				et_money.addTextChangedListener(formatWatcher);
 				ll_age.setVisibility(View.GONE);
+				ll_people.setVisibility(View.GONE);
 				break;
 			case RECRUITMENT:
 				mFilterType = Constants.ListsFilterType.RECRUITMENT_LIST;
 				tv_title.setText(mContext.getString(R.string.match_title_recruitment));
 				spinner_rule.attachDataSource(ruleList);
 				spinner_rule.setSelectedIndex(POSITION_SPINNER_DEFAULT);
-				ll_money.setVisibility(View.GONE);
+				spinner_people.attachDataSource(peopleList);
 				ll_age.setVisibility(View.GONE);
 				break;
 			case PLAYER:
 				mFilterType = Constants.ListsFilterType.PLAYER_LIST;
 				spinner_age.attachDataSource(ageList);
 				spinner_age.setSelectedIndex(POSITION_SPINNER_DEFAULT);
+				spinner_people.attachDataSource(peopleList);
 				tv_title.setText(mContext.getString(R.string.match_title_player));
 				ll_rule.setVisibility(View.GONE);
 				ll_money.setVisibility(View.GONE);
 				ll_place.setVisibility(View.GONE);
-				ll_time.setVisibility(View.GONE);
 				break;
-			case LIST:
+			case MATCH_LIST:
+			case PLAYER_LIST:
+			case RECRUITMENT_LIST:
 				isUseable = false;
 				tv_title.setText(mContext.getString(R.string.match_title_registration));
 				spinner_region.setText(mInformation.getRegion());
@@ -214,12 +225,26 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 				et_inquiry.setClickable(false);
 				spinner_age.setText(mInformation.getAge());
 				spinner_age.setEnabled(false);
+				spinner_people.setText(mInformation.getPeople());
+				spinner_people.setEnabled(false);
 				ib_cancel.setVisibility(View.VISIBLE);
 				if (mInformation.getEmail().equals(mUser.getEmail())) {
 					ib_remove.setVisibility(View.VISIBLE);
 				}
 				ib_register.setVisibility(View.GONE);
-				ll_age.setVisibility(View.GONE);
+				if (mPosition == MATCH_LIST) {
+					mFilterType = Constants.ListsFilterType.MATCH_LIST;
+					ll_age.setVisibility(View.GONE);
+					ll_people.setVisibility(View.GONE);
+				} else if (mPosition == RECRUITMENT_LIST) {
+					mFilterType = Constants.ListsFilterType.RECRUITMENT_LIST;
+					ll_age.setVisibility(View.GONE);
+				} else if (mPosition == PLAYER_LIST) {
+					mFilterType = Constants.ListsFilterType.PLAYER_LIST;
+					ll_place.setVisibility(View.GONE);
+					ll_money.setVisibility(View.GONE);
+					ll_rule.setVisibility(View.GONE);
+				}
 				break;
 		}
 	}
@@ -256,12 +281,13 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 		String rule = spinner_rule.getText().toString();
 		String age = spinner_age.getText().toString();
 		String inquiry = et_inquiry.getText().toString();
+		String people = spinner_people.getText().toString();
 
 		if (onVerifyUsability(ll_place, place) && onVerifyUsability(ll_date, date) &&
-				onVerifyUsability(ll_time, time) && onVerifyUsability(ll_money, money)) {
+				onVerifyUsability(ll_time, time) && onVerifyUsability(ll_money, money) && onVerifyUsability(ll_people, people)) {
 			SystemUtils.Dlog.i(String.format(getContext().getString(R.string.log_information),
 					email, region, place, date, time, money, rule, age, inquiry));
-			Information information = new Information(team, email, region, place, date, time, money, rule, age, inquiry, false);
+			Information information = new Information(team, email, region, place, date, time, money, rule, age, inquiry, false, people);
 			mPresenter.onRegister(information, mFilterType);
 		} else {
 			Toast.makeText(mContext, getContext().getString(R.string.input_all), Toast.LENGTH_SHORT).show();
@@ -276,7 +302,7 @@ public class MatchDialog extends Dialog implements MatchContract.View {
 	private OnClickListener positiveListener = new OnClickListener() {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			mPresenter.onRemove(mInformation.getDate().replace("-", ""));
+			mPresenter.onRemove(mFilterType, mInformation.getDate().replace("-", ""));
 		}
 	};
 

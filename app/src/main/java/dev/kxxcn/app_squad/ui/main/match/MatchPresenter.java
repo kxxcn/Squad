@@ -46,7 +46,7 @@ public class MatchPresenter implements MatchContract.Presenter {
 	}
 
 	@Override
-	public void onRemove(String date) {
+	public void onRemove(Constants.ListsFilterType filterType, String date) {
 		if (mMatchView == null) {
 			return;
 		}
@@ -64,7 +64,7 @@ public class MatchPresenter implements MatchContract.Presenter {
 				mMatchView.showUnsuccessfullyRemove();
 				mMatchView.showLoadingIndicator(false);
 			}
-		}, date);
+		}, filterType, date);
 	}
 
 	@Override
