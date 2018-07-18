@@ -29,6 +29,14 @@
         <item>30대</item>
         <item>40대</item>
     </string-array>
+    <string-array name="people">
+        <item>1명</item>
+        <item>2명</item>
+        <item>3명</item>
+        <item>4명</item>
+        <item>5명</item>
+        <item>6명이상</item>
+    </string-array>
     <string-array name="group">
         <item>4 : 4</item>
         <item>5 : 5</item>
