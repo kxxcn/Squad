@@ -24,6 +24,7 @@ public class Information implements Parcelable {
 	private String team;
 	private String enemy;
 	private List<String> join;
+	private String people;
 
 	public Information() {
 
@@ -41,9 +42,10 @@ public class Information implements Parcelable {
 		this.inquiry = in.readString();
 		this.team = in.readString();
 		this.enemy = in.readString();
+		this.people = in.readString();
 	}
 
-	public Information(String team, String email, String region, String place, String date, String time, String money, String rule, String age, String inquiry, boolean isConnect) {
+	public Information(String team, String email, String region, String place, String date, String time, String money, String rule, String age, String inquiry, boolean isConnect, String people) {
 		this.team = team;
 		this.email = email;
 		this.region = region;
@@ -55,6 +57,7 @@ public class Information implements Parcelable {
 		this.age = age;
 		this.inquiry = inquiry;
 		this.isConnect = isConnect;
+		this.people = people;
 	}
 
 	public String getEmail() {
@@ -161,6 +164,14 @@ public class Information implements Parcelable {
 		this.join = join;
 	}
 
+	public String getPeople() {
+		return people;
+	}
+
+	public void setPeople(String people) {
+		this.people = people;
+	}
+
 	public static final Parcelable.Creator<Information> CREATOR = new Parcelable.Creator<Information>() {
 		@Override
 		public Information createFromParcel(Parcel source) {
@@ -191,6 +202,7 @@ public class Information implements Parcelable {
 		dest.writeString(inquiry);
 		dest.writeString(team);
 		dest.writeString(enemy);
+		dest.writeString(people);
 	}
 
 }
