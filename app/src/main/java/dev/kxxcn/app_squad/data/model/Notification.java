@@ -13,18 +13,20 @@ public class Notification {
 	private boolean isCheck;
 	private String date;
 	private String type;
+	private String flag;
 
 	public Notification() {
 
 	}
 
-	public Notification(String message, String sender, String timestamp, boolean isCheck, String date, String type) {
+	public Notification(String message, String sender, String timestamp, boolean isCheck, String date, String type, String flag) {
 		this.message = message;
 		this.sender = sender;
 		this.timestamp = timestamp;
 		this.isCheck = isCheck;
 		this.date = date;
 		this.type = type;
+		this.flag = flag;
 	}
 
 	public void setKey(int key) {
@@ -61,6 +63,10 @@ public class Notification {
 
 	public String getType() {
 		return type;
+	}
+
+	public String getFlag() {
+		return flag;
 	}
 
 }
