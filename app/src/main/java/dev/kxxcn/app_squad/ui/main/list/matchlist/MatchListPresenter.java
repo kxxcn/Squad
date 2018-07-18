@@ -5,7 +5,6 @@ import java.util.List;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Information;
-import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.SystemUtils;
 
@@ -59,7 +58,7 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 	}
 
 	@Override
-	public void onRequest(String to, String title, String message, String from, String date) {
+	public void onRequest(String to, String title, String message, String from, String date, Constants.ListsFilterType filterType) {
 		if (mMatchListView == null) {
 			return;
 		}
@@ -79,27 +78,7 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 			public void onError() {
 				mMatchListView.showUnuccessfullyRequested();
 			}
-		}, to, title, message, from, date);
-	}
-
-	@Override
-	public void onLoadAccount() {
-		if (mMatchListView == null) {
-			return;
-		}
-
-		mDataRepository.onLoadAccount(new DataSource.GetUserCallback() {
-			@Override
-			public void onSuccess(User user) {
-				mMatchListView.showSuccessfullyLoadAccount(user);
-			}
-
-			@Override
-			public void onFailure(Throwable throwable) {
-				mMatchListView.showInvalidAccount();
-				SystemUtils.Dlog.e(throwable.getMessage());
-			}
-		});
+		}, to, title, message, from, date, filterType);
 	}
 
 	@Override

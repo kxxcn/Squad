@@ -3,7 +3,6 @@ package dev.kxxcn.app_squad.ui.main.list.matchlist;
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.model.Information;
-import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.ui.BasePresenter;
 import dev.kxxcn.app_squad.ui.BaseView;
 import dev.kxxcn.app_squad.util.Constants;
@@ -20,8 +19,6 @@ public interface MatchListContract {
 
 		void showUnuccessfullyRequested();
 
-		void showSuccessfullyLoadAccount(User user);
-
 		void showInvalidAccount();
 
 		void showSuccessfullyLogout();
@@ -32,9 +29,7 @@ public interface MatchListContract {
 
 		void onLoadList(String region, String date);
 
-		void onLoadAccount();
-
-		void onRequest(String to, String title, String message, String from, String date);
+		void onRequest(String to, String title, String message, String from, String date, Constants.ListsFilterType filterType);
 
 		void onLogout();
 
@@ -42,5 +37,9 @@ public interface MatchListContract {
 
 	interface ItemClickListener {
 		void onClick(int position, int type);
+	}
+
+	interface OnDialogDismissed {
+		void onDialogDismissed(String region);
 	}
 }

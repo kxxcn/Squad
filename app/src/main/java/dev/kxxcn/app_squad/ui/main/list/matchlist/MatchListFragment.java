@@ -1,5 +1,6 @@
 package dev.kxxcn.app_squad.ui.main.list.matchlist;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,35 +27,49 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.ui.login.LoginActivity;
+import dev.kxxcn.app_squad.ui.main.list.ListContract;
+import dev.kxxcn.app_squad.ui.main.list.ListDialog;
 import dev.kxxcn.app_squad.ui.main.match.MatchDialog;
 import dev.kxxcn.app_squad.util.Constants;
+import dev.kxxcn.app_squad.util.DialogUtils;
+import dev.kxxcn.app_squad.util.StateButton;
 import dev.kxxcn.app_squad.util.threading.UiThread;
 
-import static dev.kxxcn.app_squad.util.Constants.DATE;
+import static dev.kxxcn.app_squad.util.Constants.DIALOG_FRAGMENT;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
-import static dev.kxxcn.app_squad.util.Constants.REGION;
+import static dev.kxxcn.app_squad.util.Constants.TYPE_SORT;
+import static dev.kxxcn.app_squad.util.Constants.USER;
 
 /**
  * Created by kxxcn on 2018-05-09.
  */
 
-public class MatchListFragment extends Fragment implements MatchListContract.View, MatchListContract.ItemClickListener {
+public class MatchListFragment extends Fragment implements MatchListContract.View, MatchListContract.ItemClickListener, ListContract.OnDialogDismissed {
 
 	@BindView(R.id.rv_list)
 	RecyclerView rv_list;
+
+	@BindView(R.id.btn_region)
+	StateButton btn_region;
+	@BindView(R.id.btn_date)
+	StateButton btn_date;
 
 	private MatchListContract.Presenter mPresenter;
 
 	private List<Information> mList;
 
 	private User mUser;
+
+	private String mRegion;
+	private String mDate;
 
 	@Override
 	public void setPresenter(MatchListContract.Presenter presenter) {
@@ -77,15 +93,15 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		mPresenter.onLoadAccount();
+		mUser = getArguments().getParcelable(USER);
+		mPresenter.onLoadList(mRegion, mDate);
 	}
 
-	public static Fragment newInstance(String region, String date) {
+	public static Fragment newInstance(User user) {
 		MatchListFragment fragment = new MatchListFragment();
 
 		Bundle args = new Bundle();
-		args.putString(REGION, region);
-		args.putString(DATE, date);
+		args.putParcelable(USER, user);
 
 		fragment.setArguments(args);
 		return fragment;
@@ -101,8 +117,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 		mList = new ArrayList<>(0);
 		this.mList = list;
 		Collections.sort(list, new Compare());
-		MatchListAdapter adapter = new MatchListAdapter(getContext(), list, this);
-		rv_list.setAdapter(adapter);
+		rv_list.setAdapter(new MatchListAdapter(getContext(), list, this));
 	}
 
 	class Compare implements Comparator<Information> {
@@ -126,13 +141,35 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 		}
 	}
 
+	@OnClick(R.id.btn_region)
+	public void showRegionListings() {
+		ListDialog newFragment = ListDialog.newInstance();
+		newFragment.setOnDialogDismissedListener(this);
+		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
+	}
+
+	@OnClick(R.id.btn_date)
+	public void showCalendar() {
+		DialogUtils.showDatePickerDialog(getContext(), dateSetListener);
+	}
+
+	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+		@Override
+		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+			mDate = DialogUtils.getFormattedDate(String.format(getContext().getString(R.string.select_date),
+					year, (monthOfYear + 1), dayOfMonth), TYPE_SORT);
+			btn_date.setText(mDate);
+			mPresenter.onLoadList(mRegion, mDate);
+		}
+	};
+
 	@Override
 	public void onClick(int position, int type) {
 		if (type == MatchListAdapter.REQUEST) {
 			mPresenter.onRequest(mList.get(position).getEmail(), getString(R.string.app_name), String.format(getString(R.string.list_request_match),
-					mUser.getTeam()), mUser.getUid(), mList.get(position).getDate().replace("-", ""));
+					mUser.getTeam()), mUser.getUid(), mList.get(position).getDate().replace("-", ""), Constants.ListsFilterType.MATCH_LIST);
 		} else if (type == MatchListAdapter.INFORMATION) {
-			MatchDialog dialog = new MatchDialog(getActivity(), getContext(), MatchDialog.LIST, mList.get(position));
+			MatchDialog dialog = new MatchDialog(getActivity(), getContext(), MatchDialog.MATCH_LIST, mList.get(position));
 			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 			WindowManager.LayoutParams params = new WindowManager.LayoutParams();
 			params.copyFrom(dialog.getWindow().getAttributes());
@@ -145,11 +182,21 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	}
 
 	@Override
+	public void onDialogDismissed(String region) {
+		mRegion = region;
+		btn_region.setText(mRegion);
+		if (mRegion.equals(getString(R.string.total))) {
+			mRegion = null;
+		}
+		mPresenter.onLoadList(mRegion, mDate);
+	}
+
+	@Override
 	public void showSuccessfullyRequested() {
 		UiThread.getInstance().post(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getContext(), getString(R.string.list_successfully_request), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getContext(), getString(R.string.list_successfully_request_match), Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -162,12 +209,6 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 				Toast.makeText(getContext(), getString(R.string.list_unsuccessfully_request), Toast.LENGTH_SHORT).show();
 			}
 		});
-	}
-
-	@Override
-	public void showSuccessfullyLoadAccount(User user) {
-		this.mUser = user;
-		mPresenter.onLoadList(getArguments().getString(REGION), getArguments().getString(DATE));
 	}
 
 	@Override
