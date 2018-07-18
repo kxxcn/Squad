@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,15 +39,21 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 	private static final String FROM = "from";
 	private static final String UID = "uid";
 	private static final String MATCH_DAY = "day";
+	private static final String IS_CONNECT = "isConnect";
 
 	@BindView(R.id.tv_enemy)
 	TextView tv_enemy;
+
+	@BindView(R.id.ll_call)
+	LinearLayout ll_call;
+	@BindView(R.id.ll_sms)
+	LinearLayout ll_sms;
 
 	private IntroduceContract.Presenter mPresenter;
 
 	private User mEnemy;
 
-	public static IntroduceFragment newInstance(User user, String from, String uid, String matchDay) {
+	public static IntroduceFragment newInstance(User user, String from, String uid, String matchDay, boolean isConnect) {
 		IntroduceFragment fragment = new IntroduceFragment();
 
 		Bundle args = new Bundle();
@@ -54,6 +61,7 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 		args.putString(FROM, from);
 		args.putString(UID, uid);
 		args.putString(MATCH_DAY, matchDay);
+		args.putBoolean(IS_CONNECT, isConnect);
 
 		fragment.setArguments(args);
 		return fragment;
@@ -86,6 +94,13 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 	private void initUI() {
 		mEnemy = getArguments().getParcelable(USER);
 		tv_enemy.setText(mEnemy.getTeam());
+		if (getArguments().getBoolean(IS_CONNECT)) {
+			ll_call.setVisibility(View.VISIBLE);
+			ll_sms.setVisibility(View.VISIBLE);
+		} else {
+			ll_call.setVisibility(View.GONE);
+			ll_sms.setVisibility(View.GONE);
+		}
 	}
 
 	@OnClick({R.id.ll_call, R.id.ib_call})
