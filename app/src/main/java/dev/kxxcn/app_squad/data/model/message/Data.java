@@ -27,6 +27,9 @@ public class Data {
 	@SerializedName("place")
 	@Expose
 	private String place;
+	@SerializedName("flag")
+	@Expose
+	private String flag;
 
 	public String getTitle() {
 		return title;
@@ -74,6 +77,14 @@ public class Data {
 
 	public void setPlace(String place) {
 		this.place = place;
+	}
+
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 
 }
