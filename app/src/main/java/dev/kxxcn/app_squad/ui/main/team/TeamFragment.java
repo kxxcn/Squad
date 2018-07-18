@@ -52,6 +52,8 @@ import dev.kxxcn.app_squad.util.BusProvider;
 import dev.kxxcn.app_squad.util.DialogUtils;
 
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_CHATTING;
+import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_REQUEST;
+import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_RESPONSE;
 import static dev.kxxcn.app_squad.util.Constants.DIALOG_FRAGMENT;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_CHARACTER;
 import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
@@ -61,8 +63,6 @@ import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
  * Created by kxxcn on 2018-04-26.
  */
 public class TeamFragment extends Fragment implements TeamContract.View, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, TeamContract.ItemClickListener {
-
-	private static final int BEGIN_INDEX = 1;
 
 	public static final int NOTIFICATION = 0;
 	public static final int BATTLE = 1;
@@ -285,7 +285,13 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		if (type == NOTIFICATION) {
 			int index = notifications.get(position).getMessage().indexOf("]");
 			mEnemy = notifications.get(position).getMessage().substring(1, index);
-			mPresenter.onLoadMatch(true, notifications.get(position).getDate(), mEnemy);
+			boolean isHome = false;
+			if (notifications.get(position).getType().equals(TYPE_REQUEST)) {
+				isHome = true;
+			} else if (notifications.get(position).getType().equals(TYPE_RESPONSE)) {
+				isHome = false;
+			}
+			mPresenter.onLoadMatch(isHome, notifications.get(position).getDate(), mEnemy, notifications.get(position).getFlag());
 		} else if (type == BATTLE) {
 			for (int i = 0; i < unReadNotifications.size(); i++) {
 				if (unReadNotifications.get(i).getDate().equals(mBattleList.get(position).getDate())) {
@@ -294,14 +300,14 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 			}
 			mPresenter.onReadNotification(unReadNotifications);
 			mEnemy = mBattleList.get(position).getEnemy();
-			mPresenter.onLoadMatch(mBattleList.get(position).isHome(), mBattleList.get(position).getDate(), mEnemy);
+			mPresenter.onLoadMatch(mBattleList.get(position).isHome(), mBattleList.get(position).getDate(), mEnemy, null);
 		}
 	}
 
 	@Override
-	public void showSuccessfullyLoadInformation(Information information) {
+	public void showSuccessfullyLoadInformation(Information information, String flag) {
 		navigation_drawer.closeDrawer(GravityCompat.END);
-		DialogFragment newFragment = NotificationDialog.newInstance(information, mEnemy, mUser.getTeam(), mUser.getUid());
+		DialogFragment newFragment = NotificationDialog.newInstance(information, mEnemy, mUser.getTeam(), mUser.getUid(), flag);
 		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
 	}
 

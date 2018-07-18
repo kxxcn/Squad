@@ -24,7 +24,7 @@ public class NotificationPresenter implements NotificationContract.Presenter {
 	}
 
 	@Override
-	public void onAgree(Information information, String title, String message) {
+	public void onAgree(Information information, String title, String message, String flag) {
 		if (mNotificationView == null) {
 			return;
 		}
@@ -45,7 +45,7 @@ public class NotificationPresenter implements NotificationContract.Presenter {
 			public void onError() {
 				mNotificationView.showUnsuccessfullyAgree();
 			}
-		}, information, title, message);
+		}, information, title, message, flag);
 	}
 
 	@Override

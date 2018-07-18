@@ -42,6 +42,7 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 	private static final String ENEMY = "enemy";
 	private static final String FROM = "from";
 	private static final String UID = "uid";
+	private static final String FLAG = "flag";
 
 	@BindView(R.id.vp_information)
 	ViewPager vp_information;
@@ -67,7 +68,7 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 		this.mPresenter = presenter;
 	}
 
-	public static NotificationDialog newInstance(Information information, String enemy, String from, String uid) {
+	public static NotificationDialog newInstance(Information information, String enemy, String from, String uid, String flag) {
 		NotificationDialog dialog = new NotificationDialog();
 
 		Bundle args = new Bundle();
@@ -75,6 +76,7 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 		args.putString(ENEMY, enemy);
 		args.putString(FROM, from);
 		args.putString(UID, uid);
+		args.putString(FLAG, flag);
 
 		dialog.setArguments(args);
 		return dialog;
@@ -113,7 +115,21 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 
 	@OnClick(R.id.btn_agree)
 	public void onAgree() {
-		mPresenter.onAgree(mInformation, getString(R.string.app_name), String.format(getString(R.string.notification_agree), mInformation.getTeam()));
+		String flag = getArguments().getString(FLAG);
+		String message = null;
+		switch (Integer.parseInt(flag)) {
+			case RemoteDataSource.FLAG_MATCH_LIST:
+				message = String.format(getString(R.string.notification_agree), mInformation.getTeam());
+				break;
+			case RemoteDataSource.FLAG_RECRUITMENT_LIST:
+				message = String.format(getString(R.string.notification_player_agree), mInformation.getTeam());
+				break;
+			case RemoteDataSource.FLAG_PLAYER_LIST:
+				message = String.format(getString(R.string.notification_game_agree), mInformation.getTeam());
+				break;
+		}
+		mPresenter.onAgree(mInformation, getString(R.string.app_name), message, flag);
+
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class NotificationContract {
 	}
 
 	interface Presenter extends BasePresenter {
-		void onAgree(Information information, String title, String message);
+		void onAgree(Information information, String title, String message, String flag);
 
 		void onLoadEnemyData(String enemy);
 	}

@@ -23,7 +23,7 @@ public interface TeamContract {
 
 		void showFailureLoadNotification();
 
-		void showSuccessfullyLoadInformation(Information information);
+		void showSuccessfullyLoadInformation(Information information, String flag);
 
 		void showSuccessfullyLoadBattle(List<Battle> battleList);
 
@@ -45,7 +45,7 @@ public interface TeamContract {
 
 		void onReadNotification(List<Notification> notifications);
 
-		void onLoadMatch(boolean isHome, String date, String enemy);
+		void onLoadMatch(boolean isHome, String date, String enemy, String flag);
 
 		void onLogout();
 
