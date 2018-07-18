@@ -19,10 +19,11 @@
             android:layout_margin="1dp"
             android:height="70dp"
             android:text="@string/total"
-            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalBackgroundColor="@color/dialog_list_orange"
+            app:normalStrokeColor="@color/dialog_list_orange"
             app:normalStrokeWidth="1dp"
             app:normalTextColor="@color/dialog_list_text"
-            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeColor="@color/dialog_list_orange"
             app:pressedStrokeWidth="1dp"
             app:pressedTextColor="@color/dialog_list_text"/>
 
@@ -33,10 +34,11 @@
             android:layout_margin="1dp"
             android:height="70dp"
             android:text="@string/seoul"
-            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalBackgroundColor="@color/dialog_list_gray"
+            app:normalStrokeColor="@color/dialog_list_gray"
             app:normalStrokeWidth="1dp"
             app:normalTextColor="@color/dialog_list_text"
-            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeColor="@color/dialog_list_gray"
             app:pressedStrokeWidth="1dp"
             app:pressedTextColor="@color/dialog_list_text"/>
 
@@ -47,10 +49,11 @@
             android:layout_margin="1dp"
             android:height="70dp"
             android:text="@string/busan"
-            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalBackgroundColor="@color/dialog_list_orange"
+            app:normalStrokeColor="@color/dialog_list_orange"
             app:normalStrokeWidth="1dp"
             app:normalTextColor="@color/dialog_list_text"
-            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeColor="@color/dialog_list_orange"
             app:pressedStrokeWidth="1dp"
             app:pressedTextColor="@color/dialog_list_text"/>
 
@@ -70,10 +73,11 @@
             android:layout_margin="1dp"
             android:height="70dp"
             android:text="@string/daegu"
-            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalBackgroundColor="@color/dialog_list_gray"
+            app:normalStrokeColor="@color/dialog_list_gray"
             app:normalStrokeWidth="1dp"
             app:normalTextColor="@color/dialog_list_text"
-            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeColor="@color/dialog_list_gray"
             app:pressedStrokeWidth="1dp"
             app:pressedTextColor="@color/dialog_list_text"/>
 
@@ -84,10 +88,11 @@
             android:layout_margin="1dp"
             android:height="70dp"
             android:text="@string/jeju"
-            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalBackgroundColor="@color/dialog_list_orange"
+            app:normalStrokeColor="@color/dialog_list_orange"
             app:normalStrokeWidth="1dp"
             app:normalTextColor="@color/dialog_list_text"
-            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeColor="@color/dialog_list_orange"
             app:pressedStrokeWidth="1dp"
             app:pressedTextColor="@color/dialog_list_text"/>
 
@@ -98,10 +103,11 @@
             android:layout_margin="1dp"
             android:height="70dp"
             android:text="@string/incheon"
-            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalBackgroundColor="@color/dialog_list_gray"
+            app:normalStrokeColor="@color/dialog_list_gray"
             app:normalStrokeWidth="1dp"
             app:normalTextColor="@color/dialog_list_text"
-            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeColor="@color/dialog_list_gray"
             app:pressedStrokeWidth="1dp"
             app:pressedTextColor="@color/dialog_list_text"/>
 
@@ -121,10 +127,11 @@
             android:layout_margin="1dp"
             android:height="70dp"
             android:text="@string/daejeon"
-            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalBackgroundColor="@color/dialog_list_orange"
+            app:normalStrokeColor="@color/dialog_list_orange"
             app:normalStrokeWidth="1dp"
             app:normalTextColor="@color/dialog_list_text"
-            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeColor="@color/dialog_list_orange"
             app:pressedStrokeWidth="1dp"
             app:pressedTextColor="@color/dialog_list_text"/>
 
@@ -135,10 +142,11 @@
             android:layout_margin="1dp"
             android:height="70dp"
             android:text="@string/ulsan"
-            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalBackgroundColor="@color/dialog_list_gray"
+            app:normalStrokeColor="@color/dialog_list_gray"
             app:normalStrokeWidth="1dp"
             app:normalTextColor="@color/dialog_list_text"
-            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeColor="@color/dialog_list_gray"
             app:pressedStrokeWidth="1dp"
             app:pressedTextColor="@color/dialog_list_text"/>
 
@@ -149,10 +157,11 @@
             android:layout_margin="1dp"
             android:height="70dp"
             android:text="@string/gwangju"
-            app:normalStrokeColor="@color/dialog_list_border"
+            app:normalBackgroundColor="@color/dialog_list_orange"
+            app:normalStrokeColor="@color/dialog_list_orange"
             app:normalStrokeWidth="1dp"
             app:normalTextColor="@color/dialog_list_text"
-            app:pressedStrokeColor="@color/dialog_list_border"
+            app:pressedStrokeColor="@color/dialog_list_orange"
             app:pressedStrokeWidth="1dp"
             app:pressedTextColor="@color/dialog_list_text"/>
 

@@ -29,51 +29,6 @@
             app:nts_titles="@array/list_titles"
             app:nts_weight="1dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <dev.kxxcn.app_squad.util.StateButton
-                    android:id="@+id/btn_region"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/list_region"
-                    app:normalStrokeColor="@color/list_button"
-                    app:normalStrokeWidth="1dp"
-                    app:normalTextColor="@color/list_button"
-                    app:pressedStrokeColor="@color/list_button"
-                    app:pressedStrokeWidth="1dp"
-                    app:pressedTextColor="@color/list_button"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <dev.kxxcn.app_squad.util.StateButton
-                    android:id="@+id/btn_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/list_date"
-                    app:normalStrokeColor="@color/list_button"
-                    app:normalStrokeWidth="1dp"
-                    app:normalTextColor="@color/list_button"
-                    app:pressedStrokeColor="@color/list_button"
-                    app:pressedStrokeWidth="1dp"
-                    app:pressedTextColor="@color/list_button"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
         <dev.kxxcn.app_squad.util.SwipeViewPager
             android:id="@+id/vp_list"
             android:layout_width="match_parent"
