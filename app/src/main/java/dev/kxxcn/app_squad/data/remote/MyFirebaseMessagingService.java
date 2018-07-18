@@ -55,11 +55,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	private static final String FCM_DATE = "date";
 	private static final String FCM_TYPE = "type";
 	private static final String FCM_PLACE = "place";
+	private static final String FCM_FLAG = "flag";
 
 	private static final boolean DID_NOT_CHECK = false;
 	private static final boolean CHECKED = true;
 
 	private static final String INIT = "1";
+
+	private static final int MATCH_LIST = 0;
+	private static final int RECRUITMENT_LIST = 1;
+	private static final int PLAYER_LIST = 2;
 
 	private SimpleDateFormat format = new SimpleDateFormat(SIMPLE_DATE_FORMAT1, Locale.KOREA);
 
@@ -69,10 +74,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	public void onMessageReceived(RemoteMessage remoteMessage) {
 		sendNotification(remoteMessage.getData().get(FCM_TITLE), remoteMessage.getData().get(FCM_MESSAGE),
 				remoteMessage.getData().get(FCM_SENDER), remoteMessage.getSentTime(), remoteMessage.getData().get(FCM_DATE),
-				remoteMessage.getData().get(FCM_TYPE), remoteMessage.getData().get(FCM_PLACE));
+				remoteMessage.getData().get(FCM_TYPE), remoteMessage.getData().get(FCM_PLACE), remoteMessage.getData().get(FCM_FLAG));
 	}
 
-	private void sendNotification(String title, String message, String from, long time, String matchDate, String type, String place) {
+	private void sendNotification(String title, String message, String from, long time, String matchDate, String type, String place, String flag) {
 		Date date = new Date(time);
 		format.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
 		String timestamp = format.format(date);
@@ -81,8 +86,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			roomName = message;
 			message = String.format(getApplicationContext().getString(R.string.received_message), from);
 		} else {
-			onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type));
-			onRegisterBattle(new Battle(from, matchDate, place, false), type);
+			onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type, flag));
+			onRegisterBattle(new Battle(from, matchDate, place, false), type, flag);
 		}
 
 		Intent intent = new Intent(this, MainActivity.class);
@@ -124,10 +129,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				notificationManager.notify(0, notificationBuilder.build());
 				SystemUtils.onAcquire(this);
 				SystemUtils.onVibrate(this, VIBRATE_NOTIFICATION);
-				onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type));
+				onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type, flag));
 			}
 			if (ChattingDialog.DAY.equals(matchDate) && ChattingDialog.ROOM_NAME.equals(roomName)) {
-				onRegisterNotification(new Notification(message, from, timestamp, CHECKED, matchDate, type));
+				onRegisterNotification(new Notification(message, from, timestamp, CHECKED, matchDate, type, flag));
 			}
 		} else {
 			notificationManager.notify(new Random().nextInt() /* ID of notification */, notificationBuilder.build());
@@ -155,15 +160,40 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 					@Override
 					public void onSuccess(Void aVoid) {
 						if (notification.getType().equals(TYPE_REQUEST)) {
-							final DatabaseReference matchReference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_MATCH)
-									.child(notification.getDate()).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-							matchReference.addListenerForSingleValueEvent(new ValueEventListener() {
+							DatabaseReference listReference = null;
+							int type = Integer.parseInt(notification.getFlag());
+							switch (type) {
+								case MATCH_LIST:
+									listReference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_MATCH)
+											.child(notification.getDate()).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+									break;
+								case RECRUITMENT_LIST:
+									listReference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_RECRUITMENT)
+											.child(notification.getDate()).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+									break;
+								case PLAYER_LIST:
+									listReference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_PLAYER)
+											.child(notification.getDate()).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+									break;
+							}
+							final DatabaseReference searchReference = listReference;
+							listReference.addListenerForSingleValueEvent(new ValueEventListener() {
 								@Override
 								public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 									Information information = dataSnapshot.getValue(Information.class);
 									List<String> joinList = information.getJoin();
 									joinList.add(notification.getSender());
-									matchReference.child(RemoteDataSource.DOCUMENT_NAME_JOIN).setValue(joinList);
+									searchReference.child(RemoteDataSource.DOCUMENT_NAME_JOIN).setValue(joinList).addOnSuccessListener(new OnSuccessListener<Void>() {
+										@Override
+										public void onSuccess(Void aVoid) {
+											SystemUtils.Dlog.d("Success!");
+										}
+									}).addOnFailureListener(new OnFailureListener() {
+										@Override
+										public void onFailure(@NonNull Exception e) {
+											SystemUtils.Dlog.e(e.getMessage());
+										}
+									});
 								}
 
 								@Override
@@ -188,11 +218,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		});
 	}
 
-	private void onRegisterBattle(final Battle battle, String type) {
+	private void onRegisterBattle(final Battle battle, String type, String flag) {
 		if (type.equals(TYPE_RESPONSE)) {
-			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_BATTLE)
-					.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(battle.getDate());
-			reference.setValue(battle);
+			if (Integer.parseInt(flag) == RemoteDataSource.FLAG_MATCH_LIST) {
+				DatabaseReference reference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_BATTLE)
+						.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(battle.getDate());
+				reference.setValue(battle);
+			}
 		}
 	}
 

@@ -121,7 +121,7 @@ public class DataRepository {
 		});
 	}
 
-	public void onRequest(final DataSource.GetSendMessageCallback callback, String to, String title, String message, String from, String date) {
+	public void onRequest(final DataSource.GetSendMessageCallback callback, String to, String title, String message, String from, String date, Constants.ListsFilterType filterType) {
 		dataSource.onRequest(new DataSource.GetSendMessageCallback() {
 			@Override
 			public void onSuccess() {
@@ -137,7 +137,7 @@ public class DataRepository {
 			public void onError() {
 
 			}
-		}, to, title, message, from, date);
+		}, to, title, message, from, date, filterType);
 	}
 
 	public void onLoadAccount(final DataSource.GetUserCallback callback) {
@@ -182,7 +182,7 @@ public class DataRepository {
 		}, notifications);
 	}
 
-	public void onRemove(final DataSource.GetCommonCallback callback, String date) {
+	public void onRemove(final DataSource.GetCommonCallback callback, Constants.ListsFilterType filterType, String date) {
 		dataSource.onRemove(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
@@ -193,10 +193,10 @@ public class DataRepository {
 			public void onFailure(Throwable throwable) {
 				callback.onFailure(throwable);
 			}
-		}, date);
+		}, filterType, date);
 	}
 
-	public void onLoadMatch(final DataSource.GetInformationCallback callback, boolean isHome, String date, String enemy) {
+	public void onLoadMatch(final DataSource.GetInformationCallback callback, boolean isHome, String date, String enemy, String flag) {
 		dataSource.onLoadMatch(new DataSource.GetInformationCallback() {
 			@Override
 			public void onSuccess(Information information) {
@@ -207,7 +207,7 @@ public class DataRepository {
 			public void onFailure(Throwable throwable) {
 				callback.onFailure(throwable);
 			}
-		}, isHome, date, enemy);
+		}, isHome, date, enemy, flag);
 	}
 
 	public void onLoadEnemyData(final DataSource.GetUserCallback callback, String enemy) {
@@ -225,7 +225,7 @@ public class DataRepository {
 
 	}
 
-	public void onAgree(final DataSource.GetSendMessageCallback callback, Information information, String title, String message) {
+	public void onAgree(final DataSource.GetSendMessageCallback callback, Information information, String title, String message, String flag) {
 		dataSource.onAgree(new DataSource.GetSendMessageCallback() {
 			@Override
 			public void onSuccess() {
@@ -241,7 +241,7 @@ public class DataRepository {
 			public void onError() {
 				callback.onError();
 			}
-		}, information, title, message);
+		}, information, title, message, flag);
 	}
 
 	public void onUpdateNotice(final DataSource.GetCommonCallback callback, boolean on, Constants.NoticeFilterType requestType) {

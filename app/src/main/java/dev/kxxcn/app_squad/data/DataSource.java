@@ -85,7 +85,7 @@ public abstract class DataSource {
 
 	public abstract void onLoadRecord(GetBattleCallback callback);
 
-	public abstract void onRequest(GetSendMessageCallback callback, String to, String title, String message, String from, String date);
+	public abstract void onRequest(GetSendMessageCallback callback, String to, String title, String message, String from, String date, Constants.ListsFilterType filterType);
 
 	public abstract void onLoadAccount(GetUserCallback callback);
 
@@ -93,13 +93,13 @@ public abstract class DataSource {
 
 	public abstract void onReadNotification(GetCommonCallback callback, List<Notification> notifications);
 
-	public abstract void onRemove(GetCommonCallback callback, String date);
+	public abstract void onRemove(GetCommonCallback callback, Constants.ListsFilterType filterType, String date);
 
-	public abstract void onLoadMatch(GetInformationCallback callback, boolean isHome, String date, String enemy);
+	public abstract void onLoadMatch(GetInformationCallback callback, boolean isHome, String date, String enemy, String flag);
 
 	public abstract void onLoadEnemyData(GetUserCallback callback, String enemy);
 
-	public abstract void onAgree(GetSendMessageCallback callback, Information information, String title, String message);
+	public abstract void onAgree(GetSendMessageCallback callback, Information information, String title, String message, String flag);
 
 	public abstract void onUpdateNotice(GetCommonCallback callback, boolean on, Constants.NoticeFilterType requestType);
 

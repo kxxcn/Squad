@@ -45,11 +45,11 @@ import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 
 public class RemoteDataSource extends DataSource {
 
-	private static final String COLLECTION_NAME_RECRUITMENT = "recruitment";
-	private static final String COLLECTION_NAME_PLAYER = "player";
 	private static final String COLLECTION_NAME_CHATTING = "chatting";
 	public static final String COLLECTION_NAME_USER = "user";
 	public static final String COLLECTION_NAME_MATCH = "match";
+	public static final String COLLECTION_NAME_RECRUITMENT = "recruitment";
+	public static final String COLLECTION_NAME_PLAYER = "player";
 	public static final String COLLECTION_NAME_BATTLE = "battle";
 
 	public static final String DOCUMENT_NAME_MESSAGE = "message";
@@ -59,6 +59,10 @@ public class RemoteDataSource extends DataSource {
 	public static final String DOCUMENT_NAME_EVENT = "event";
 
 	private static final String INIT = "1";
+
+	public static final int FLAG_MATCH_LIST = 0;
+	public static final int FLAG_RECRUITMENT_LIST = 1;
+	public static final int FLAG_PLAYER_LIST = 2;
 
 	private static RemoteDataSource remoteDataSource;
 
@@ -166,54 +170,58 @@ public class RemoteDataSource extends DataSource {
 
 	@Override
 	public void onLoadList(final GetLoadListCallback callback, Constants.ListsFilterType requestType, final String region, final String date) {
+		DatabaseReference reference = null;
 		switch (requestType) {
 			case MATCH_LIST:
-				DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH);
-				reference.addValueEventListener(new ValueEventListener() {
-					@Override
-					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-						List<Information> list = new ArrayList<>(0);
-						for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
-							for (DataSnapshot childSnapshot : parentSnapshot.getChildren()) {
-								SystemUtils.Dlog.i(childSnapshot.getValue().toString());
-								final Information information = childSnapshot.getValue(Information.class);
-								if (!information.isConnect()) {
-									if (Integer.parseInt(DialogUtils.getFormattedDate(DialogUtils.getDate(), TYPE_COLLECTION)) <=
-											Integer.parseInt(information.getDate().replace("-", ""))) {
-										if (region == null && date == null) {
-											list.add(information);
-										} else if (region != null && date != null) {
-											if (region.equals(information.getRegion()) && date.equals(information.getDate())) {
-												list.add(information);
-											}
-										} else if (region != null) {
-											if (region.equals(information.getRegion())) {
-												list.add(information);
-											}
-										} else if (date != null) {
-											if (date.equals(information.getDate())) {
-												list.add(information);
-											}
-										}
+				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH);
+				break;
+			case RECRUITMENT_LIST:
+				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_RECRUITMENT);
+				break;
+			case PLAYER_LIST:
+				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_PLAYER);
+				break;
+		}
+
+		reference.addValueEventListener(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				List<Information> list = new ArrayList<>(0);
+				for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
+					for (DataSnapshot childSnapshot : parentSnapshot.getChildren()) {
+						SystemUtils.Dlog.i(childSnapshot.getValue().toString());
+						final Information information = childSnapshot.getValue(Information.class);
+						if (!information.isConnect()) {
+							if (Integer.parseInt(DialogUtils.getFormattedDate(DialogUtils.getDate(), TYPE_COLLECTION)) <=
+									Integer.parseInt(information.getDate().replace("-", ""))) {
+								if (region == null && date == null) {
+									list.add(information);
+								} else if (region != null && date != null) {
+									if (region.equals(information.getRegion()) && date.equals(information.getDate())) {
+										list.add(information);
+									}
+								} else if (region != null) {
+									if (region.equals(information.getRegion())) {
+										list.add(information);
+									}
+								} else if (date != null) {
+									if (date.equals(information.getDate())) {
+										list.add(information);
 									}
 								}
 							}
 						}
-
-						callback.onSuccess(list);
 					}
+				}
 
-					@Override
-					public void onCancelled(@NonNull DatabaseError databaseError) {
-						callback.onFailure(databaseError.toException());
-					}
-				});
-				break;
-			case PLAYER_LIST:
-				break;
-			case RECRUITMENT_LIST:
-				break;
-		}
+				callback.onSuccess(list);
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				callback.onFailure(databaseError.toException());
+			}
+		});
 	}
 
 	@Override
@@ -269,7 +277,7 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onRequest(final GetSendMessageCallback callback, final String to, final String title, final String message, final String from, final String date) {
+	public void onRequest(final GetSendMessageCallback callback, final String to, final String title, final String message, final String from, final String date, final Constants.ListsFilterType filterType) {
 		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
@@ -277,12 +285,25 @@ public class RemoteDataSource extends DataSource {
 				final String token = getTokenOfRrecipient(dataSnapshot, to, Constants.TYPE_REQUEST);
 
 				if (token != null) {
+					String flag = null;
 					Data data = new Data();
 					data.setTitle(title);
 					data.setMessage(message);
 					data.setSender(from);
 					data.setDate(date);
 					data.setType(TYPE_REQUEST);
+					switch (filterType) {
+						case MATCH_LIST:
+							flag = String.valueOf(FLAG_MATCH_LIST);
+							break;
+						case RECRUITMENT_LIST:
+							flag = String.valueOf(FLAG_RECRUITMENT_LIST);
+							break;
+						case PLAYER_LIST:
+							flag = String.valueOf(FLAG_PLAYER_LIST);
+							break;
+					}
+					data.setFlag(flag);
 
 					Send send = new Send();
 					send.setTo(token);
@@ -370,8 +391,20 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onRemove(final GetCommonCallback callback, final String date) {
-		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
+	public void onRemove(final GetCommonCallback callback, Constants.ListsFilterType filterType, final String date) {
+		DatabaseReference reference = null;
+		switch (filterType) {
+			case MATCH_LIST:
+				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
+				break;
+			case RECRUITMENT_LIST:
+				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_RECRUITMENT).child(date).child(mAuth.getCurrentUser().getUid());
+				break;
+			case PLAYER_LIST:
+				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_PLAYER).child(date).child(mAuth.getCurrentUser().getUid());
+				break;
+		}
+
 		reference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
 			@Override
 			public void onSuccess(Void aVoid) {
@@ -413,13 +446,29 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onLoadMatch(final GetInformationCallback callback, boolean isHome, final String date, final String enemy) {
+	public void onLoadMatch(final GetInformationCallback callback, boolean isHome, final String date, final String enemy, final String flag) {
 		if (isHome) {
-			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
+			DatabaseReference reference = null;
+			if (flag != null) {
+				switch (Integer.parseInt(flag)) {
+					case FLAG_MATCH_LIST:
+						reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
+						break;
+					case FLAG_RECRUITMENT_LIST:
+						reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_RECRUITMENT).child(date).child(mAuth.getCurrentUser().getUid());
+						break;
+					case FLAG_PLAYER_LIST:
+						reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_PLAYER).child(date).child(mAuth.getCurrentUser().getUid());
+						break;
+				}
+			} else {
+				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
+			}
 			reference.addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 					try {
+						SystemUtils.Dlog.d(dataSnapshot.getValue().toString());
 						callback.onSuccess(dataSnapshot.getValue(Information.class));
 					} catch (NullPointerException e) {
 						callback.onFailure(e);
@@ -433,19 +482,38 @@ public class RemoteDataSource extends DataSource {
 				}
 			});
 		} else {
+			SystemUtils.Dlog.d("Break Points - 1");
 			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
 			reference.addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 					for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
 						User user = childSnapshot.getValue(User.class);
+						SystemUtils.Dlog.d("Enemy : " + enemy);
 						if (enemy.equals(user.getTeam())) {
 							String uid = user.getUid();
-							DatabaseReference matchReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(uid);
+							SystemUtils.Dlog.d("UID : " + uid);
+							DatabaseReference matchReference = null;
+							if (flag != null) {
+								switch (Integer.parseInt(flag)) {
+									case FLAG_MATCH_LIST:
+										matchReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(uid);
+										break;
+									case FLAG_RECRUITMENT_LIST:
+										matchReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_RECRUITMENT).child(date).child(uid);
+										break;
+									case FLAG_PLAYER_LIST:
+										matchReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_PLAYER).child(date).child(uid);
+										break;
+								}
+							} else {
+								matchReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(uid);
+							}
 							matchReference.addListenerForSingleValueEvent(new ValueEventListener() {
 								@Override
 								public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 									try {
+										SystemUtils.Dlog.d(dataSnapshot.getValue().toString());
 										callback.onSuccess(dataSnapshot.getValue(Information.class));
 									} catch (NullPointerException e) {
 										callback.onFailure(e);
@@ -494,10 +562,24 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public void onAgree(final GetSendMessageCallback callback, final Information information, final String title, final String message) {
+	public void onAgree(final GetSendMessageCallback callback, final Information information, final String title, final String message, final String flag) {
 		information.setConnect(true);
-		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH)
-				.child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION)).child(mAuth.getCurrentUser().getUid());
+		DatabaseReference reference = null;
+		switch (Integer.parseInt(flag)) {
+			case FLAG_MATCH_LIST:
+				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH)
+						.child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION)).child(mAuth.getCurrentUser().getUid());
+				break;
+			case FLAG_RECRUITMENT_LIST:
+				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_RECRUITMENT)
+						.child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION)).child(mAuth.getCurrentUser().getUid());
+				break;
+			case FLAG_PLAYER_LIST:
+				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_PLAYER)
+						.child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION)).child(mAuth.getCurrentUser().getUid());
+				break;
+		}
+
 		reference.setValue(information).addOnSuccessListener(new OnSuccessListener<Void>() {
 			@Override
 			public void onSuccess(Void aVoid) {
@@ -515,6 +597,7 @@ public class RemoteDataSource extends DataSource {
 							data.setDate(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION));
 							data.setType(TYPE_RESPONSE);
 							data.setPlace(information.getPlace());
+							data.setFlag(flag);
 
 							Send send = new Send();
 							send.setTo(token);
@@ -525,20 +608,24 @@ public class RemoteDataSource extends DataSource {
 								@Override
 								public void onResponse(@NonNull final Call<Void> call, @NonNull Response<Void> response) {
 									if (response.isSuccessful()) {
-										DatabaseReference battleReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_BATTLE)
-												.child(mAuth.getCurrentUser().getUid()).child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION));
-										battleReference.setValue(new Battle(information.getEnemy(), DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION), information.getPlace(), true))
-												.addOnSuccessListener(new OnSuccessListener<Void>() {
-													@Override
-													public void onSuccess(Void aVoid) {
-														callback.onSuccess();
-													}
-												}).addOnFailureListener(new OnFailureListener() {
-											@Override
-											public void onFailure(@NonNull Exception e) {
-												callback.onFailure(e);
-											}
-										});
+										if (Integer.parseInt(flag) == FLAG_MATCH_LIST) {
+											DatabaseReference battleReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_BATTLE)
+													.child(mAuth.getCurrentUser().getUid()).child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION));
+											battleReference.setValue(new Battle(information.getEnemy(), DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION), information.getPlace(), true))
+													.addOnSuccessListener(new OnSuccessListener<Void>() {
+														@Override
+														public void onSuccess(Void aVoid) {
+															callback.onSuccess();
+														}
+													}).addOnFailureListener(new OnFailureListener() {
+												@Override
+												public void onFailure(@NonNull Exception e) {
+													callback.onFailure(e);
+												}
+											});
+										} else {
+											callback.onSuccess();
+										}
 									} else {
 										callback.onError();
 									}
