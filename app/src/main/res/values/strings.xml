@@ -86,12 +86,12 @@
     <string name="list_complete">완료</string>
     <string name="list_checking">확인 중</string>
     <string name="list_successfully_request_match">경기를 요청했습니다.</string>
-    <string name="list_successfully_request_player">용병을 요청했습니다.</string>
     <string name="list_successfully_request_recruitment">용병을 신청했습니다.</string>
+    <string name="list_successfully_request_player">용병을 요청했습니다.</string>
     <string name="list_unsuccessfully_request">요청을 실패했습니다.</string>
     <string name="list_request_match">[%s]팀에서 경기를 요청했습니다.</string>
-    <string name="list_request_player">[%s]팀에서 경기에 초대했습니다.</string>
     <string name="list_request_recruitment">[%s]팀에서 용병을 신청했습니다.</string>
+    <string name="list_request_player">[%s]팀에서 용병을 요청했습니다.</string>
     <string name="list_region">지역</string>
     <string name="list_date">날짜</string>
     <string name="list_information">%s / %s</string>
@@ -119,8 +119,8 @@
     <string name="notification_schedule">경기일정</string>
     <string name="notification_no_introduce">클럽 소개글이 없습니다.</string>
     <string name="notification_agree">[%s]팀에서 경기를 수락했습니다.</string>
-    <string name="notification_player_agree">[%s]팀에서 용병을 수락했습니다.</string>
-    <string name="notification_game_agree">[%s]팀에서 초대를 수락했습니다.</string>
+    <string name="notification_player_agree">[%s]팀에서 요청을 수락했습니다.</string>
+    <string name="notification_game_agree">[%s]팀에서 신청을 수락했습니다.</string>
     <string name="notification_unsuccessfully_agree">경기 수락을 실패했습니다.</string>
     <string name="notification_complete_match">매칭완료</string>
     <string name="notification_call">통화</string>
