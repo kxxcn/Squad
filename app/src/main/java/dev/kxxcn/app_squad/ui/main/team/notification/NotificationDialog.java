@@ -129,7 +129,6 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 				break;
 		}
 		mPresenter.onAgree(mInformation, getString(R.string.app_name), message, flag);
-
 	}
 
 	@Override
@@ -141,16 +140,18 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 	public void showEnemyData(User user) {
 		mInformation = getArguments().getParcelable(INFORMATION);
 		mInformation.setEnemy(user.getTeam());
-		tv_enemy.setText(getString(R.string.notification_schedule));
-		vp_information.setAdapter(new NotificationPagerAdapter(getChildFragmentManager(), mInformation, user,
-				getArguments().getString(FROM), getArguments().getString(UID)));
-		indicator.setViewPager(vp_information);
-		if (mInformation.isConnect()) {
-			btn_agree.setVisibility(View.GONE);
-			btn_complete.setVisibility(View.VISIBLE);
-		} else {
-			btn_agree.setVisibility(View.VISIBLE);
-			btn_complete.setVisibility(View.GONE);
+		if (getActivity() != null && isAdded()) {
+			tv_enemy.setText(getString(R.string.notification_schedule));
+			vp_information.setAdapter(new NotificationPagerAdapter(getChildFragmentManager(), mInformation, user,
+					getArguments().getString(FROM), getArguments().getString(UID)));
+			indicator.setViewPager(vp_information);
+			if (mInformation.isConnect()) {
+				btn_agree.setVisibility(View.GONE);
+				btn_complete.setVisibility(View.VISIBLE);
+			} else {
+				btn_agree.setVisibility(View.VISIBLE);
+				btn_complete.setVisibility(View.GONE);
+			}
 		}
 	}
 
