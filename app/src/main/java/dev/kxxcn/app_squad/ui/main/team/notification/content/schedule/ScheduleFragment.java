@@ -4,10 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.text.DecimalFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,10 +57,35 @@ public class ScheduleFragment extends Fragment {
 
 	private void initUI() {
 		Information information = getArguments().getParcelable(INFORMATION);
+		tv_money.addTextChangedListener(formatWatcher);
 		tv_place.setText(information.getPlace());
 		tv_date.setText(information.getDate());
 		tv_time.setText(information.getTime());
 		tv_money.setText(information.getMoney());
 	}
+
+	private TextWatcher formatWatcher = new TextWatcher() {
+
+		String formatted;
+		DecimalFormat format = new DecimalFormat("#,###");
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			if (!TextUtils.isEmpty(s.toString()) && !s.toString().equals(formatted)) {
+				formatted = format.format(Double.parseDouble(s.toString().replace(",", "")));
+				tv_money.setText(formatted);
+			}
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+
+		}
+	};
 
 }
