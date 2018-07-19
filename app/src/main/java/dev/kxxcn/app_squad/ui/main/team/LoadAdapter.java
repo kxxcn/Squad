@@ -36,7 +36,7 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.ViewHolder> {
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notification, parent, false);
-		return new LoadAdapter.ViewHolder(view, mItemClickListener);
+		return new LoadAdapter.ViewHolder(view, mItemClickListener, mList);
 	}
 
 	@Override
@@ -71,13 +71,17 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.ViewHolder> {
 		@BindView(R.id.ib_arrow)
 		ImageButton ib_arrow;
 
-		public ViewHolder(View itemView, final TeamContract.ItemClickListener itemClickListener) {
+		public ViewHolder(View itemView, final TeamContract.ItemClickListener itemClickListener, final List<Notification> list) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 			ll_root.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					itemClickListener.onClick(getAdapterPosition(), TeamFragment.NOTIFICATION);
+					if (list.get(getAdapterPosition()).getType().equals(TYPE_CHATTING)) {
+						itemClickListener.onClick(getAdapterPosition(), TeamFragment.CHATTING);
+					} else {
+						itemClickListener.onClick(getAdapterPosition(), TeamFragment.NOTIFICATION);
+					}
 				}
 			});
 		}

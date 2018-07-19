@@ -66,6 +66,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	public static final int NOTIFICATION = 0;
 	public static final int BATTLE = 1;
+	public static final int CHATTING = 2;
 
 	@BindView(R.id.rv_team)
 	RecyclerView rv_team;
@@ -301,6 +302,8 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 			mPresenter.onReadNotification(unReadNotifications);
 			mEnemy = mBattleList.get(position).getEnemy();
 			mPresenter.onLoadMatch(mBattleList.get(position).isHome(), mBattleList.get(position).getDate(), mEnemy, null);
+		} else if (type == CHATTING) {
+
 		}
 	}
 
