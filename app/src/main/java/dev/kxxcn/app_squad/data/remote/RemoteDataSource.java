@@ -393,18 +393,23 @@ public class RemoteDataSource extends DataSource {
 	@Override
 	public void onRemove(final GetCommonCallback callback, Constants.ListsFilterType filterType, final String date) {
 		DatabaseReference reference = null;
+		String tmp = null;
 		switch (filterType) {
 			case MATCH_LIST:
 				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date).child(mAuth.getCurrentUser().getUid());
+				tmp = String.valueOf(FLAG_MATCH_LIST);
 				break;
 			case RECRUITMENT_LIST:
 				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_RECRUITMENT).child(date).child(mAuth.getCurrentUser().getUid());
+				tmp = String.valueOf(FLAG_RECRUITMENT_LIST);
 				break;
 			case PLAYER_LIST:
 				reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_PLAYER).child(date).child(mAuth.getCurrentUser().getUid());
+				tmp = String.valueOf(FLAG_PLAYER_LIST);
 				break;
 		}
 
+		final String flag = tmp;
 		reference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
 			@Override
 			public void onSuccess(Void aVoid) {
@@ -415,17 +420,19 @@ public class RemoteDataSource extends DataSource {
 						for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
 							Notification notification = childSnapshot.getValue(Notification.class);
 							if (notification.getDate().equals(date)) {
-								userReference.child(String.valueOf(notification.getKey())).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
-									@Override
-									public void onSuccess(Void aVoid) {
-										callback.onSuccess();
-									}
-								}).addOnFailureListener(new OnFailureListener() {
-									@Override
-									public void onFailure(@NonNull Exception e) {
-										callback.onFailure(e.getCause());
-									}
-								});
+								if (notification.getFlag().equals(flag)) {
+									userReference.child(String.valueOf(notification.getKey())).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+										@Override
+										public void onSuccess(Void aVoid) {
+											callback.onSuccess();
+										}
+									}).addOnFailureListener(new OnFailureListener() {
+										@Override
+										public void onFailure(@NonNull Exception e) {
+											callback.onFailure(e.getCause());
+										}
+									});
+								}
 							}
 						}
 					}
