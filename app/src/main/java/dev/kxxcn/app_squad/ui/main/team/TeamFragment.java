@@ -294,6 +294,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 			} else if (notifications.get(position).getType().equals(TYPE_RESPONSE)) {
 				isHome = false;
 			}
+
 			mPresenter.onLoadMatch(isHome, notifications.get(position).getDate(), mEnemy, notifications.get(position).getFlag());
 		} else if (type == BATTLE) {
 			for (int i = 0; i < unReadNotifications.size(); i++) {
@@ -313,10 +314,12 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	public void showSuccessfullyLoadInformation(Information information, String flag) {
 		navigation_drawer.closeDrawer(GravityCompat.END);
 		if (flag.equals(String.valueOf(RemoteDataSource.FLAG_PLAYER_LIST))) {
-			information.setPlace(notifications.get(mPosition).getUncertainPlace());
-			information.setDate(notifications.get(mPosition).getUncertainDate());
-			information.setTime(notifications.get(mPosition).getUncertainTime());
-			information.setMoney(notifications.get(mPosition).getUncertainMoney());
+			if (notifications.get(mPosition).getType().equals(TYPE_REQUEST)) {
+				information.setPlace(notifications.get(mPosition).getUncertainPlace());
+				information.setDate(notifications.get(mPosition).getUncertainDate());
+				information.setTime(notifications.get(mPosition).getUncertainTime());
+				information.setMoney(notifications.get(mPosition).getUncertainMoney());
+			}
 		}
 		DialogFragment newFragment = NotificationDialog.newInstance(information, mEnemy, mUser.getTeam(), mUser.getUid(), flag);
 		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
