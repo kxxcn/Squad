@@ -138,6 +138,10 @@
     <string name="daejeon">대전</string>
     <string name="ulsan">울산</string>
 
+    <string name="player_request">요청하기</string>
+    <string name="player_information">/%s#%s#%s#%s</string>
+    <string name="player_title">매치정보</string>
+
     <!-- LOG -->
     <string name="log_information">%s, %s, %s, %s, %s, %s, %s, %s, %s</string>
 </resources>
