@@ -86,7 +86,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			roomName = message;
 			message = String.format(getApplicationContext().getString(R.string.received_message), from);
 		} else {
-			onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type, flag));
+			if (flag.equals(String.valueOf(RemoteDataSource.FLAG_PLAYER_LIST))) {
+				int index = message.indexOf("/");
+				String content = message.substring(0, index);
+				String[] information = message.substring(index + 1, message.length()).split("#");
+				for (int i = 0; i < information.length; i++) {
+					SystemUtils.Dlog.d(information[i]);
+				}
+				onRegisterNotification(new Notification(content, from, timestamp, DID_NOT_CHECK, matchDate, type, flag,
+						information[0], information[1], information[2], information[3]));
+
+			} else {
+				onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type, flag));
+			}
 			onRegisterBattle(new Battle(from, matchDate, place, false), type, flag);
 		}
 

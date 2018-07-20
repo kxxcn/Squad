@@ -96,6 +96,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	private int[] imgs = {R.drawable.team_banner1, R.drawable.team_banner2, R.drawable.team_banner3,
 			R.drawable.team_banner4, R.drawable.team_banner5, R.drawable.team_banner6, R.drawable.team_banner7,
 			R.drawable.team_banner8, R.drawable.team_banner9, R.drawable.team_banner10};
+	private int mPosition;
 
 	private List<Notification> notifications;
 	private List<Notification> unReadNotifications;
@@ -284,6 +285,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	@Override
 	public void onClick(int position, int type) {
 		if (type == NOTIFICATION) {
+			mPosition = position;
 			int index = notifications.get(position).getMessage().indexOf("]");
 			mEnemy = notifications.get(position).getMessage().substring(1, index);
 			boolean isHome = false;
@@ -310,6 +312,12 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	@Override
 	public void showSuccessfullyLoadInformation(Information information, String flag) {
 		navigation_drawer.closeDrawer(GravityCompat.END);
+		if (flag.equals(String.valueOf(RemoteDataSource.FLAG_PLAYER_LIST))) {
+			information.setPlace(notifications.get(mPosition).getUncertainPlace());
+			information.setDate(notifications.get(mPosition).getUncertainDate());
+			information.setTime(notifications.get(mPosition).getUncertainTime());
+			information.setMoney(notifications.get(mPosition).getUncertainMoney());
+		}
 		DialogFragment newFragment = NotificationDialog.newInstance(information, mEnemy, mUser.getTeam(), mUser.getUid(), flag);
 		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
 	}
