@@ -14,6 +14,10 @@ public class Notification {
 	private String date;
 	private String type;
 	private String flag;
+	private String uncertainPlace;
+	private String uncertainDate;
+	private String uncertainTime;
+	private String uncertainMoney;
 
 	public Notification() {
 
@@ -27,6 +31,21 @@ public class Notification {
 		this.date = date;
 		this.type = type;
 		this.flag = flag;
+	}
+
+	public Notification(String message, String sender, String timestamp, boolean isCheck, String date, String type, String flag,
+						String uncertainPlace, String uncertainDate, String uncertainTime, String uncertainMoney) {
+		this.message = message;
+		this.sender = sender;
+		this.timestamp = timestamp;
+		this.isCheck = isCheck;
+		this.date = date;
+		this.type = type;
+		this.flag = flag;
+		this.uncertainPlace = uncertainPlace;
+		this.uncertainDate = uncertainDate;
+		this.uncertainTime = uncertainTime;
+		this.uncertainMoney = uncertainMoney;
 	}
 
 	public void setKey(int key) {
@@ -67,6 +86,22 @@ public class Notification {
 
 	public String getFlag() {
 		return flag;
+	}
+
+	public String getUncertainPlace() {
+		return uncertainPlace;
+	}
+
+	public String getUncertainDate() {
+		return uncertainDate;
+	}
+
+	public String getUncertainTime() {
+		return uncertainTime;
+	}
+
+	public String getUncertainMoney() {
+		return uncertainMoney;
 	}
 
 }
