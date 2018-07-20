@@ -20,4 +20,8 @@ public interface ListContract {
 	interface OnDialogDismissed {
 		void onDialogDismissed(String region);
 	}
+
+	interface OnDialogRequested{
+		void onDialogRequested(String place, String date, String time, String money);
+	}
 }
