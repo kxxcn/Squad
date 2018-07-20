@@ -489,17 +489,14 @@ public class RemoteDataSource extends DataSource {
 				}
 			});
 		} else {
-			SystemUtils.Dlog.d("Break Points - 1");
 			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER);
 			reference.addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 					for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
 						User user = childSnapshot.getValue(User.class);
-						SystemUtils.Dlog.d("Enemy : " + enemy);
 						if (enemy.equals(user.getTeam())) {
 							String uid = user.getUid();
-							SystemUtils.Dlog.d("UID : " + uid);
 							DatabaseReference matchReference = null;
 							if (flag != null) {
 								switch (Integer.parseInt(flag)) {
