@@ -51,7 +51,7 @@ import static dev.kxxcn.app_squad.util.Constants.USER;
  * Created by kxxcn on 2018-05-09.
  */
 
-public class PlayerListFragment extends Fragment implements PlayerListContract.View, PlayerListContract.ItemClickListener, ListContract.OnDialogDismissed {
+public class PlayerListFragment extends Fragment implements PlayerListContract.View, PlayerListContract.ItemClickListener, ListContract.OnDialogDismissed, ListContract.OnDialogRequested {
 
 	@BindView(R.id.rv_list)
 	RecyclerView rv_list;
@@ -69,6 +69,8 @@ public class PlayerListFragment extends Fragment implements PlayerListContract.V
 
 	private String mRegion;
 	private String mDate;
+
+	private int mPosition;
 
 	public static Fragment newInstance(User user) {
 		PlayerListFragment fragment = new PlayerListFragment();
@@ -165,8 +167,10 @@ public class PlayerListFragment extends Fragment implements PlayerListContract.V
 	@Override
 	public void onClick(int position, int type) {
 		if (type == MatchListAdapter.REQUEST) {
-			mPresenter.onRequest(mList.get(position).getEmail(), getString(R.string.app_name), String.format(getString(R.string.list_request_player),
-					mUser.getTeam()), mUser.getUid(), mList.get(position).getDate().replace("-", ""), Constants.ListsFilterType.PLAYER_LIST);
+			mPosition = position;
+			PlayerListDialog newFragment = PlayerListDialog.newInstance(mList.get(position).getDate());
+			newFragment.setOnDialogRequestedListener(this);
+			newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
 		} else if (type == MatchListAdapter.INFORMATION) {
 			MatchDialog dialog = new MatchDialog(getActivity(), getContext(), MatchDialog.PLAYER_LIST, mList.get(position));
 			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -188,6 +192,13 @@ public class PlayerListFragment extends Fragment implements PlayerListContract.V
 			mRegion = null;
 		}
 		mPresenter.onLoadList(mRegion, mDate);
+	}
+
+	@Override
+	public void onDialogRequested(String place, String date, String time, String money) {
+		String information = String.format(getString(R.string.player_information), place, date, time, money);
+		mPresenter.onRequest(mList.get(mPosition).getEmail(), getString(R.string.app_name), String.format(getString(R.string.list_request_player) + information,
+				mUser.getTeam()), mUser.getUid(), mList.get(mPosition).getDate().replace("-", ""), Constants.ListsFilterType.PLAYER_LIST);
 	}
 
 	@Override
