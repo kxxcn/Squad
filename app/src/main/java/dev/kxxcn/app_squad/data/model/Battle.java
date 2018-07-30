@@ -10,15 +10,17 @@ public class Battle {
 	private String date;
 	private String place;
 	private boolean home;
+	private String flag;
 
 	public Battle() {
 	}
 
-	public Battle(String enemy, String date, String place, boolean home) {
+	public Battle(String enemy, String date, String place, boolean home, String flag) {
 		this.enemy = enemy;
 		this.date = date;
 		this.place = place;
 		this.home = home;
+		this.flag = flag;
 	}
 
 	public String getEnemy() {
@@ -35,6 +37,10 @@ public class Battle {
 
 	public boolean isHome() {
 		return home;
+	}
+
+	public String getFlag() {
+		return flag;
 	}
 
 }
