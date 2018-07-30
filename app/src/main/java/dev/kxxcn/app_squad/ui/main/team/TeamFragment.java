@@ -304,7 +304,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 			}
 			mPresenter.onReadNotification(unReadNotifications);
 			mEnemy = mBattleList.get(position).getEnemy();
-			mPresenter.onLoadMatch(mBattleList.get(position).isHome(), mBattleList.get(position).getDate(), mEnemy, null);
+			mPresenter.onLoadMatch(mBattleList.get(position).isHome(), mBattleList.get(position).getDate(), mEnemy, mBattleList.get(position).getFlag());
 		} else if (type == CHATTING) {
 
 		}
