@@ -89,6 +89,9 @@ dependencies {
 
     /* ongakuer/CircleIndicator */
     implementation 'me.relex:circleindicator:1.2.2@aar'
+
+    /* Jsoup */
+    implementation 'org.jsoup:jsoup:1.11.3'
 }
 
 apply plugin: 'com.google.gms.google-services'
