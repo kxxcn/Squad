@@ -1,5 +1,12 @@
 package dev.kxxcn.app_squad.ui.main.setting;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.User;
@@ -97,6 +104,35 @@ public class SettingPresenter implements SettingContract.Presenter {
 				mSettingView.showUnsuccessfullyUpdateToken();
 			}
 		}, token);
+	}
+
+	@Override
+	public void onCheckVersion(String packageName) {
+		new Thread() {
+			@Override
+			public void run() {
+				if (mSettingView == null) {
+					return;
+				}
+				try {
+//			Document doc = Jsoup.connect(
+//					"https://play.google.com/store/apps/details?id="
+//							+ packageName).get();
+
+					Document doc = Jsoup.connect(
+							"https://play.google.com/store/apps/details?id=sbsoft.kxxcn.gqms").get();
+
+					Elements Version = doc.select(".htlgb").eq(7);
+
+					for (Element mElement : Version) {
+						mSettingView.showSuccessfulyCheckVersion(mElement.text().trim());
+					}
+				} catch (IOException ex) {
+					ex.printStackTrace();
+					mSettingView.showUnsuccessfulyCheckVersion();
+				}
+			}
+		}.start();
 	}
 
 }

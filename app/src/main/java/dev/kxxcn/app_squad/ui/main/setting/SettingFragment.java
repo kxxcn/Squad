@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,6 +32,7 @@ import dev.kxxcn.app_squad.ui.login.LoginActivity;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.SystemUtils;
+import dev.kxxcn.app_squad.util.threading.UiThread;
 
 /**
  * Created by kxxcn on 2018-04-26.
@@ -45,6 +48,9 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	ToggleButton tb_notice;
 	@BindView(R.id.tb_event)
 	ToggleButton tb_event;
+
+	@BindView(R.id.tv_version)
+	TextView tv_version;
 
 	private SettingContract.Presenter mPresenter;
 
@@ -77,6 +83,7 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 			mPresenter.onUpdateToken(newToken);
 		} else {
 			mPresenter.onLoadAccount();
+			mPresenter.onCheckVersion(getContext().getPackageName());
 		}
 	}
 
@@ -141,6 +148,35 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	@Override
 	public void showUnsuccessfullyUpdateToken() {
 
+	}
+
+	@Override
+	public void showSuccessfulyCheckVersion(final String latestVersion) {
+		UiThread.getInstance().post(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					String currentVersion = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0).versionName;
+					if (currentVersion.equals(latestVersion)) {
+						tv_version.setText(getString(R.string.setting_latest_version));
+					} else {
+						tv_version.setText(getString(R.string.setting_update));
+					}
+				} catch (PackageManager.NameNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	@Override
+	public void showUnsuccessfulyCheckVersion() {
+		UiThread.getInstance().post(new Runnable() {
+			@Override
+			public void run() {
+				tv_version.setText(getString(R.string.setting_failure_load_version));
+			}
+		});
 	}
 
 	private void initToggle(ToggleButton toggleButton, boolean isOn) {
