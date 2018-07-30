@@ -263,8 +263,10 @@ public class RemoteDataSource extends DataSource {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				List<Battle> battleList = new ArrayList<>(0);
-				for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-					battleList.add(childSnapshot.getValue(Battle.class));
+				for (DataSnapshot parentSnapshot : dataSnapshot.getChildren()) {
+					for (DataSnapshot childSnapshot : parentSnapshot.getChildren()) {
+						battleList.add(childSnapshot.getValue(Battle.class));
+					}
 				}
 				callback.onSuccess(battleList);
 			}
@@ -612,24 +614,20 @@ public class RemoteDataSource extends DataSource {
 								@Override
 								public void onResponse(@NonNull final Call<Void> call, @NonNull Response<Void> response) {
 									if (response.isSuccessful()) {
-										if (Integer.parseInt(flag) == FLAG_MATCH_LIST) {
-											DatabaseReference battleReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_BATTLE)
-													.child(mAuth.getCurrentUser().getUid()).child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION));
-											battleReference.setValue(new Battle(information.getEnemy(), DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION), information.getPlace(), true))
-													.addOnSuccessListener(new OnSuccessListener<Void>() {
-														@Override
-														public void onSuccess(Void aVoid) {
-															callback.onSuccess();
-														}
-													}).addOnFailureListener(new OnFailureListener() {
-												@Override
-												public void onFailure(@NonNull Exception e) {
-													callback.onFailure(e);
-												}
-											});
-										} else {
-											callback.onSuccess();
-										}
+										DatabaseReference battleReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_BATTLE)
+												.child(mAuth.getCurrentUser().getUid()).child(DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION)).child(flag);
+										battleReference.setValue(new Battle(information.getEnemy(), DialogUtils.getFormattedDate(information.getDate(), TYPE_COLLECTION), information.getPlace(), true, flag))
+												.addOnSuccessListener(new OnSuccessListener<Void>() {
+													@Override
+													public void onSuccess(Void aVoid) {
+														callback.onSuccess();
+													}
+												}).addOnFailureListener(new OnFailureListener() {
+											@Override
+											public void onFailure(@NonNull Exception e) {
+												callback.onFailure(e);
+											}
+										});
 									} else {
 										callback.onError();
 									}
