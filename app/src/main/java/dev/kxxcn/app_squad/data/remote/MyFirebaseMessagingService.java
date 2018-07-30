@@ -102,7 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			} else {
 				onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type, flag));
 			}
-			onRegisterBattle(new Battle(from, matchDate, place, false), type, flag);
+			onRegisterBattle(new Battle(from, matchDate, place, false, flag), type);
 		}
 
 		Intent intent = new Intent(this, MainActivity.class);
@@ -233,13 +233,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		});
 	}
 
-	private void onRegisterBattle(final Battle battle, String type, String flag) {
+	private void onRegisterBattle(final Battle battle, String type) {
 		if (type.equals(TYPE_RESPONSE)) {
-			if (Integer.parseInt(flag) == RemoteDataSource.FLAG_MATCH_LIST) {
-				DatabaseReference reference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_BATTLE)
-						.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(battle.getDate());
-				reference.setValue(battle);
-			}
+			DatabaseReference reference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_BATTLE)
+					.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(battle.getDate()).child(battle.getFlag());
+			reference.setValue(battle);
 		}
 	}
 
