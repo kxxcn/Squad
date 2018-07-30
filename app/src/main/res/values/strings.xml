@@ -115,6 +115,10 @@
     <string name="team_information_call">tel:%s</string>
     <string name="team_failure_information">"상대팀 정보를 가져오지 못했습니다."</string>
     <string name="team_received_message">메시지가 도착했습니다.</string>
+    <string name="team_recruitment_home">[%s]팀이 용병으로 참가합니다.</string>
+    <string name="team_recruitment_away">[%s]팀 경기에 참가합니다.</string>
+    <string name="team_player_home">[%s]팀 경기에 참가합니다.</string>
+    <string name="team_player_away">[%s]팀이 용병으로 참가합니다.</string>
 
     <string name="notification_schedule">경기일정</string>
     <string name="notification_no_introduce">클럽 소개글이 없습니다.</string>
