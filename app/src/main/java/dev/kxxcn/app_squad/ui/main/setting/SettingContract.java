@@ -24,8 +24,6 @@ public interface SettingContract {
 		void showUnsuccessfullyUpdateToken();
 
 		void showSuccessfulyCheckVersion(String latestVersion);
-
-		void showUnsuccessfulyCheckVersion();
 	}
 
 	interface Presenter extends BasePresenter {

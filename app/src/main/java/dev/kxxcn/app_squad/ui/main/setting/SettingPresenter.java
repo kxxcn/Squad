@@ -13,6 +13,9 @@ import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.SystemUtils;
 
+import static dev.kxxcn.app_squad.util.Constants.PLAY_STORE;
+import static dev.kxxcn.app_squad.util.Constants.SEPARATOR;
+
 /**
  * Created by kxxcn on 2018-04-30.
  */
@@ -107,7 +110,7 @@ public class SettingPresenter implements SettingContract.Presenter {
 	}
 
 	@Override
-	public void onCheckVersion(String packageName) {
+	public void onCheckVersion(final String packageName) {
 		new Thread() {
 			@Override
 			public void run() {
@@ -115,21 +118,15 @@ public class SettingPresenter implements SettingContract.Presenter {
 					return;
 				}
 				try {
-//			Document doc = Jsoup.connect(
-//					"https://play.google.com/store/apps/details?id="
-//							+ packageName).get();
+					Document doc = Jsoup.connect(PLAY_STORE + packageName).get();
 
-					Document doc = Jsoup.connect(
-							"https://play.google.com/store/apps/details?id=sbsoft.kxxcn.gqms").get();
-
-					Elements Version = doc.select(".htlgb").eq(7);
+					Elements Version = doc.select(SEPARATOR).eq(7);
 
 					for (Element mElement : Version) {
 						mSettingView.showSuccessfulyCheckVersion(mElement.text().trim());
 					}
 				} catch (IOException ex) {
 					ex.printStackTrace();
-					mSettingView.showUnsuccessfulyCheckVersion();
 				}
 			}
 		}.start();

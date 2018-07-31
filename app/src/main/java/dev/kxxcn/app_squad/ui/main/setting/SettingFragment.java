@@ -29,6 +29,7 @@ import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.MyFirebaseInstanceIdService;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.ui.login.LoginActivity;
+import dev.kxxcn.app_squad.ui.main.setting.version.VersionActivity;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.SystemUtils;
@@ -38,6 +39,9 @@ import dev.kxxcn.app_squad.util.threading.UiThread;
  * Created by kxxcn on 2018-04-26.
  */
 public class SettingFragment extends Fragment implements SettingContract.View {
+
+	public static final String CURREN_VERSION = "current";
+	public static final String LATEST_VERSION = "latest";
 
 	@BindView(R.id.btn_logout)
 	SubmitButton btn_logout;
@@ -91,6 +95,11 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	public void onLogout() {
 		btn_logout.reset();
 		DialogUtils.showAlertDialog(getContext(), getString(R.string.setting_want_logout), positiveListener, null);
+	}
+
+	@OnClick(R.id.ll_version)
+	public void showVersionInformation() {
+		startActivity(new Intent(getContext(), VersionActivity.class));
 	}
 
 	public static Fragment newInstance() {
@@ -165,16 +174,6 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 				} catch (PackageManager.NameNotFoundException e) {
 					e.printStackTrace();
 				}
-			}
-		});
-	}
-
-	@Override
-	public void showUnsuccessfulyCheckVersion() {
-		UiThread.getInstance().post(new Runnable() {
-			@Override
-			public void run() {
-				tv_version.setText(getString(R.string.setting_failure_load_version));
 			}
 		});
 	}
