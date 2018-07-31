@@ -20,6 +20,8 @@ public class Constants {
 	public static final String GSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 	public static final String DIALOG_FRAGMENT = "dialog";
 	public static final String USER = "user";
+	public static final String PLAY_STORE = "https://play.google.com/store/apps/details?id=";
+	public static final String SEPARATOR = ".htlgb";
 
 	public static final int LOADING = 500;
 	public static final int POSITION_SPINNER_DEFAULT = 1;
