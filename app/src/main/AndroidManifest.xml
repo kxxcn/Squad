@@ -30,6 +30,8 @@
             android:name=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.signup.SignupActivity"/>
+        <activity android:name=".ui.main.setting.version.VersionActivity"/>
+        <activity android:name=".ui.main.setting.version.license.LicenseActivity"/>
 
         <service
             android:name=".data.remote.MyFirebaseMessagingService"
