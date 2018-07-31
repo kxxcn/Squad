@@ -125,7 +125,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 	}
 
 	@Override
-	public void onLoadMatch(boolean isHome, String date, String enemy, final String flag) {
+	public void onLoadMatch(boolean isHome, String date, String enemy, final String flag, final int type) {
 		if (mTeamView == null) {
 			return;
 		}
@@ -133,7 +133,7 @@ public class TeamPresenter implements TeamContract.Presenter {
 		mDataRepository.onLoadMatch(new DataSource.GetInformationCallback() {
 			@Override
 			public void onSuccess(Information information) {
-				mTeamView.showSuccessfullyLoadInformation(information, flag);
+				mTeamView.showSuccessfullyLoadInformation(information, flag, type);
 			}
 
 			@Override
