@@ -152,6 +152,7 @@
     <string name="version_license">오픈소스 라이선스</string>
     <string name="version_current">현재버전 : %s</string>
     <string name="version_latest">최신버전 : %s</string>
+    <string name="version_failure_latest">최신버전 정보를 가져올 수 없습니다.</string>
 
     <!-- LOG -->
     <string name="log_information">%s, %s, %s, %s, %s, %s, %s, %s, %s</string>
