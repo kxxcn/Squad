@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.andremion.counterfab.CounterFab;
@@ -89,6 +90,9 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	@BindView(R.id.rv_notification)
 	RecyclerView rv_notification;
 
+	@BindView(R.id.progressbar)
+	ProgressBar progressBar;
+
 	private TeamContract.Presenter mPresenter;
 
 	private String mEnemy;
@@ -97,6 +101,8 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 			R.drawable.team_banner4, R.drawable.team_banner5, R.drawable.team_banner6, R.drawable.team_banner7,
 			R.drawable.team_banner8, R.drawable.team_banner9, R.drawable.team_banner10};
 	private int mPosition;
+
+	private boolean isFinishedLoad = false;
 
 	private List<Notification> notifications;
 	private List<Notification> unReadNotifications;
@@ -191,6 +197,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 		Collections.sort(notifications, new CompareNotification());
 		rv_notification.setAdapter(new LoadAdapter(notifications, this));
+		isFinishedLoad = true;
 	}
 
 	@Override
@@ -200,26 +207,28 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	@OnClick(R.id.fab)
 	public void onClickFab() {
-		if (unReadNotifications.size() != 0) {
-			fab.setCount(0);
-			for (int i = 0; i < unReadNotifications.size(); i++) {
-				if (!unReadNotifications.get(i).getType().equals(TYPE_CHATTING)) {
-					unReadNotifications.get(i).setCheck(true);
+		if (isFinishedLoad) {
+			if (unReadNotifications.size() != 0) {
+				fab.setCount(0);
+				for (int i = 0; i < unReadNotifications.size(); i++) {
+					if (!unReadNotifications.get(i).getType().equals(TYPE_CHATTING)) {
+						unReadNotifications.get(i).setCheck(true);
+					}
 				}
+				mPresenter.onReadNotification(unReadNotifications);
 			}
-			mPresenter.onReadNotification(unReadNotifications);
-		}
-		if (notifications.size() != 0) {
-			if (MyFirebaseMessagingService.notificationManager != null) {
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-					MyFirebaseMessagingService.notificationManager.deleteNotificationChannel(getString(R.string.app_name));
-				} else {
-					MyFirebaseMessagingService.notificationManager.cancelAll();
+			if (notifications.size() != 0) {
+				if (MyFirebaseMessagingService.notificationManager != null) {
+					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+						MyFirebaseMessagingService.notificationManager.deleteNotificationChannel(getString(R.string.app_name));
+					} else {
+						MyFirebaseMessagingService.notificationManager.cancelAll();
+					}
 				}
+				navigation_drawer.openDrawer(GravityCompat.END);
+			} else {
+				Toast.makeText(getContext(), getString(R.string.team_no_notification), Toast.LENGTH_SHORT).show();
 			}
-			navigation_drawer.openDrawer(GravityCompat.END);
-		} else {
-			Toast.makeText(getContext(), getString(R.string.team_no_notification), Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -284,6 +293,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	@Override
 	public void onClick(int position, int type) {
+		progressBar.setVisibility(View.VISIBLE);
 		if (type == NOTIFICATION) {
 			mPosition = position;
 			int index = notifications.get(position).getMessage().indexOf("]");
@@ -312,6 +322,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 
 	@Override
 	public void showSuccessfullyLoadInformation(Information information, String flag, int type) {
+		progressBar.setVisibility(View.GONE);
 		navigation_drawer.closeDrawer(GravityCompat.END);
 		if (type != BATTLE) {
 			if (flag.equals(String.valueOf(RemoteDataSource.FLAG_PLAYER_LIST))) {
