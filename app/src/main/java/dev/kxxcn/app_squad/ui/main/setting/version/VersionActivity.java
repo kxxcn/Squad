@@ -16,6 +16,7 @@ import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
+import dev.kxxcn.app_squad.ui.main.setting.version.clause.ClauseActivity;
 import dev.kxxcn.app_squad.ui.main.setting.version.license.LicenseActivity;
 import dev.kxxcn.app_squad.ui.main.setting.version.policy.PolicyActivity;
 import dev.kxxcn.app_squad.util.TransitionUtils;
@@ -73,6 +74,11 @@ public class VersionActivity extends AppCompatActivity implements VersionContrac
 	@OnClick(R.id.ll_policy)
 	public void showAppPolicy() {
 		startActivity(new Intent(VersionActivity.this, PolicyActivity.class));
+	}
+
+	@OnClick(R.id.ll_clause)
+	public void showAppClause() {
+		startActivity(new Intent(VersionActivity.this, ClauseActivity.class));
 	}
 
 	@Override
