@@ -33,6 +33,7 @@
         <activity android:name=".ui.main.setting.version.VersionActivity"/>
         <activity android:name=".ui.main.setting.version.license.LicenseActivity"/>
         <activity android:name=".ui.main.setting.version.policy.PolicyActivity"/>
+        <activity android:name=".ui.main.setting.version.clause.ClauseActivity"/>
 
         <service
             android:name=".data.remote.MyFirebaseMessagingService"
