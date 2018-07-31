@@ -1,0 +1,88 @@
+Butter Knife
+http://jakewharton.github.io/butterknife/
+Copyright 2013 Jake Wharton
+Apache License 2.0
+
+NavigationTabBar
+https://github.com/Devlight/NavigationTabBar
+Copyright 2016 Basil Miller
+Apache License 2.0
+MIT License
+
+InfiniteCycleViewPager
+https://github.com/Devlight/InfiniteCycleViewPager
+Copyright 2016 Basil Miller
+Apache License 2.0
+MIT License
+
+TedPermission
+https://github.com/ParkSangGwon/TedPermission
+Copyright 2017 Ted Park
+Apache License 2.0
+
+Glide
+https://github.com/bumptech/glide
+Copyright 2014 Google, Inc. All rights reserved.
+Copyright 2012 Jake Wharton
+Copyright 2011 The Android Open Source Project
+Copyright (c) 2013 Xcellent Creations, Inc.
+Copyright (c) 1994 Anthony Dekker
+Apache License 2.0
+MIT License
+
+FabulousFilter
+https://github.com/Krupen/FabulousFilter
+Copyright 2017 Krupen Ghetiya
+Apache License 2.0
+
+SubmitButton
+https://github.com/Someonewow/SubmitButton
+Copyright 2017 Unstoppable
+Apache License 2.0
+
+NiceSpinner
+https://github.com/arcadefire/nice-spinner
+Copyright (C) 2015 Angelo Marchesin.
+Apache License 2.0
+
+Retrofit2
+http://square.github.io/retrofit/
+Copyright 2013 Square, Inc.
+Apache License 2.0
+
+TextFieldBoxes
+https://github.com/HITGIF/TextFieldBoxes
+Copyright 2017 Carbonylgroup Studio
+Apache License 2.0
+
+ToggleButton
+https://github.com/zcweng/ToggleButton
+Copyright (c) 2016 ToggleButton
+MIT License
+
+NavigationTabStrip
+https://github.com/Devlight/NavigationTabStrip
+Copyright 2016 Basil Miller
+Apache License 2.0
+MIT License
+
+CounterFab
+https://github.com/andremion/CounterFab
+Copyright 2016 André Mion
+Apache License 2.0
+
+Otto
+https://github.com/square/otto
+Copyright 2012 Square, Inc.
+Copyright 2010 Google, Inc.
+Apache License 2.0
+
+CircleIndicator
+https://github.com/ongakuer/CircleIndicator
+Copyright (C) 2014 relex
+Apache License 2.0
+
+Jsoup
+https://jsoup.org/download
+Copyright © 2009 - 2017 Jonathan Hedley (jonathan@hedley.net)
+MIT License
