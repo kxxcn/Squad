@@ -79,7 +79,6 @@
     <string name="setting_want_logout">로그아웃 하시겠습니까?</string>
     <string name="setting_success_logout">로그아웃되었습니다.</string>
     <string name="setting_failure_logout">로그아웃을 실패했습니다.</string>
-    <string name="setting_failure_load_version">버전정보를 가져올 수 없습니다.</string>
     <string name="setting_update">업데이트</string>
 
     <string name="list_title">현황</string>
@@ -147,6 +146,12 @@
     <string name="player_request">요청하기</string>
     <string name="player_information">/%s#%s#%s#%s</string>
     <string name="player_title">매치정보</string>
+
+    <string name="version_clause">이용약관</string>
+    <string name="version_policy">개인정보처리방침</string>
+    <string name="version_license">오픈소스 라이선스</string>
+    <string name="version_current">현재버전 : %s</string>
+    <string name="version_latest">최신버전 : %s</string>
 
     <!-- LOG -->
     <string name="log_information">%s, %s, %s, %s, %s, %s, %s, %s, %s</string>
