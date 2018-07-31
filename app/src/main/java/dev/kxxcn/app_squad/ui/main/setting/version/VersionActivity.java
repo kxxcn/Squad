@@ -61,7 +61,7 @@ public class VersionActivity extends AppCompatActivity implements VersionContrac
 
 	@OnClick(R.id.ib_back)
 	public void onBack() {
-		onBackPressed();
+		finish();
 	}
 
 	@OnClick(R.id.ll_license)

@@ -64,7 +64,7 @@ public class LicenseActivity extends AppCompatActivity {
 
 	@OnClick(R.id.ib_back)
 	public void onBack() {
-		onBackPressed();
+		finish();
 	}
 
 }
