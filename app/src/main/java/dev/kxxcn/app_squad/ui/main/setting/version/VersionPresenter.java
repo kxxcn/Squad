@@ -43,6 +43,7 @@ public class VersionPresenter implements VersionContract.Presenter {
 						mVersionView.showSuccessfulyCheckVersion(mElement.text().trim());
 					}
 				} catch (IOException ex) {
+					mVersionView.showUnsuccessfulyCheckVersion();
 					ex.printStackTrace();
 				}
 			}

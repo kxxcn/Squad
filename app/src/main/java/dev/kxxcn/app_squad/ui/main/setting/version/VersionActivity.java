@@ -18,6 +18,7 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.ui.main.setting.version.license.LicenseActivity;
 import dev.kxxcn.app_squad.util.TransitionUtils;
+import dev.kxxcn.app_squad.util.threading.UiThread;
 
 /**
  * Created by kxxcn on 2018-07-31.
@@ -69,8 +70,23 @@ public class VersionActivity extends AppCompatActivity implements VersionContrac
 	}
 
 	@Override
-	public void showSuccessfulyCheckVersion(String latestVersion) {
-		tv_latest_version.setText(String.format(getString(R.string.version_latest), latestVersion));
+	public void showSuccessfulyCheckVersion(final String latestVersion) {
+		UiThread.getInstance().post(new Runnable() {
+			@Override
+			public void run() {
+				tv_latest_version.setText(String.format(getString(R.string.version_latest), latestVersion));
+			}
+		});
+	}
+
+	@Override
+	public void showUnsuccessfulyCheckVersion() {
+		UiThread.getInstance().post(new Runnable() {
+			@Override
+			public void run() {
+				tv_latest_version.setText(getString(R.string.version_failure_latest));
+			}
+		});
 	}
 
 	@Override

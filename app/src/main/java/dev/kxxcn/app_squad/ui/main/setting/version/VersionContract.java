@@ -9,6 +9,7 @@ import dev.kxxcn.app_squad.ui.BaseView;
 public interface VersionContract {
 	interface View extends BaseView<Presenter> {
 		void showSuccessfulyCheckVersion(String latestVersion);
+		void showUnsuccessfulyCheckVersion();
 	}
 
 	interface Presenter extends BasePresenter {
