@@ -29,6 +29,7 @@ import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
+import dev.kxxcn.app_squad.util.KeyboardUtils;
 import dev.kxxcn.app_squad.util.threading.UiThread;
 
 /**
@@ -93,6 +94,7 @@ public class ProfileDialog extends DialogFragment implements ProfileContract.Vie
 	@OnClick(R.id.btn_save)
 	public void onSaveIntroduce() {
 		if (!TextUtils.isEmpty(et_introduce.getText())) {
+			KeyboardUtils.hideKeyboard(getActivity(), et_introduce);
 			mUser.setIntroduce(et_introduce.getText().toString());
 			mPresenter.onSaveIntroduce(mUser);
 		} else {
@@ -137,6 +139,7 @@ public class ProfileDialog extends DialogFragment implements ProfileContract.Vie
 	public void showSuccessfullyLoadAccount(User user) {
 		this.mUser = user;
 		tv_team_name.setText(user.getTeam());
+		et_introduce.setText(user.getIntroduce());
 	}
 
 	@Override
