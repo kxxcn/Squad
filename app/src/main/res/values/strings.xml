@@ -7,6 +7,7 @@
 
     <string name="signup">SIGN-UP</string>
     <string name="login">LOG-IN</string>
+    <string name="contact_administrator">관리자에게 문의하세요.</string>
     <string name="input_email">이메일을 입력하세요.</string>
     <string name="input_team">팀명을 입력하세요.</string>
     <string name="input_contact">전화번호를 입력하세요.</string>
@@ -153,6 +154,9 @@
     <string name="version_current">현재버전 : %s</string>
     <string name="version_latest">최신버전 : %s</string>
     <string name="version_failure_latest">버전정보를 가져올 수 없습니다.</string>
+
+    <string name="profile_save">저장하기</string>
+    <string name="profile_introduce">클럽 소개글을 입력하세요.</string>
 
     <!-- LOG -->
     <string name="log_information">%s, %s, %s, %s, %s, %s, %s, %s, %s</string>
