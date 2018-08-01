@@ -20,6 +20,7 @@ public class User implements Parcelable {
 	private String age;
 	private String intro;
 	private Notice notice;
+	private String introduce;
 
 	public User() {
 
@@ -87,6 +88,14 @@ public class User implements Parcelable {
 		return notice;
 	}
 
+	public String getIntroduce() {
+		return introduce;
+	}
+
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
+
 	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
 		@Override
 		public User createFromParcel(Parcel source) {
@@ -112,6 +121,7 @@ public class User implements Parcelable {
 		dest.writeString(token);
 		dest.writeString(age);
 		dest.writeString(intro);
+		dest.writeString(introduce);
 	}
 
 }
