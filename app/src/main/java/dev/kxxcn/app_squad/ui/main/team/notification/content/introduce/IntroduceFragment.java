@@ -43,6 +43,8 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 
 	@BindView(R.id.tv_enemy)
 	TextView tv_enemy;
+	@BindView(R.id.tv_introduce)
+	TextView tv_introduce;
 
 	@BindView(R.id.ll_call)
 	LinearLayout ll_call;
@@ -94,6 +96,9 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 	private void initUI() {
 		mEnemy = getArguments().getParcelable(USER);
 		tv_enemy.setText(mEnemy.getTeam());
+		if (mEnemy.getIntroduce() != null) {
+			tv_introduce.setText(mEnemy.getIntroduce().toString());
+		}
 		if (getArguments().getBoolean(IS_CONNECT)) {
 			ll_call.setVisibility(View.VISIBLE);
 			ll_sms.setVisibility(View.VISIBLE);
