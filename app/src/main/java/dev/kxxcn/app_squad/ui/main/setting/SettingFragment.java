@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +30,14 @@ import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.MyFirebaseInstanceIdService;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.ui.login.LoginActivity;
+import dev.kxxcn.app_squad.ui.main.setting.profile.ProfileDialog;
 import dev.kxxcn.app_squad.ui.main.setting.version.VersionActivity;
 import dev.kxxcn.app_squad.util.Constants;
 import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.SystemUtils;
 import dev.kxxcn.app_squad.util.threading.UiThread;
+
+import static dev.kxxcn.app_squad.util.Constants.DIALOG_FRAGMENT;
 
 /**
  * Created by kxxcn on 2018-04-26.
@@ -100,6 +104,12 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	@OnClick(R.id.ll_version)
 	public void showVersionInformation() {
 		startActivity(new Intent(getContext(), VersionActivity.class));
+	}
+
+	@OnClick(R.id.ll_profile)
+	public void editProfile() {
+		DialogFragment newFragment = ProfileDialog.newInstance();
+		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
 	}
 
 	public static Fragment newInstance() {
