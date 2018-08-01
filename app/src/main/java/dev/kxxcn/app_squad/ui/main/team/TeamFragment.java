@@ -51,6 +51,7 @@ import dev.kxxcn.app_squad.ui.main.MainActivity;
 import dev.kxxcn.app_squad.ui.main.team.notification.NotificationDialog;
 import dev.kxxcn.app_squad.util.BusProvider;
 import dev.kxxcn.app_squad.util.DialogUtils;
+import dev.kxxcn.app_squad.util.threading.UiThread;
 
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_CHATTING;
 import static dev.kxxcn.app_squad.data.remote.APIPersistence.TYPE_REQUEST;
@@ -336,6 +337,12 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		}
 		DialogFragment newFragment = NotificationDialog.newInstance(information, mEnemy, mUser.getTeam(), mUser.getUid(), flag);
 		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
+		UiThread.getInstance().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				adapter.completedClick();
+			}
+		}, 1000);
 	}
 
 	@Override

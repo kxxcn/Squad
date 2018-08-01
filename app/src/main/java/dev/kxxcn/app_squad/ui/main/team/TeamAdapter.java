@@ -40,6 +40,8 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 	private String mTeam;
 
+	public static boolean isClickedItem;
+
 	private TeamContract.ItemClickListener mItemClickListener;
 
 	ArrayList<LinearLayout> layoutList = new ArrayList<>(0);
@@ -49,6 +51,7 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		this.mList = list;
 		this.mTeam = team;
 		this.mItemClickListener = itemClickListener;
+		isClickedItem = false;
 	}
 
 	@Override
@@ -145,7 +148,10 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 			cv_match.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					itemClickListener.onClick(getAdapterPosition(), TeamFragment.BATTLE);
+					if (!isClickedItem) {
+						itemClickListener.onClick(getAdapterPosition(), TeamFragment.BATTLE);
+						isClickedItem = true;
+					}
 				}
 			});
 		}
@@ -174,7 +180,10 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 			cv_match.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					itemClickListener.onClick(getAdapterPosition(), TeamFragment.BATTLE);
+					if (!isClickedItem) {
+						itemClickListener.onClick(getAdapterPosition(), TeamFragment.BATTLE);
+						isClickedItem = true;
+					}
 				}
 			});
 		}
@@ -203,7 +212,10 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 			cv_match.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					itemClickListener.onClick(getAdapterPosition(), TeamFragment.BATTLE);
+					if (!isClickedItem) {
+						itemClickListener.onClick(getAdapterPosition(), TeamFragment.BATTLE);
+						isClickedItem = true;
+					}
 				}
 			});
 		}
@@ -233,6 +245,10 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 	public ArrayList<LinearLayout> getLayoutList() {
 		return layoutList;
+	}
+
+	public void completedClick() {
+		isClickedItem = false;
 	}
 
 }
