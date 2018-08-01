@@ -111,4 +111,6 @@ public abstract class DataSource {
 
 	public abstract void onSubscribe(GetChattingCallback callback, String date, String roomName);
 
+	public abstract void onSaveIntroduce(GetCommonCallback callback, User user);
+
 }

@@ -314,4 +314,18 @@ public class DataRepository {
 		}, date, roomName);
 	}
 
+	public void onSaveIntroduce(final DataSource.GetCommonCallback callback, User user) {
+		dataSource.onSaveIntroduce(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, user);
+	}
+
 }

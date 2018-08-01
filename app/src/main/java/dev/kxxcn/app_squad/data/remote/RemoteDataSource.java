@@ -46,6 +46,7 @@ import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 public class RemoteDataSource extends DataSource {
 
 	private static final String COLLECTION_NAME_CHATTING = "chatting";
+	private static final String COLLECTION_NAME_INTRODUCE = "introduce";
 	public static final String COLLECTION_NAME_USER = "user";
 	public static final String COLLECTION_NAME_MATCH = "match";
 	public static final String COLLECTION_NAME_RECRUITMENT = "recruitment";
@@ -343,7 +344,7 @@ public class RemoteDataSource extends DataSource {
 	public void onLoadAccount(final GetUserCallback callback) {
 		try {
 			DatabaseReference accountReference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid());
-			accountReference.addValueEventListener(new ValueEventListener() {
+			accountReference.addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 					if (dataSnapshot.getChildrenCount() != 0) {
@@ -812,6 +813,22 @@ public class RemoteDataSource extends DataSource {
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
 
+			}
+		});
+	}
+
+	@Override
+	public void onSaveIntroduce(final GetCommonCallback callback, User user) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid());
+		reference.setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+			@Override
+			public void onSuccess(Void aVoid) {
+				callback.onSuccess();
+			}
+		}).addOnFailureListener(new OnFailureListener() {
+			@Override
+			public void onFailure(@NonNull Exception e) {
+				callback.onFailure(e);
 			}
 		});
 	}
