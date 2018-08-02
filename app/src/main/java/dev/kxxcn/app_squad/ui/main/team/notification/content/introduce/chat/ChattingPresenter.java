@@ -59,4 +59,23 @@ public class ChattingPresenter implements ChattingContract.Presenter {
 		}, date, roomName);
 	}
 
+	@Override
+	public void onUpdateReadMessages(List<Chatting> chattingList, String room, String date) {
+		if (mChattingView == null) {
+			return;
+		}
+
+		mDataRepository.onUpdateReadMessages(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+
+			}
+		}, chattingList, room, date);
+	}
+
 }

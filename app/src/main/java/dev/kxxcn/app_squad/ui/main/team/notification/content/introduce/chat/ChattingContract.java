@@ -23,5 +23,7 @@ public interface ChattingContract {
 		void onChat(Chatting chatting, String title, String date, String roomName);
 
 		void onSubscribe(String date, String roomName);
+
+		void onUpdateReadMessages(List<Chatting> chattingList, String room, String date);
 	}
 }

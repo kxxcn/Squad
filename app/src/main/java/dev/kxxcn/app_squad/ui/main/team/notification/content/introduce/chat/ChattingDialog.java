@@ -133,9 +133,9 @@ public class ChattingDialog extends DialogFragment implements ChattingContract.V
 
 	@OnClick(R.id.ib_cancel)
 	public void onCancel() {
-		dismiss();
 		ROOM_NAME = "";
 		DAY = "";
+		dismiss();
 	}
 
 	@OnClick(R.id.ib_chat)
@@ -158,8 +158,16 @@ public class ChattingDialog extends DialogFragment implements ChattingContract.V
 
 	@Override
 	public void showChattingList(List<Chatting> chattingList) {
-		rv_chat.setAdapter(new ChattingAdapter(chattingList, getArguments().getString(UID)));
-		rv_chat.smoothScrollToPosition(chattingList.size());
+		if (!ROOM_NAME.equals("") && !DAY.equals("")) {
+			rv_chat.setAdapter(new ChattingAdapter(chattingList, getArguments().getString(UID)));
+			rv_chat.smoothScrollToPosition(chattingList.size());
+			for (int i = 0; i < chattingList.size(); i++) {
+				if (!chattingList.get(i).getUid().equals(getArguments().getString(UID))) {
+					chattingList.get(i).setCheck(true);
+				}
+			}
+			mPresenter.onUpdateReadMessages(chattingList, roomName, matchDay);
+		}
 	}
 
 }
