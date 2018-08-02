@@ -44,9 +44,6 @@ import static dev.kxxcn.app_squad.util.Constants.DIALOG_FRAGMENT;
  */
 public class SettingFragment extends Fragment implements SettingContract.View {
 
-	public static final String CURREN_VERSION = "current";
-	public static final String LATEST_VERSION = "latest";
-
 	@BindView(R.id.btn_logout)
 	SubmitButton btn_logout;
 
