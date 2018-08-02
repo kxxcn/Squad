@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -49,6 +48,7 @@ import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.ui.login.LoginActivity;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
 import dev.kxxcn.app_squad.ui.main.team.notification.NotificationDialog;
+import dev.kxxcn.app_squad.ui.main.team.notification.content.introduce.chat.ChattingDialog;
 import dev.kxxcn.app_squad.util.BusProvider;
 import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.threading.UiThread;
@@ -64,7 +64,8 @@ import static dev.kxxcn.app_squad.util.Constants.FORMAT_LENGTH;
 /**
  * Created by kxxcn on 2018-04-26.
  */
-public class TeamFragment extends Fragment implements TeamContract.View, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, TeamContract.ItemClickListener {
+public class TeamFragment extends Fragment implements TeamContract.View, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,
+		TeamContract.ItemClickListener, TeamContract.OnReadMessageCallback {
 
 	public static final int NOTIFICATION = 0;
 	public static final int BATTLE = 1;
@@ -185,8 +186,10 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 				if (unReadNotifications.get(i).getType().equals(TYPE_CHATTING)) {
 					for (int j = 0; j < mBattleList.size(); j++) {
 						if (unReadNotifications.get(i).getDate().equals(mBattleList.get(j).getDate())) {
-							adapter.receivedMessage(j);
-							break;
+							if (ChattingDialog.ROOM_NAME.equals("") && ChattingDialog.DAY.equals("")) {
+								adapter.receivedMessage(j);
+								break;
+							}
 						}
 					}
 				}
@@ -258,6 +261,11 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 		}
 	};
 
+	@Override
+	public void onReadMessageCallback() {
+		adapter.readMessage(mPosition);
+	}
+
 	class CompareNotification implements Comparator<Notification> {
 		@Override
 		public int compare(Notification o1, Notification o2) {
@@ -295,8 +303,8 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	@Override
 	public void onClick(int position, int type) {
 		progressBar.setVisibility(View.VISIBLE);
+		mPosition = position;
 		if (type == NOTIFICATION) {
-			mPosition = position;
 			int index = notifications.get(position).getMessage().indexOf("]");
 			mEnemy = notifications.get(position).getMessage().substring(1, index);
 			boolean isHome = false;
@@ -335,8 +343,10 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 				}
 			}
 		}
-		DialogFragment newFragment = NotificationDialog.newInstance(information, mEnemy, mUser.getTeam(), mUser.getUid(), flag);
+		adapter.readMessage(mPosition);
+		NotificationDialog newFragment = NotificationDialog.newInstance(information, mEnemy, mUser.getTeam(), mUser.getUid(), flag);
 		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
+		newFragment.setOnReadMessageCallback(this);
 		UiThread.getInstance().postDelayed(new Runnable() {
 			@Override
 			public void run() {

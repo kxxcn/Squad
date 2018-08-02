@@ -55,4 +55,8 @@ public interface TeamContract {
 	interface ItemClickListener {
 		void onClick(int position, int type);
 	}
+
+	interface OnReadMessageCallback {
+		void onReadMessageCallback();
+	}
 }

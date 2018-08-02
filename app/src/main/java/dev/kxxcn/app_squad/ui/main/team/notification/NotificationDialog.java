@@ -26,6 +26,7 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.model.Information;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
+import dev.kxxcn.app_squad.ui.main.team.TeamContract;
 import dev.kxxcn.app_squad.util.StateButton;
 import dev.kxxcn.app_squad.util.threading.UiThread;
 import me.relex.circleindicator.CircleIndicator;
@@ -36,7 +37,7 @@ import static dev.kxxcn.app_squad.util.Constants.DISMISS_NOTI_DIALOG;
  * Created by kxxcn on 2018-06-22.
  */
 
-public class NotificationDialog extends DialogFragment implements NotificationContract.View {
+public class NotificationDialog extends DialogFragment implements NotificationContract.View, TeamContract.OnReadMessageCallback {
 
 	private static final String INFORMATION = "object";
 	private static final String ENEMY = "enemy";
@@ -63,6 +64,8 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 
 	private Information mInformation;
 
+	private TeamContract.OnReadMessageCallback mReadMessageCallback;
+
 	@Override
 	public void setPresenter(NotificationContract.Presenter presenter) {
 		this.mPresenter = presenter;
@@ -80,6 +83,10 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 
 		dialog.setArguments(args);
 		return dialog;
+	}
+
+	public void setOnReadMessageCallback(TeamContract.OnReadMessageCallback listener) {
+		this.mReadMessageCallback = listener;
 	}
 
 	@Nullable
@@ -142,8 +149,10 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 		mInformation.setEnemy(user.getTeam());
 		if (getActivity() != null && isAdded()) {
 			tv_enemy.setText(getString(R.string.notification_schedule));
-			vp_information.setAdapter(new NotificationPagerAdapter(getChildFragmentManager(), mInformation, user,
-					getArguments().getString(FROM), getArguments().getString(UID)));
+			NotificationPagerAdapter adapter = new NotificationPagerAdapter(getChildFragmentManager(), mInformation, user,
+					getArguments().getString(FROM), getArguments().getString(UID));
+			adapter.setOnReadMessageCallback(this);
+			vp_information.setAdapter(adapter);
 			indicator.setViewPager(vp_information);
 			if (mInformation.isConnect()) {
 				btn_agree.setVisibility(View.GONE);
@@ -170,6 +179,11 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 	public void showUnsuccessfullyAgree() {
 		btn_agree.doResult(false);
 		Toast.makeText(getContext(), getString(R.string.notification_unsuccessfully_agree), Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onReadMessageCallback() {
+		mReadMessageCallback.onReadMessageCallback();
 	}
 
 }
