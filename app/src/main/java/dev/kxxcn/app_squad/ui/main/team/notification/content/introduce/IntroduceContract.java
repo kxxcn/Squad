@@ -1,5 +1,8 @@
 package dev.kxxcn.app_squad.ui.main.team.notification.content.introduce;
 
+import java.util.List;
+
+import dev.kxxcn.app_squad.data.model.Chatting;
 import dev.kxxcn.app_squad.ui.BasePresenter;
 import dev.kxxcn.app_squad.ui.BaseView;
 
@@ -9,10 +12,16 @@ import dev.kxxcn.app_squad.ui.BaseView;
 
 public interface IntroduceContract {
 	interface View extends BaseView<Presenter> {
-
+		void showBadgeForUnreadMessages(List<Chatting> chattingList);
 	}
 
 	interface Presenter extends BasePresenter {
+		void onSubscribe(String date, String roomName);
 
+		void onUpdateReadMessages(List<Chatting> chattingList, String room, String date);
+	}
+
+	interface OnDialogDismissed {
+		void onDialogDismissed();
 	}
 }

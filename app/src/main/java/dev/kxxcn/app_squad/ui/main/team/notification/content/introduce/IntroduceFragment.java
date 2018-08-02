@@ -8,24 +8,32 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
+import dev.kxxcn.app_squad.data.model.Chatting;
 import dev.kxxcn.app_squad.data.model.User;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
+import dev.kxxcn.app_squad.ui.main.team.TeamContract;
 import dev.kxxcn.app_squad.ui.main.team.notification.content.introduce.chat.ChattingDialog;
 import dev.kxxcn.app_squad.util.DialogUtils;
+import q.rorbin.badgeview.QBadgeView;
 
 import static dev.kxxcn.app_squad.util.Constants.DIALOG_FRAGMENT;
 
@@ -51,9 +59,21 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 	@BindView(R.id.ll_sms)
 	LinearLayout ll_sms;
 
+	@BindView(R.id.ib_sms)
+	ImageButton ib_sms;
+
 	private IntroduceContract.Presenter mPresenter;
 
 	private User mEnemy;
+
+	private String matchDay;
+	private String roomName;
+
+	private List<Chatting> mChattingList;
+
+	private QBadgeView badge;
+
+	private TeamContract.OnReadMessageCallback mReadMessageCallback;
 
 	public static IntroduceFragment newInstance(User user, String from, String uid, String matchDay, boolean isConnect) {
 		IntroduceFragment fragment = new IntroduceFragment();
@@ -79,6 +99,10 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 
 	}
 
+	public void setOnReadMessageCallback(TeamContract.OnReadMessageCallback listener) {
+		this.mReadMessageCallback = listener;
+	}
+
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,6 +118,7 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 	}
 
 	private void initUI() {
+		badge = new QBadgeView(getContext());
 		mEnemy = getArguments().getParcelable(USER);
 		tv_enemy.setText(mEnemy.getTeam());
 		if (mEnemy.getIntroduce() != null) {
@@ -106,7 +131,14 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 			ll_call.setVisibility(View.GONE);
 			ll_sms.setVisibility(View.GONE);
 		}
+
+		matchDay = getArguments().getString(MATCH_DAY);
+		String[] roomList = {mEnemy.getUid(), getArguments().getString(UID)};
+		Arrays.sort(roomList);
+		roomName = roomList[0] + roomList[1];
+		mPresenter.onSubscribe(matchDay, roomName);
 	}
+
 
 	@OnClick({R.id.ll_call, R.id.ib_call})
 	public void onCall() {
@@ -115,6 +147,9 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 
 	@OnClick({R.id.ll_sms, R.id.ib_sms})
 	public void onTransfer() {
+		mReadMessageCallback.onReadMessageCallback();
+		badge.hide(false);
+		mPresenter.onUpdateReadMessages(mChattingList, roomName, matchDay);
 		DialogFragment newFragment = ChattingDialog.newInstance(mEnemy, getArguments().getString(FROM), mEnemy.getUid(),
 				getArguments().getString(UID), getArguments().getString(MATCH_DAY));
 		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
@@ -127,5 +162,20 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 			startActivity(intent);
 		}
 	};
+
+	@Override
+	public void showBadgeForUnreadMessages(List<Chatting> chattingList) {
+		this.mChattingList = chattingList;
+		int count = 0;
+		for (int i = 0; i < mChattingList.size(); i++) {
+			if (!mChattingList.get(i).isCheck()) {
+				if (!mChattingList.get(i).getUid().equals(getArguments().getString(UID))) {
+					mChattingList.get(i).setCheck(true);
+					count++;
+				}
+			}
+		}
+		badge.bindTarget(ib_sms).setBadgeGravity(Gravity.CENTER).setBadgeNumber(count);
+	}
 
 }
