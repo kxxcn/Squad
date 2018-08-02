@@ -243,8 +243,18 @@ public class TeamAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		}
 	}
 
-	public ArrayList<LinearLayout> getLayoutList() {
-		return layoutList;
+	public void readMessage(final int position) {
+		try {
+			layoutList.get(position).setVisibility(View.GONE);
+		} catch (RuntimeException e) {
+			UiThread.getInstance().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					readMessage(position);
+				}
+			}, LOADING);
+			e.printStackTrace();
+		}
 	}
 
 	public void completedClick() {
