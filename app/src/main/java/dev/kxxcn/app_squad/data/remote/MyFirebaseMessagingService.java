@@ -57,14 +57,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	private static final String FCM_PLACE = "place";
 	private static final String FCM_FLAG = "flag";
 
-	private static final boolean DID_NOT_CHECK = false;
-	private static final boolean CHECKED = true;
-
 	private static final String INIT = "1";
 
 	private static final int MATCH_LIST = 0;
 	private static final int RECRUITMENT_LIST = 1;
 	private static final int PLAYER_LIST = 2;
+
+	private static final boolean DID_NOT_CHECK = false;
+	private static final boolean CHECKED = true;
 
 	private SimpleDateFormat format = new SimpleDateFormat(SIMPLE_DATE_FORMAT1, Locale.KOREA);
 
