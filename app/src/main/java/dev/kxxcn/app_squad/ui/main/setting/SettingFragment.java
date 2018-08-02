@@ -162,6 +162,7 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 		editor.putString(MyFirebaseInstanceIdService.KEY, null);
 		editor.apply();
 		mPresenter.onLoadAccount();
+		mPresenter.onCheckVersion(getContext().getPackageName());
 	}
 
 	@Override
