@@ -1,5 +1,6 @@
 package dev.kxxcn.app_squad.ui.main.setting.profile;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -79,6 +80,17 @@ public class ProfileDialog extends DialogFragment implements ProfileContract.Vie
 		initUI();
 
 		return view;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		Dialog dialog = getDialog();
+		if (dialog != null) {
+			int width = ViewGroup.LayoutParams.MATCH_PARENT;
+			int height = ViewGroup.LayoutParams.MATCH_PARENT;
+			dialog.getWindow().setLayout(width, height);
+		}
 	}
 
 	private void initUI() {
