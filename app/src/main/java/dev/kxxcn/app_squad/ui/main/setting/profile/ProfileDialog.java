@@ -57,8 +57,7 @@ public class ProfileDialog extends DialogFragment implements ProfileContract.Vie
 	private User mUser;
 
 	public static ProfileDialog newInstance() {
-		ProfileDialog dialog = new ProfileDialog();
-		return dialog;
+		return new ProfileDialog();
 	}
 
 	@Override
