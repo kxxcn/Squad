@@ -46,7 +46,7 @@ import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 public class RemoteDataSource extends DataSource {
 
 	private static final String COLLECTION_NAME_CHATTING = "chatting";
-	private static final String COLLECTION_NAME_INTRODUCE = "introduce";
+
 	public static final String COLLECTION_NAME_USER = "user";
 	public static final String COLLECTION_NAME_MATCH = "match";
 	public static final String COLLECTION_NAME_RECRUITMENT = "recruitment";
@@ -797,6 +797,7 @@ public class RemoteDataSource extends DataSource {
 					}
 				}
 				chatting.setKey(Integer.parseInt(key));
+				chatting.setCheck(false);
 				storeReference.child(key).setValue(chatting).addOnSuccessListener(new OnSuccessListener<Void>() {
 					@Override
 					public void onSuccess(Void aVoid) {
@@ -821,6 +822,22 @@ public class RemoteDataSource extends DataSource {
 	public void onSaveIntroduce(final GetCommonCallback callback, User user) {
 		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid());
 		reference.setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+			@Override
+			public void onSuccess(Void aVoid) {
+				callback.onSuccess();
+			}
+		}).addOnFailureListener(new OnFailureListener() {
+			@Override
+			public void onFailure(@NonNull Exception e) {
+				callback.onFailure(e);
+			}
+		});
+	}
+
+	@Override
+	public void onUpdateReadMessages(final GetCommonCallback callback, List<Chatting> chattingList, String room, String date) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_CHATTING).child(date).child(room);
+		reference.setValue(chattingList).addOnSuccessListener(new OnSuccessListener<Void>() {
 			@Override
 			public void onSuccess(Void aVoid) {
 				callback.onSuccess();

@@ -113,4 +113,6 @@ public abstract class DataSource {
 
 	public abstract void onSaveIntroduce(GetCommonCallback callback, User user);
 
+	public abstract void onUpdateReadMessages(GetCommonCallback callback, List<Chatting> chattingList, String room, String date);
+
 }

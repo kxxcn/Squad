@@ -328,4 +328,18 @@ public class DataRepository {
 		}, user);
 	}
 
+	public void onUpdateReadMessages(final DataSource.GetCommonCallback callback, List<Chatting> chattingList, String room, String date) {
+		dataSource.onUpdateReadMessages(new DataSource.GetCommonCallback() {
+			@Override
+			public void onSuccess() {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, chattingList, room, date);
+	}
+
 }
