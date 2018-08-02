@@ -11,6 +11,7 @@ public class Chatting {
 	private String from;
 	private String uid;
 	private String time;
+	private boolean isCheck;
 
 	public Chatting() {
 	}
@@ -44,6 +45,14 @@ public class Chatting {
 
 	public String getTime() {
 		return time;
+	}
+
+	public boolean isCheck() {
+		return isCheck;
+	}
+
+	public void setCheck(boolean check) {
+		isCheck = check;
 	}
 
 }
