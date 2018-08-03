@@ -696,30 +696,35 @@ public class RemoteDataSource extends DataSource {
 
 	@Override
 	public void onUpdateToken(final GetCommonCallback callback, final String token) {
-		final DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-		reference.addListenerForSingleValueEvent(new ValueEventListener() {
-			@Override
-			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				User user = dataSnapshot.getValue(User.class);
-				user.setToken(token);
-				reference.setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-					@Override
-					public void onSuccess(Void aVoid) {
-						callback.onSuccess();
-					}
-				}).addOnFailureListener(new OnFailureListener() {
-					@Override
-					public void onFailure(@NonNull Exception e) {
-						callback.onFailure(e);
-					}
-				});
-			}
+		try {
+			final DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+			reference.addListenerForSingleValueEvent(new ValueEventListener() {
+				@Override
+				public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+					User user = dataSnapshot.getValue(User.class);
+					user.setToken(token);
+					reference.setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+						@Override
+						public void onSuccess(Void aVoid) {
+							callback.onSuccess();
+						}
+					}).addOnFailureListener(new OnFailureListener() {
+						@Override
+						public void onFailure(@NonNull Exception e) {
+							callback.onFailure(e);
+						}
+					});
+				}
 
-			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {
-				callback.onFailure(databaseError.toException());
-			}
-		});
+				@Override
+				public void onCancelled(@NonNull DatabaseError databaseError) {
+					callback.onFailure(databaseError.toException());
+				}
+			});
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			callback.onFailure(e);
+		}
 	}
 
 	@Override
