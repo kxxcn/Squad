@@ -16,6 +16,7 @@
     <color name="fab_accent">#e8eaf6</color>
     <color name="division_line">#ff5b93</color>
     <color name="unable_signup">#241a31</color>
+    <color name="progressbar_background">#4ebb7f</color>
 
     <color name="setting_index">#eeeeee</color>
     <color name="setting_index_font">#bdbdbd</color>
