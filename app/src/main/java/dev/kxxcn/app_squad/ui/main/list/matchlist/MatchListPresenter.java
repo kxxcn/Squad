@@ -70,13 +70,13 @@ public class MatchListPresenter implements MatchListContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				mMatchListView.showUnuccessfullyRequested();
+				mMatchListView.showUnsuccessfullyRequested();
 				SystemUtils.Dlog.e(throwable.getMessage());
 			}
 
 			@Override
 			public void onError() {
-				mMatchListView.showUnuccessfullyRequested();
+				mMatchListView.showUnsuccessfullyRequested();
 			}
 		}, to, title, message, from, date, filterType);
 	}

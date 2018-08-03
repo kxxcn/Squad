@@ -17,7 +17,7 @@ public interface MatchListContract {
 
 		void showSuccessfullyRequested();
 
-		void showUnuccessfullyRequested();
+		void showUnsuccessfullyRequested();
 
 		void showInvalidAccount();
 

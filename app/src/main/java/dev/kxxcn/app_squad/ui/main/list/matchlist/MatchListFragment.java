@@ -202,7 +202,7 @@ public class MatchListFragment extends Fragment implements MatchListContract.Vie
 	}
 
 	@Override
-	public void showUnuccessfullyRequested() {
+	public void showUnsuccessfullyRequested() {
 		UiThread.getInstance().post(new Runnable() {
 			@Override
 			public void run() {
