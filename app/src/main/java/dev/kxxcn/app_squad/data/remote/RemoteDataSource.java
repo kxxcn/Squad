@@ -17,6 +17,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Battle;
@@ -846,6 +847,55 @@ public class RemoteDataSource extends DataSource {
 			@Override
 			public void onFailure(@NonNull Exception e) {
 				callback.onFailure(e);
+			}
+		});
+	}
+
+	@Override
+	public void onQuickMatch(final GetQuickListCallback callback, final String team, final String uid, final String region, final String date, final String rule) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_MATCH).child(date.replace("-", ""));
+		reference.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				List<Information> list = new ArrayList<>(0);
+				List<Information> quickList = new ArrayList<>(0);
+				for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+					list.add(childSnapshot.getValue(Information.class));
+				}
+
+				for (int i = 0; i < list.size(); i++) {
+					if (!list.get(i).isConnect() && !list.get(i).getTeam().equals(team)) {
+						boolean isJoin = false;
+						for (int j = 0; j < list.get(i).getJoin().size(); j++) {
+							if (list.get(i).getJoin().get(j).equals(uid)) {
+								isJoin = !isJoin;
+							}
+						}
+						if (!isJoin) {
+							if (list.get(i).getRegion().equals(region)) {
+								if (rule != null) {
+									if (list.get(i).getRule().equals(rule)) {
+										quickList.add(list.get(i));
+									}
+								} else {
+									quickList.add(list.get(i));
+								}
+							}
+						}
+					}
+				}
+
+				if (quickList.size() != 0) {
+					int random = new Random().nextInt(quickList.size());
+					callback.onSuccess(quickList.get(random));
+				} else {
+					callback.onError();
+				}
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				callback.onFailure(databaseError.toException());
 			}
 		});
 	}

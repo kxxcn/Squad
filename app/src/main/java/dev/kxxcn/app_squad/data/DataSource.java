@@ -35,6 +35,14 @@ public abstract class DataSource {
 		void onFailure(Throwable throwable);
 	}
 
+	public interface GetQuickListCallback {
+		void onSuccess(Information information);
+
+		void onFailure(Throwable throwable);
+
+		void onError();
+	}
+
 	public interface GetUserCallback {
 		void onSuccess(User user);
 
@@ -114,5 +122,7 @@ public abstract class DataSource {
 	public abstract void onSaveIntroduce(GetCommonCallback callback, User user);
 
 	public abstract void onUpdateReadMessages(GetCommonCallback callback, List<Chatting> chattingList, String room, String date);
+
+	public abstract void onQuickMatch(GetQuickListCallback callback, String team, String uid, String region, String date, String rule);
 
 }

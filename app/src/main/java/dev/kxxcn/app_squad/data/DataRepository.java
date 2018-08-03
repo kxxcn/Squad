@@ -342,4 +342,23 @@ public class DataRepository {
 		}, chattingList, room, date);
 	}
 
+	public void onQuickMatch(final DataSource.GetQuickListCallback callback, String team, String uid, String region, String date, String rule) {
+		dataSource.onQuickMatch(new DataSource.GetQuickListCallback() {
+			@Override
+			public void onSuccess(Information information) {
+				callback.onSuccess(information);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+
+			@Override
+			public void onError() {
+				callback.onError();
+			}
+		}, team, uid, region, date, rule);
+	}
+
 }
