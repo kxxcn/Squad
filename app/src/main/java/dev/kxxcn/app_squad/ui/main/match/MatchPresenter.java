@@ -29,6 +29,7 @@ public class MatchPresenter implements MatchContract.Presenter {
 		}
 
 		mMatchView.showLoadingIndicator(true);
+
 		mDataRepository.onRegister(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
@@ -52,6 +53,7 @@ public class MatchPresenter implements MatchContract.Presenter {
 		}
 
 		mMatchView.showLoadingIndicator(true);
+
 		mDataRepository.onRemove(new DataSource.GetCommonCallback() {
 			@Override
 			public void onSuccess() {
@@ -73,14 +75,18 @@ public class MatchPresenter implements MatchContract.Presenter {
 			return;
 		}
 
+		mMatchView.showLoadingIndicator(true);
+
 		mDataRepository.onLoadAccount(new DataSource.GetUserCallback() {
 			@Override
 			public void onSuccess(User user) {
 				mMatchView.showSuccessfullyLoadAccount(user);
+				mMatchView.showLoadingIndicator(false);
 			}
 
 			@Override
 			public void onFailure(Throwable throwable) {
+				mMatchView.showLoadingIndicator(false);
 				SystemUtils.Dlog.e(throwable.getMessage());
 			}
 		});
