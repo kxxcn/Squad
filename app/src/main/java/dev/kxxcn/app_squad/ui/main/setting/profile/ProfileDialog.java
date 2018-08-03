@@ -33,6 +33,8 @@ import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.KeyboardUtils;
 import dev.kxxcn.app_squad.util.threading.UiThread;
 
+import static dev.kxxcn.app_squad.util.Constants.DISMISS_DIALOG;
+
 /**
  * Created by kxxcn on 2018-08-01.
  */
@@ -167,7 +169,7 @@ public class ProfileDialog extends DialogFragment implements ProfileContract.Vie
 			public void run() {
 				dismiss();
 			}
-		}, 1000);
+		}, DISMISS_DIALOG);
 	}
 
 	@Override

@@ -31,7 +31,7 @@ import dev.kxxcn.app_squad.util.StateButton;
 import dev.kxxcn.app_squad.util.threading.UiThread;
 import me.relex.circleindicator.CircleIndicator;
 
-import static dev.kxxcn.app_squad.util.Constants.DISMISS_NOTI_DIALOG;
+import static dev.kxxcn.app_squad.util.Constants.DISMISS_DIALOG;
 
 /**
  * Created by kxxcn on 2018-06-22.
@@ -172,7 +172,7 @@ public class NotificationDialog extends DialogFragment implements NotificationCo
 			public void run() {
 				dismiss();
 			}
-		}, DISMISS_NOTI_DIALOG);
+		}, DISMISS_DIALOG);
 	}
 
 	@Override
