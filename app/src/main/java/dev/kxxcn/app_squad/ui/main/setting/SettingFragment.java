@@ -164,7 +164,7 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	@Override
 	public void showUnsuccessfullyUpdateToken() {
-
+		showInvalidAccount();
 	}
 
 	@Override
