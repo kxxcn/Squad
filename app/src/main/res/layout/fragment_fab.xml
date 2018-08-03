@@ -191,62 +191,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_age"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_below="@id/ll_date"
-                    android:orientation="vertical"
-                    android:paddingBottom="5dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="9">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="40dp"
-                            android:background="@drawable/ic_age"/>
-
-                        <View
-                            android:layout_width="0.1dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="30dp"
-                            android:background="@color/division_line"/>
-
-                        <org.angmarch.views.NiceSpinner
-                            android:id="@+id/spinner_age"
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="30dp"
-                            tools:text="20대 이상"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.1dp"
-                            android:background="@color/division_line"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/ll_rule"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_below="@id/ll_age"
+                    android:layout_below="@id/ll_date"
                     android:orientation="vertical"
                     android:paddingBottom="5dp">
 
@@ -300,6 +248,7 @@
                     android:layout_height="56dp"
                     android:layout_alignParentBottom="true"
                     android:gravity="center"
+                    android:layout_marginBottom="30dp"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
@@ -309,7 +258,15 @@
                         android:layout_height="50dp"
                         app:buttonText="@string/quick_button"
                         app:buttonTextSize="18sp"
-                        app:progressStyle="loading"/>
+                        app:progressStyle="loading">
+
+                    </com.unstoppable.submitbuttonview.SubmitButton>
+
+                    <ProgressBar
+                        android:id="@+id/progressbar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
