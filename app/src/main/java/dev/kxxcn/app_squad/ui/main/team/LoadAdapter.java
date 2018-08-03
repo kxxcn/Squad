@@ -51,6 +51,7 @@ public class LoadAdapter extends RecyclerView.Adapter<LoadAdapter.ViewHolder> {
 		if (mList.get(holder.getAdapterPosition()).getType().equals(TYPE_CHATTING)) {
 			holder.ll_root.setOnClickListener(null);
 			holder.ib_arrow.setVisibility(View.GONE);
+			holder.iv_icon.setBackgroundResource(R.drawable.ic_chat2);
 		}
 	}
 
