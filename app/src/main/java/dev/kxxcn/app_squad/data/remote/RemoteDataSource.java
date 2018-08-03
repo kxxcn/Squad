@@ -696,7 +696,7 @@ public class RemoteDataSource extends DataSource {
 
 	@Override
 	public void onUpdateToken(final GetCommonCallback callback, final String token) {
-		final DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(mAuth.getCurrentUser().getUid());
+		final DatabaseReference reference = FirebaseDatabase.getInstance().getReference(COLLECTION_NAME_USER).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 		reference.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
