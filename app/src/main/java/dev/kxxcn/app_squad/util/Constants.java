@@ -29,10 +29,11 @@ public class Constants {
 	public static final int TYPE_COLLECTION = 0;
 	public static final int TYPE_SORT = 1;
 	public static final int VIBRATE_NOTIFICATION = 1000;
-	public static final int DISMISS_NOTI_DIALOG = 1500;
+	public static final int DISMISS_DIALOG = 1500;
 	public static final int TYPE_REQUEST = 0;
 	public static final int TYPE_RESPONSE = 1;
 	public static final int TYPE_CHATTING = 2;
+	public static final int SEARCHING = 2000;
 
 	public enum ListsFilterType {
 		MATCH_LIST,
