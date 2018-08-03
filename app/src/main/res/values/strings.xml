@@ -43,7 +43,7 @@
 
     <string name="quick_match">빠른 매칭</string>
     <string name="quick_button">Match</string>
-    <string name="quick_no_result">매치 팀이 없습니다.</string>
+    <string name="quick_no_result">경기가 없습니다.</string>
     <string name="quick_failed_search">퀵매치를 실패했습니다. 다시 시도해주세요.</string>
     <string name="quick_dialog_request">요청하기</string>
     <string name="select_date">%d-%d-%d</string>
