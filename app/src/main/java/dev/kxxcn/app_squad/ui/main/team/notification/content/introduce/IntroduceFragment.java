@@ -56,10 +56,6 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 
 	@BindView(R.id.ll_contact)
 	LinearLayout ll_contact;
-	@BindView(R.id.ll_call)
-	LinearLayout ll_call;
-	@BindView(R.id.ll_sms)
-	LinearLayout ll_sms;
 
 	@BindView(R.id.ib_sms)
 	ImageButton ib_sms;
