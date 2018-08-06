@@ -162,4 +162,23 @@ public class TeamPresenter implements TeamContract.Presenter {
 		});
 	}
 
+	@Override
+	public void onLoadEnemyData(String enemy, final String date) {
+		if (mTeamView == null) {
+			return;
+		}
+
+		mDataRepository.onLoadEnemyData(new DataSource.GetUserCallback() {
+			@Override
+			public void onSuccess(User user) {
+				mTeamView.showEnemyData(user, date);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				SystemUtils.Dlog.e(throwable.getMessage());
+			}
+		}, enemy);
+	}
+
 }
