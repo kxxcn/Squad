@@ -34,6 +34,8 @@ public interface TeamContract {
 		void showSuccessfullyRemoveNotification();
 
 		void showUnsuccessfullyRemoveNotification();
+
+		void showEnemyData(User enemy, String date);
 	}
 
 	interface Presenter extends BasePresenter {
@@ -50,6 +52,8 @@ public interface TeamContract {
 		void onLogout();
 
 		void onRemoveNotification();
+
+		void onLoadEnemyData(String enemy, String date);
 	}
 
 	interface ItemClickListener {
