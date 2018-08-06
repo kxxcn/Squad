@@ -54,6 +54,8 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 	@BindView(R.id.tv_introduce)
 	TextView tv_introduce;
 
+	@BindView(R.id.ll_contact)
+	LinearLayout ll_contact;
 	@BindView(R.id.ll_call)
 	LinearLayout ll_call;
 	@BindView(R.id.ll_sms)
@@ -125,11 +127,9 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 			tv_introduce.setText(mEnemy.getIntroduce().toString());
 		}
 		if (getArguments().getBoolean(IS_CONNECT)) {
-			ll_call.setVisibility(View.VISIBLE);
-			ll_sms.setVisibility(View.VISIBLE);
+			ll_contact.setVisibility(View.VISIBLE);
 		} else {
-			ll_call.setVisibility(View.GONE);
-			ll_sms.setVisibility(View.GONE);
+			ll_contact.setVisibility(View.GONE);
 		}
 
 		matchDay = getArguments().getString(MATCH_DAY);
