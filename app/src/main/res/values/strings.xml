@@ -40,6 +40,7 @@
     <string name="successfully_remove">삭제되었습니다.</string>
     <string name="unsuccessfully_remove">삭제를 실패했습니다.</string>
     <string name="received_message">[%s]팀에서 메시지를 보냈습니다.</string>
+    <string name="coming_soon">준비 중입니다.</string>
 
     <string name="quick_match">빠른 매칭</string>
     <string name="quick_button">Match</string>
