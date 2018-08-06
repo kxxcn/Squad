@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -325,7 +326,7 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 			mEnemy = mBattleList.get(position).getEnemy();
 			mPresenter.onLoadMatch(mBattleList.get(position).isHome(), mBattleList.get(position).getDate(), mEnemy, mBattleList.get(position).getFlag(), type);
 		} else if (type == CHATTING) {
-
+			mPresenter.onLoadEnemyData(notifications.get(position).getSender(), notifications.get(position).getDate());
 		}
 	}
 
@@ -384,6 +385,14 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	@Override
 	public void showUnsuccessfullyRemoveNotification() {
 		Toast.makeText(getContext(), getString(R.string.unsuccessfully_remove), Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void showEnemyData(User enemy, String date) {
+		progressBar.setVisibility(View.GONE);
+		navigation_drawer.closeDrawer(GravityCompat.END);
+		DialogFragment newFragment = ChattingDialog.newInstance(enemy, mUser.getTeam(), enemy.getUid(), mUser.getUid(), date);
+		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
 	}
 
 }
