@@ -248,6 +248,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_notice"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -345,6 +346,7 @@
         android:background="@color/setting_index"/>
 
     <LinearLayout
+        android:id="@+id/ll_out"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
