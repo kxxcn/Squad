@@ -391,6 +391,14 @@ public class TeamFragment extends Fragment implements TeamContract.View, Navigat
 	public void showEnemyData(User enemy, String date) {
 		progressBar.setVisibility(View.GONE);
 		navigation_drawer.closeDrawer(GravityCompat.END);
+		int position = 0;
+		for (int i = 0; i < mBattleList.size(); i++) {
+			if (mBattleList.get(i).getDate().equals(date)) {
+				position = i;
+				break;
+			}
+		}
+		adapter.readMessage(position);
 		DialogFragment newFragment = ChattingDialog.newInstance(enemy, mUser.getTeam(), enemy.getUid(), mUser.getUid(), date);
 		newFragment.show(getChildFragmentManager(), DIALOG_FRAGMENT);
 	}
