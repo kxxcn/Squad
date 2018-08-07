@@ -68,6 +68,12 @@ public class DialogUtils {
 				.setNegativeButton(context.getString(R.string.no), negativeListener).show();
 	}
 
+	public static void showPositiveDialog(Context context, String message, DialogInterface.OnClickListener positiveListener) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setMessage(message);
+		builder.setPositiveButton(context.getString(R.string.yes), positiveListener).show();
+	}
+
 	public static String getFormattedDate(String date, int type) {
 		String[] dateArray = date.split("-");
 		if (dateArray[1].length() == FORMAT_LENGTH) {
