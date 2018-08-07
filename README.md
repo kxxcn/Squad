@@ -1,11 +1,11 @@
 SQUAD
 ======
 
-SQUAD is a service that matches soccer / futsal matches anytime, anywhere.
+*SQUAD is a service that matches soccer / futsal matches anytime, anywhere.*
 
 Just follow the simple sign-up process and you can use the matching service conveniently and easily.
-Now enjoy a fun football / futsal match with friends and acquaintances with a SQUAD!
-
+<br>Now enjoy a fun football / futsal match with friends and acquaintances with a SQUAD!
+<br><br>
 ★ Chat service
 Unlike traditional apps that had to contact the other team via phone or text messaging
 SQUAD is a chat service that allows you to communicate with your team.
@@ -15,13 +15,15 @@ If you enter only the area and date you want, we will match and match the game q
 
 ★ Registration System
 Now you can easily register a match with a SQUAD, register a mercenary, and recruit a mercenary!
-
-※ Access permission
+<br><br>
+###※ Access permission###
 [Required access rights]
-- Device status: used to find the phone number of the device
+<br>
 
-* You must have the required access permissions before you can use the app.
+* Device status: used to find the phone number of the device
 
+**You must have the required access permissions before you can use the app.**
+<br><br>
 License
 -------
 
