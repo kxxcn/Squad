@@ -1,5 +1,7 @@
 package dev.kxxcn.app_squad.data;
 
+import android.app.Activity;
+
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.model.Battle;
@@ -359,6 +361,30 @@ public class DataRepository {
 				callback.onError();
 			}
 		}, team, uid, region, date, rule);
+	}
+
+	public void onAuth(final DataSource.GetAuthCallback callback, Activity activity, String phoneNumber, String authCode) {
+		dataSource.onAuth(new DataSource.GetAuthCallback() {
+			@Override
+			public void onSuccessfullyTransfer(String smsCode) {
+				callback.onSuccessfullyTransfer(smsCode);
+			}
+
+			@Override
+			public void onSuccessfullyAuth() {
+				callback.onSuccessfullyAuth();
+			}
+
+			@Override
+			public void onUnsuccessfullyAuth() {
+				callback.onUnsuccessfullyAuth();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		}, activity, phoneNumber, authCode);
 	}
 
 }

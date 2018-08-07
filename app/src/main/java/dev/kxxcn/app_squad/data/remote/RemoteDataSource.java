@@ -1,13 +1,20 @@
 package dev.kxxcn.app_squad.data.remote;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,6 +25,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.data.model.Battle;
@@ -47,6 +55,7 @@ import static dev.kxxcn.app_squad.util.Constants.TYPE_COLLECTION;
 public class RemoteDataSource extends DataSource {
 
 	private static final String COLLECTION_NAME_CHATTING = "chatting";
+	private static final String INIT = "1";
 
 	public static final String COLLECTION_NAME_USER = "user";
 	public static final String COLLECTION_NAME_MATCH = "match";
@@ -54,13 +63,15 @@ public class RemoteDataSource extends DataSource {
 	public static final String COLLECTION_NAME_PLAYER = "player";
 	public static final String COLLECTION_NAME_BATTLE = "battle";
 
+	public static final String COUNTRY_FORMAT = "+82";
+
 	public static final String DOCUMENT_NAME_MESSAGE = "message";
 	public static final String DOCUMENT_NAME_JOIN = "join";
 	public static final String DOCUMENT_NAME_NOTICE = "notice";
 	public static final String DOCUMENT_NAME_SQUAD = "squad";
 	public static final String DOCUMENT_NAME_EVENT = "event";
 
-	private static final String INIT = "1";
+	private static final int EXPIRATION_TIME = 60;
 
 	public static final int FLAG_MATCH_LIST = 0;
 	public static final int FLAG_RECRUITMENT_LIST = 1;
@@ -903,6 +914,38 @@ public class RemoteDataSource extends DataSource {
 				callback.onFailure(databaseError.toException());
 			}
 		});
+	}
+
+	@Override
+	public void onAuth(final GetAuthCallback callback, Activity activity, String phoneNumber, final String authCode) {
+		phoneNumber = COUNTRY_FORMAT + phoneNumber.substring(1, phoneNumber.length());
+		PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+			@Override
+			public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+				SystemUtils.Dlog.v("onVerificationCompleted : " + phoneAuthCredential.getSmsCode());
+				if (TextUtils.isEmpty(authCode)) {
+					callback.onSuccessfullyTransfer(phoneAuthCredential.getSmsCode());
+				} else {
+					if (phoneAuthCredential.getSmsCode().equals(authCode)) {
+						callback.onSuccessfullyAuth();
+					} else {
+						callback.onUnsuccessfullyAuth();
+					}
+				}
+			}
+
+			@Override
+			public void onVerificationFailed(FirebaseException e) {
+				SystemUtils.Dlog.e("onVerificationFailed : " + e.getMessage());
+				if (e instanceof FirebaseAuthInvalidCredentialsException) {
+					SystemUtils.Dlog.e("FirebaseAuthInvalidCredentialsException : " + e.getMessage());
+				} else if (e instanceof FirebaseTooManyRequestsException) {
+					SystemUtils.Dlog.e("FirebaseTooManyRequestsException : " + e.getMessage());
+				}
+				callback.onFailure(e);
+			}
+		};
+		PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber, EXPIRATION_TIME, TimeUnit.SECONDS, activity, mCallbacks);
 	}
 
 	/**

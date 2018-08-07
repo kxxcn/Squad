@@ -1,5 +1,7 @@
 package dev.kxxcn.app_squad.data;
 
+import android.app.Activity;
+
 import java.util.List;
 
 import dev.kxxcn.app_squad.data.model.Battle;
@@ -81,6 +83,16 @@ public abstract class DataSource {
 		void onFailure(Throwable throwable);
 	}
 
+	public interface GetAuthCallback {
+		void onSuccessfullyTransfer(String smsCode);
+
+		void onSuccessfullyAuth();
+
+		void onUnsuccessfullyAuth();
+
+		void onFailure(Throwable throwable);
+	}
+
 	public abstract void onSignup(GetSignupCallback callback, String email, String contact, String password, String team);
 
 	public abstract void onLogin(GetCommonCallback callback, String email, String password);
@@ -124,5 +136,7 @@ public abstract class DataSource {
 	public abstract void onUpdateReadMessages(GetCommonCallback callback, List<Chatting> chattingList, String room, String date);
 
 	public abstract void onQuickMatch(GetQuickListCallback callback, String team, String uid, String region, String date, String rule);
+
+	public abstract void onAuth(GetAuthCallback callback, Activity activity, String phoneNumber, String authCode);
 
 }
