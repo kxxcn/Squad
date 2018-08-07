@@ -1,6 +1,9 @@
 package dev.kxxcn.app_squad.ui.signup;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +19,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +31,7 @@ import butterknife.OnClick;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
+import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.StateButton;
 import dev.kxxcn.app_squad.util.SystemUtils;
 import dev.kxxcn.app_squad.util.TransitionUtils;
@@ -64,9 +69,19 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 	LinearLayout ll_top;
 	@BindView(R.id.ll_middle)
 	LinearLayout ll_middle;
+	@BindView(R.id.ll_auth)
+	LinearLayout ll_auth;
 
 	@BindView(R.id.progressbar)
 	ProgressBar progressBar;
+
+	@BindView(R.id.tv_auth)
+	TextView tv_auth;
+
+	@BindView(R.id.btn_auth)
+	StateButton btn_auth;
+
+	private boolean isCertified = false;
 
 	private SignupContract.Presenter mPresenter;
 
@@ -95,11 +110,12 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 	}
 
 	private void initUI() {
+		tv_auth.setPaintFlags(tv_auth.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 		registerShowAndHideView(ll_rootview, ll_top, ll_middle);
 		try {
 			TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 			String contact = manager.getLine1Number();
-			contact = contact.replace("+82", "0");
+			contact = contact.replace(RemoteDataSource.COUNTRY_FORMAT, "0");
 			et_contact.setText(contact);
 		} catch (SecurityException e) {
 			SystemUtils.Dlog.e(e.getMessage());
@@ -109,8 +125,8 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 
 	@OnClick(R.id.btn_signup)
 	public void onSignup() {
-		if (!TextUtils.isEmpty(et_email.getText()) && !TextUtils.isEmpty(et_team.getText()) &&
-				!TextUtils.isEmpty(et_contact.getText()) && !TextUtils.isEmpty(et_pass.getText()) && !TextUtils.isEmpty(et_confirm.getText())) {
+		if (!TextUtils.isEmpty(et_email.getText()) && !TextUtils.isEmpty(et_team.getText()) && !TextUtils.isEmpty(et_contact.getText())
+				&& !TextUtils.isEmpty(et_pass.getText()) && !TextUtils.isEmpty(et_confirm.getText()) && isCertified) {
 			if (et_team.getText().length() <= LIMITED_MAX_CHARACTER) {
 				if (et_confirm.getText().length() >= LIMITED_MIN_CHARACTER) {
 					mPresenter.signup(et_email.getText().toString(), et_contact.getText().toString(),
@@ -123,6 +139,17 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 			}
 		} else {
 			Toast.makeText(this, getString(R.string.input_all), Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	@OnClick(R.id.btn_auth)
+	public void onAuth() {
+		if (!isCertified) {
+			if (!TextUtils.isEmpty(et_contact.getText())) {
+				mPresenter.onAuth(this, et_contact.getText().toString(), tv_auth.getText().toString());
+			}
+		} else {
+			Toast.makeText(this, getString(R.string.success_auth), Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -200,6 +227,42 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 	public void showBadlyFormatted() {
 		Toast.makeText(this, getString(R.string.badly_formatted), Toast.LENGTH_SHORT).show();
 	}
+
+	@Override
+	public void showSuccessfullyGetCode(String smsCode) {
+		ll_auth.setVisibility(View.VISIBLE);
+		btn_auth.setText(getString(R.string.set_auth));
+		tv_auth.setText(smsCode);
+	}
+
+	@Override
+	public void showUnsuccessfullyGetCode() {
+		ll_auth.setVisibility(View.GONE);
+		Toast.makeText(this, getString(R.string.failure_sms_code), Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void showSuccessfullyAuth() {
+		isCertified = true;
+		btn_auth.setText(R.string.complete_auth);
+		btn_auth.setNormalStrokeColor(Color.GRAY);
+		btn_auth.setNormalTextColor(Color.GRAY);
+		DialogUtils.showPositiveDialog(this, getString(R.string.success_auth), positiveListener);
+	}
+
+	@Override
+	public void showUnsuccessfullyAuth() {
+		btn_auth.setText(getString(R.string.transfer_auth_code));
+		tv_auth.setText(null);
+		DialogUtils.showPositiveDialog(this, getString(R.string.failure_auth), positiveListener);
+	}
+
+	DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			return;
+		}
+	};
 
 	public void registerShowAndHideView(final View rootView, final View top, final LinearLayout middle) {
 		if (mGlobalListener == null) {

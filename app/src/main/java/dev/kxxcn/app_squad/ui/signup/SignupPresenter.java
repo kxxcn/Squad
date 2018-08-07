@@ -1,5 +1,7 @@
 package dev.kxxcn.app_squad.ui.signup;
 
+import android.app.Activity;
+
 import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.DataSource;
 import dev.kxxcn.app_squad.util.SystemUtils;
@@ -57,6 +59,35 @@ public class SignupPresenter implements SignupContract.Presenter {
 				mSignupView.showLoadingIndicator(false);
 			}
 		}, email, contact, password, team);
+	}
+
+	@Override
+	public void onAuth(Activity activity, String phoneNumber, String authCode) {
+		if (mSignupView == null) {
+			return;
+		}
+
+		mDataRepository.onAuth(new DataSource.GetAuthCallback() {
+			@Override
+			public void onSuccessfullyTransfer(String smsCode) {
+				mSignupView.showSuccessfullyGetCode(smsCode);
+			}
+
+			@Override
+			public void onSuccessfullyAuth() {
+				mSignupView.showSuccessfullyAuth();
+			}
+
+			@Override
+			public void onUnsuccessfullyAuth() {
+				mSignupView.showUnsuccessfullyAuth();
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				mSignupView.showUnsuccessfullyGetCode();
+			}
+		}, activity, phoneNumber, authCode);
 	}
 
 }
