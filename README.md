@@ -21,8 +21,9 @@ Now you can easily register a match with a SQUAD, register a mercenary, and recr
 
 * Device status: used to find the phone number of the device
 
-##### You must have the required access permissions before you can use the app.
+#### You must have the required access permissions before you can use the app. ####
 <br>
+
 License
 -------
 
