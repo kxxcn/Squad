@@ -4,7 +4,7 @@ SQUAD
 #### SQUAD is a service that matches soccer / futsal matches anytime, anywhere.
 
 Just follow the simple sign-up process and you can use the matching service conveniently and easily.
-<br>Now enjoy a fun football / futsal match with friends and acquaintances with a SQUAD!
+<br>Now enjoy a fun soccer / futsal match with friends and acquaintances with a SQUAD!
 <br><br>
 ★ Chat service
 Unlike traditional apps that had to contact the other team via phone or text messaging
