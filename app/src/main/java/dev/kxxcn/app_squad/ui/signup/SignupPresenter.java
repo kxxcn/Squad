@@ -75,12 +75,12 @@ public class SignupPresenter implements SignupContract.Presenter {
 
 			@Override
 			public void onSuccessfullyAuth() {
-				mSignupView.showSuccessfullyAuth();
+				mSignupView.showSuccessfulAuthentication();
 			}
 
 			@Override
 			public void onUnsuccessfullyAuth() {
-				mSignupView.showUnsuccessfullyAuth();
+				mSignupView.showUnsuccessfulAuthentication();
 			}
 
 			@Override

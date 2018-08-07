@@ -25,9 +25,9 @@ public interface SignupContract {
 
 		void showUnsuccessfullyGetCode();
 
-		void showSuccessfullyAuth();
+		void showSuccessfulAuthentication();
 
-		void showUnsuccessfullyAuth();
+		void showUnsuccessfulAuthentication();
 	}
 
 	interface Presenter extends BasePresenter {

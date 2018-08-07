@@ -242,7 +242,7 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 	}
 
 	@Override
-	public void showSuccessfullyAuth() {
+	public void showSuccessfulAuthentication() {
 		isCertified = true;
 		btn_auth.setText(R.string.complete_auth);
 		btn_auth.setNormalStrokeColor(Color.GRAY);
@@ -251,7 +251,7 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 	}
 
 	@Override
-	public void showUnsuccessfullyAuth() {
+	public void showUnsuccessfulAuthentication() {
 		btn_auth.setText(getString(R.string.transfer_auth_code));
 		tv_auth.setText(null);
 		DialogUtils.showPositiveDialog(this, getString(R.string.failure_auth), positiveListener);
