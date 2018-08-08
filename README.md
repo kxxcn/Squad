@@ -1,5 +1,6 @@
 SQUAD
 ======
+![Logo](website/static/logo.png)
 
 #### SQUAD is a service that matches soccer / futsal matches anytime, anywhere.
 
