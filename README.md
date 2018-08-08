@@ -6,14 +6,14 @@ SQUAD
 Just follow the simple sign-up process and you can use the matching service conveniently and easily.
 <br>Now enjoy a fun soccer / futsal match with friends and acquaintances with a SQUAD!
 <br><br>
-★ Chat service
+★ Chat service<br>
 Unlike traditional apps that had to contact the other team via phone or text messaging
 SQUAD is a chat service that allows you to communicate with your team.
 
-★ Fast matching service
+★ Fast matching service<br>
 If you enter only the area and date you want, we will match and match the game quickly.
 
-★ Registration System
+★ Registration System<br>
 Now you can easily register a match with a SQUAD, register a mercenary, and recruit a mercenary!
 <br><br>
 ### ※ Access permission
