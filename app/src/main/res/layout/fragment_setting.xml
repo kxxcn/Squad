@@ -36,10 +36,7 @@
             android:background="@color/setting_index">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
+                style="@style/SettingTextView"
                 android:text="@string/setting_account"
                 android:textColor="@color/setting_index_font"
                 android:textSize="12sp"/>
@@ -58,10 +55,7 @@
                 android:layout_weight="8">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
+                    style="@style/SettingTextView"
                     android:text="@string/setting_profile"/>
 
             </LinearLayout>
@@ -88,10 +82,7 @@
             android:background="@color/setting_index">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
+                style="@style/SettingTextView"
                 android:text="@string/setting_observe"
                 android:textColor="@color/setting_index_font"
                 android:textSize="12sp"/>
@@ -109,10 +100,7 @@
                 android:layout_weight="8">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
+                    style="@style/SettingTextView"
                     android:text="@string/setting_notice_squad"/>
 
             </LinearLayout>
@@ -160,10 +148,7 @@
                 android:layout_weight="8">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
+                    style="@style/SettingTextView"
                     android:text="@string/setting_notice_observe"/>
 
             </LinearLayout>
@@ -203,10 +188,7 @@
                 android:layout_weight="8">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
+                    style="@style/SettingTextView"
                     android:text="@string/setting_notice_event"/>
 
             </LinearLayout>
@@ -237,10 +219,7 @@
             android:background="@color/setting_index">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
+                style="@style/SettingTextView"
                 android:text="@string/setting_observe"
                 android:textColor="@color/setting_index_font"
                 android:textSize="12sp"/>
@@ -259,10 +238,7 @@
                 android:layout_weight="8">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
+                    style="@style/SettingTextView"
                     android:text="@string/setting_notice"/>
 
             </LinearLayout>
@@ -299,10 +275,7 @@
                 android:layout_weight="4">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
+                    style="@style/SettingTextView"
                     android:text="@string/setting_app_information"/>
 
             </LinearLayout>
@@ -317,9 +290,9 @@
                     android:id="@+id/tv_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="@string/setting_latest_version"
                     android:textColor="@color/setting_index_font"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp"
+                    tools:text="@string/setting_latest_version"/>
 
             </LinearLayout>
 
@@ -363,10 +336,7 @@
                 android:layout_weight="8">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
+                    style="@style/SettingTextView"
                     android:text="@string/setting_drop_out"/>
 
             </LinearLayout>
