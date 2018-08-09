@@ -24,12 +24,8 @@
                 android:background="@drawable/ic_arrow_back"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/version_policy"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
+                style="@style/TitleTextView"
+                android:text="@string/version_policy"/>
 
         </RelativeLayout>
 
@@ -46,10 +42,10 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:layout_marginTop="10dp"
                 android:id="@+id/tv_policy"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"/>
 
         </ScrollView>
 

@@ -32,12 +32,8 @@
                     android:background="@drawable/ic_arrow_back"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="@string/setting_app_information"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    style="@style/TitleTextView"
+                    android:text="@string/setting_app_information"/>
 
             </RelativeLayout>
 
@@ -129,10 +125,7 @@
                 android:layout_weight="8">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
+                    style="@style/SettingTextView"
                     android:text="@string/version_clause"/>
 
             </LinearLayout>
@@ -169,10 +162,7 @@
                 android:layout_weight="8">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
+                    style="@style/SettingTextView"
                     android:text="@string/version_policy"/>
 
             </LinearLayout>
@@ -209,10 +199,7 @@
                 android:layout_weight="4">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
+                    style="@style/SettingTextView"
                     android:text="@string/version_license"/>
 
             </LinearLayout>

@@ -21,11 +21,8 @@
             android:gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/setting"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
+                style="@style/TitleTextView"
+                android:text="@string/setting"/>
 
         </LinearLayout>
 
