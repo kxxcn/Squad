@@ -32,6 +32,7 @@ import java.util.TimeZone;
 import dev.kxxcn.app_squad.R;
 import dev.kxxcn.app_squad.data.model.Battle;
 import dev.kxxcn.app_squad.data.model.Information;
+import dev.kxxcn.app_squad.data.model.Notice;
 import dev.kxxcn.app_squad.data.model.Notification;
 import dev.kxxcn.app_squad.ui.main.MainActivity;
 import dev.kxxcn.app_squad.ui.main.team.notification.content.introduce.chat.ChattingDialog;
@@ -141,19 +142,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 		if (type.equals(TYPE_CHATTING)) {
 			if (!ChattingDialog.DAY.equals(matchDate) && !ChattingDialog.ROOM_NAME.equals(roomName)) {
-				notificationManager.notify(0, notificationBuilder.build());
-				SystemUtils.onAcquire(this);
-				SystemUtils.onVibrate(this, VIBRATE_NOTIFICATION);
 				onRegisterNotification(new Notification(message, from, timestamp, DID_NOT_CHECK, matchDate, type, flag));
 			}
 			if (ChattingDialog.DAY.equals(matchDate) && ChattingDialog.ROOM_NAME.equals(roomName)) {
 				onRegisterNotification(new Notification(message, from, timestamp, CHECKED, matchDate, type, flag));
 			}
-		} else {
-			notificationManager.notify(new Random().nextInt() /* ID of notification */, notificationBuilder.build());
-			SystemUtils.onAcquire(this);
-			SystemUtils.onVibrate(this, VIBRATE_NOTIFICATION);
 		}
+
+		onGetReceptionYesOrNo(type, matchDate, roomName, notificationBuilder, this);
 	}
 
 	private void onRegisterNotification(final Notification notification) {
@@ -201,7 +197,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 									searchReference.child(RemoteDataSource.DOCUMENT_NAME_JOIN).setValue(joinList).addOnSuccessListener(new OnSuccessListener<Void>() {
 										@Override
 										public void onSuccess(Void aVoid) {
-											SystemUtils.Dlog.d("Success!");
+											SystemUtils.Dlog.v("SUCCESS.");
 										}
 									}).addOnFailureListener(new OnFailureListener() {
 										@Override
@@ -239,6 +235,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 					.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(battle.getDate()).child(battle.getFlag());
 			reference.setValue(battle);
 		}
+	}
+
+	private void onGetReceptionYesOrNo(final String type, final String matchDate, final String roomName, final NotificationCompat.Builder notificationBuilder, final Context context) {
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_USER).child(FirebaseAuth.getInstance().getUid()).child(RemoteDataSource.DOCUMENT_NAME_NOTICE);
+		reference.addValueEventListener(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				Notice notice = dataSnapshot.getValue(Notice.class);
+				if (notice.isSquad()) {
+					if (type.equals(TYPE_CHATTING)) {
+						if (!ChattingDialog.DAY.equals(matchDate) && !ChattingDialog.ROOM_NAME.equals(roomName)) {
+							notificationManager.notify(0, notificationBuilder.build());
+							SystemUtils.onAcquire(context);
+							SystemUtils.onVibrate(context, VIBRATE_NOTIFICATION);
+						}
+					} else {
+						notificationManager.notify(new Random().nextInt()  /* ID of notification */, notificationBuilder.build());
+						SystemUtils.onAcquire(context);
+						SystemUtils.onVibrate(context, VIBRATE_NOTIFICATION);
+					}
+				}
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+
+			}
+		});
 	}
 
 	@Override
