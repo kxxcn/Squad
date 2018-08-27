@@ -238,7 +238,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	}
 
 	private void onGetReceptionYesOrNo(final String type, final String matchDate, final String roomName, final NotificationCompat.Builder notificationBuilder, final Context context) {
-		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_USER).child(FirebaseAuth.getInstance().getUid()).child(RemoteDataSource.DOCUMENT_NAME_NOTICE);
+		DatabaseReference reference = FirebaseDatabase.getInstance().getReference(RemoteDataSource.COLLECTION_NAME_USER).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(RemoteDataSource.DOCUMENT_NAME_NOTICE);
 		reference.addValueEventListener(new ValueEventListener() {
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
