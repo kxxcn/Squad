@@ -217,7 +217,7 @@
 
             <TextView
                 style="@style/SettingTextView"
-                android:text="@string/setting_observe"
+                android:text="@string/setting_service"
                 android:textColor="@color/setting_index_font"
                 android:textSize="12sp"/>
 
