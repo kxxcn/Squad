@@ -135,7 +135,6 @@ public class IntroduceFragment extends Fragment implements IntroduceContract.Vie
 		mPresenter.onSubscribe(matchDay, roomName);
 	}
 
-
 	@OnClick({R.id.ll_call, R.id.ib_call})
 	public void onCall() {
 		DialogUtils.showAlertDialog(getContext(), getString(R.string.team_want_call), positiveListener, null);

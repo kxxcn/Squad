@@ -1,6 +1,5 @@
 package dev.kxxcn.app_squad.ui.signup;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,7 +7,6 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -33,7 +31,6 @@ import dev.kxxcn.app_squad.data.DataRepository;
 import dev.kxxcn.app_squad.data.remote.RemoteDataSource;
 import dev.kxxcn.app_squad.util.DialogUtils;
 import dev.kxxcn.app_squad.util.StateButton;
-import dev.kxxcn.app_squad.util.SystemUtils;
 import dev.kxxcn.app_squad.util.TransitionUtils;
 import dev.kxxcn.app_squad.util.WatcherUtils;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
@@ -112,15 +109,22 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 	private void initUI() {
 		tv_auth.setPaintFlags(tv_auth.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 		registerShowAndHideView(ll_rootview, ll_top, ll_middle);
-		try {
-			TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-			String contact = manager.getLine1Number();
-			contact = contact.replace(RemoteDataSource.COUNTRY_FORMAT, "0");
-			et_contact.setText(contact);
-		} catch (SecurityException e) {
-			SystemUtils.Dlog.e(e.getMessage());
-			e.printStackTrace();
-		}
+
+		/**
+		 * 구글의 권한문제 관련하여 정책이 변경되어 해당 로직을 제거한다.
+		 *
+		 * @author kxxcn
+		 * @since 2019-01-02 오후 5:59
+		 */
+//		try {
+//			TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//			String contact = manager.getLine1Number();
+//			contact = contact.replace(RemoteDataSource.COUNTRY_FORMAT, "0");
+//			et_contact.setText(contact);
+//		} catch (SecurityException e) {
+//			SystemUtils.Dlog.e(e.getMessage());
+//			e.printStackTrace();
+//		}
 	}
 
 	@OnClick(R.id.btn_signup)
