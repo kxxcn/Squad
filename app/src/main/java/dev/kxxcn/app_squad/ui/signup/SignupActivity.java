@@ -111,7 +111,7 @@ public class SignupActivity extends AppCompatActivity implements SignupContract.
 		registerShowAndHideView(ll_rootview, ll_top, ll_middle);
 
 		/**
-		 * 구글의 권한문제 관련하여 정책이 변경되어 해당 로직을 제거한다.
+		 * 구글의 권한정책 변경으로 인해 해당 로직을 제거한다.
 		 *
 		 * @author kxxcn
 		 * @since 2019-01-02 오후 5:59
