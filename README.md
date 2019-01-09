@@ -1,4 +1,4 @@
-SQUAD
+[SQUAD](https://play.google.com/store/apps/details?id=dev.kxxcn.app_squad)
 ======
 ![Logo](website/static/logo.png)
 
